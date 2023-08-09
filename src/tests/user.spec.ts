@@ -36,6 +36,15 @@ describe('User', () => {
         expect(user.completedTasks.length).toBe(1)
     })
 
+    it('should uncomplete a task for the user', () => {
+        user.completeTask(task)
+        expect(user.inProgressTasks.length).toBe(0)
+        expect(user.completedTasks.length).toBe(1)
+        user.unCompleteTask(task)
+        expect(user.inProgressTasks.length).toBe(1)
+        expect(user.completedTasks.length).toBe(0)
+    })
+
     it('should sort tasks by title ascendingly', () => {
         const task2 = new Task('Task 2', 'Description', 'High', new Date('2023-08-08'))
         const task3 = new Task('z Task 3', 'Description', 'High', new Date('2023-08-08'))
@@ -127,4 +136,34 @@ describe('User', () => {
         expect(res.length).toBe(1)
         expect(user.inProgressTasks.length).toBe(3)
     })
+
+    it('should sort tasks by creation date ascendingly', () => {
+        const task2 = new Task('Task 2', 'Description', 'Low', new Date('2023-08-10'))
+        const task3 = new Task('Task 3', 'Description', 'Low', new Date('2023-08-09'))
+        user.createTask(task3)
+        user.createTask(task2)
+        const sortedTasks = user.sortTasksByCreation(true)
+        expect(sortedTasks[0]).toBe(task)
+        expect(sortedTasks[1]).toBe(task3)
+        expect(sortedTasks[2]).toBe(task2)
+    })
+
+    it('should sort tasks by creation date descendingly', () => {
+        const task2 = new Task('Task 2', 'Description', 'Low', new Date('2023-08-10'))
+        const task3 = new Task('Task 3', 'Description', 'Low', new Date('2023-08-09'))
+        user.createTask(task3)
+        user.createTask(task2)
+        const sortedTasks = user.sortTasksByCreation(false)
+        expect(sortedTasks[0]).toBe(task2)
+        expect(sortedTasks[1]).toBe(task3)
+        expect(sortedTasks[2]).toBe(task)
+    })
+
+    it('should update main category', () => {
+        const task2 = new Task('Task 2', 'Description', 'Low', new Date('2023-08-10'))
+        const task3 = new Task('Task 3', 'Description', 'Low', new Date('2023-08-09'))
+        user.createTask(task2)
+        user.createTask(task3)
+        expect(user.categories.find(category => category.name === 'Main')?.tasks.length).toBe(3)
+    })      
 })

@@ -32,4 +32,9 @@ describe('Task', () => {
         task.completeTask()
         expect(task.isCompleted).toBe(true)
     })
+
+    it('should uncomplete task', () => {
+        task.unCompleteTask()
+        expect(task.isCompleted).toBe(false)
+    })
 })

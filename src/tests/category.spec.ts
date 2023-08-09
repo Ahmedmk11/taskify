@@ -6,4 +6,8 @@ describe('Task', () => {
     beforeEach(() => {
         category = new Category('Work')
     })
+
+    it('should do smth', () => {
+        expect(1).toBe(1)
+    })
 })

@@ -2,6 +2,8 @@
 // Definitions of Functions and Classes.
 // --------------------------------------------------------------
 
+import cloneDeep from 'clone-deep'
+
 export class Category {
     name: string
     tasks: Task[]
@@ -13,6 +15,7 @@ export class Category {
 }
 
 export class Task {
+    id: string
     title: string
     desc: string
     priority: string
@@ -20,6 +23,7 @@ export class Task {
     isCompleted: boolean
 
     constructor(title: string, desc: string, priority: string, dueDate: Date) {
+        this.id = Math.random().toString(36).substring(2, 9);
         this.title = title
         this.desc = desc
         this.priority = priority
@@ -46,6 +50,10 @@ export class Task {
     completeTask(): void {
         this.isCompleted = true
     }
+
+    unCompleteTask(): void {
+        this.isCompleted = false
+    }
 }
 
 export class User {
@@ -54,6 +62,7 @@ export class User {
     password: string
     inProgressTasks: Task[]
     completedTasks: Task[]
+    inOrderTasks: Task[]
     categories: Category[]
 
     constructor(name: string, email: string, password: string, inProgressTasks: Task[], completedTasks: Task[]) {
@@ -62,18 +71,29 @@ export class User {
         this.password = password
         this.inProgressTasks = inProgressTasks
         this.completedTasks = completedTasks
-        this.categories = [new Category('Main', this.inProgressTasks.concat(this.completedTasks))]
+        this.inOrderTasks = []
+        this.categories = [new Category('Main')]
     }
+
+    updateMainCategory(): void {
+        const mainCategory = this.categories.find(category => category.name === 'Main');
+        if (mainCategory) {
+            mainCategory.tasks = this.inProgressTasks.concat(this.completedTasks);
+        }
+    }    
 
     createTask(title: string, desc?: string, priority?: string, dueDate?: Date): void;
     createTask(task: Task): void;
     createTask(titleOrTask: string | Task, desc?: string, priority?: string, dueDate?: Date): void {
         if (titleOrTask instanceof Task) {
             this.inProgressTasks.push(titleOrTask);
+            this.inOrderTasks.push(titleOrTask) // this line creates an error
         } else {
             const newTask = new Task(titleOrTask, desc!, priority!, dueDate!);
             this.inProgressTasks.push(newTask);
+            this.inOrderTasks.push(newTask)
         }
+        this.updateMainCategory()
     }
     
     deleteTask(task: Task): void {
@@ -88,12 +108,22 @@ export class User {
                 this.inProgressTasks.splice(index, 1)
             }
         }
+        this.inOrderTasks.splice(this.inOrderTasks.indexOf(task), 1)
+        this.updateMainCategory()
     }
 
     completeTask(task: Task): void {
         task.completeTask()
         this.inProgressTasks.splice(this.inProgressTasks.indexOf(task), 1)
         this.completedTasks.push(task)
+        this.updateMainCategory()
+    }
+
+    unCompleteTask(task: Task): void {
+        task.unCompleteTask()
+        this.completedTasks.splice(this.completedTasks.indexOf(task), 1)
+        this.inProgressTasks.push(task)
+        this.updateMainCategory()
     }
 
     addCategory(category: Category): void {
@@ -102,6 +132,10 @@ export class User {
 
     addTaskToCategory(category: Category, task: Task): void {
         category.tasks.push(task)
+    }
+
+    sortTasksByCreation(isAscending: boolean): Task[] {
+        return (isAscending) ? this.inOrderTasks : this.inOrderTasks.reverse()
     }
 
     sortTasksByTitle(tasks: Task[], isAscending: boolean): Task[] {
