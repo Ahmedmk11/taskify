@@ -2,18 +2,26 @@
 // Definitions of Functions and Classes.
 // --------------------------------------------------------------
 
+export class Category {
+    name: string
+    tasks: Task[]
+
+    constructor(name: string, tasks: Task[] = []) {
+        this.name = name
+        this.tasks = tasks
+    }
+}
+
 export class Task {
     title: string
     desc: string
     priority: string
     dueDate: Date
-    category: string
     isCompleted: boolean
 
-    constructor(title: string, desc: string, category: string, priority: string, dueDate: Date) {
+    constructor(title: string, desc: string, priority: string, dueDate: Date) {
         this.title = title
         this.desc = desc
-        this.category = category
         this.priority = priority
         this.dueDate = dueDate
         this.isCompleted = false
@@ -46,6 +54,7 @@ export class User {
     password: string
     inProgressTasks: Task[]
     completedTasks: Task[]
+    categories: Category[]
 
     constructor(name: string, email: string, password: string, inProgressTasks: Task[], completedTasks: Task[]) {
         this.name = name
@@ -53,15 +62,16 @@ export class User {
         this.password = password
         this.inProgressTasks = inProgressTasks
         this.completedTasks = completedTasks
+        this.categories = [new Category('Main', this.inProgressTasks.concat(this.completedTasks))]
     }
 
-    createTask(title: string, desc?: string, category?: string, priority?: string, dueDate?: Date): void;
+    createTask(title: string, desc?: string, priority?: string, dueDate?: Date): void;
     createTask(task: Task): void;
-    createTask(titleOrTask: string | Task, desc?: string, category?: string, priority?: string, dueDate?: Date): void {
+    createTask(titleOrTask: string | Task, desc?: string, priority?: string, dueDate?: Date): void {
         if (titleOrTask instanceof Task) {
             this.inProgressTasks.push(titleOrTask);
         } else {
-            const newTask = new Task(titleOrTask, desc!, category!, priority!, dueDate!);
+            const newTask = new Task(titleOrTask, desc!, priority!, dueDate!);
             this.inProgressTasks.push(newTask);
         }
     }
@@ -84,6 +94,14 @@ export class User {
         task.completeTask()
         this.inProgressTasks.splice(this.inProgressTasks.indexOf(task), 1)
         this.completedTasks.push(task)
+    }
+
+    addCategory(category: Category): void {
+        this.categories.push(category)
+    }
+
+    addTaskToCategory(category: Category, task: Task): void {
+        category.tasks.push(task)
     }
 
     sortTasksByTitle(tasks: Task[], isAscending: boolean): Task[] {
