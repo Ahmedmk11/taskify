@@ -1,3 +1,7 @@
+// --------------------------------------------------------------
+// Backend for the app. This file contains all the functions
+// --------------------------------------------------------------
+
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import {

@@ -22,14 +22,14 @@ describe('Task', () => {
         expect(task.priority).toBe('Low')
     })
 
-    it('should update task due date', () => {
-        const newDueDate = new Date('2023-09-09')
-        task.updateDue(newDueDate)
-        expect(task.due).toEqual(newDueDate)
+    it('should update task dueDate date', () => {
+        const newdueDateDate = new Date('2023-09-09')
+        task.updatedueDate(newdueDateDate)
+        expect(task.dueDate).toEqual(newdueDateDate)
     })
 
-    it('should mark task as deleted', () => {
-        task.delete()
-        expect(task.isDeleted).toBe(true)
+    it('should complete task', () => {
+        task.completeTask()
+        expect(task.isCompleted).toBe(true)
     })
 })

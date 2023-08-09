@@ -1,5 +1,9 @@
+// --------------------------------------------------------------
+// Home page frontend code.
+// --------------------------------------------------------------
+
 import React, { useState } from 'react'
-import { Task } from '../app'
+import { Task } from '../../app'
 
 function Home() {
     const task1 = new Task(
