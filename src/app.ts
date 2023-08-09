@@ -7,11 +7,13 @@ export class Task {
     desc: string
     priority: string
     dueDate: Date
+    category: string
     isCompleted: boolean
 
-    constructor(title: string, desc: string, priority: string, dueDate: Date) {
+    constructor(title: string, desc: string, category: string, priority: string, dueDate: Date) {
         this.title = title
         this.desc = desc
+        this.category = category
         this.priority = priority
         this.dueDate = dueDate
         this.isCompleted = false
@@ -35,6 +37,53 @@ export class Task {
 
     completeTask(): void {
         this.isCompleted = true
+    }
+}
+
+export class User {
+    name: string
+    email: string
+    password: string
+    inProgressTasks: Task[]
+    completedTasks: Task[]
+
+    constructor(name: string, email: string, password: string, inProgressTasks: Task[], completedTasks: Task[]) {
+        this.name = name
+        this.email = email
+        this.password = password
+        this.inProgressTasks = inProgressTasks
+        this.completedTasks = completedTasks
+    }
+
+    createTask(title: string, desc?: string, category?: string, priority?: string, dueDate?: Date): void;
+    createTask(task: Task): void;
+    createTask(titleOrTask: string | Task, desc?: string, category?: string, priority?: string, dueDate?: Date): void {
+        if (titleOrTask instanceof Task) {
+            this.inProgressTasks.push(titleOrTask);
+        } else {
+            const newTask = new Task(titleOrTask, desc!, category!, priority!, dueDate!);
+            this.inProgressTasks.push(newTask);
+        }
+    }
+    
+    deleteTask(task: Task): void {
+        if (task.isCompleted) {
+            const index = this.completedTasks.indexOf(task)
+            if (index > -1) {
+                this.completedTasks.splice(index, 1)
+            }
+        } else {
+            const index = this.inProgressTasks.indexOf(task)
+            if (index > -1) {
+                this.inProgressTasks.splice(index, 1)
+            }
+        }
+    }
+
+    completeTask(task: Task): void {
+        task.completeTask()
+        this.inProgressTasks.splice(this.inProgressTasks.indexOf(task), 1)
+        this.completedTasks.push(task)
     }
 
     sortTasksByTitle(tasks: Task[], isAscending: boolean): Task[] {
@@ -114,56 +163,7 @@ export class Task {
         return tasks.filter(task => task.priority === priority)
     }
 
-    filterTasksByStatus(tasks: Task[], status: string): Task[] {
-        if (status === 'Completed') {
-            return tasks.filter(task => task.isCompleted)
-        } else {
-            return tasks.filter(task => !task.isCompleted)
-        }
-    }
-
     filterTasksByDate(tasks: Task[], date: Date): Task[] {
-        return tasks.filter(task => task.dueDate === date)
-    }
-}
-
-export class User {
-    name: string
-    email: string
-    password: string
-    inProgressTasks: Task[]
-    completedTasks: Task[]
-
-    constructor(name: string, email: string, password: string, inProgressTasks: Task[], completedTasks: Task[]) {
-        this.name = name
-        this.email = email
-        this.password = password
-        this.inProgressTasks = inProgressTasks
-        this.completedTasks = completedTasks
-    }
-
-    createTask(title: string, desc: string, priority: string, dueDate: Date): void {
-        const task = new Task(title, desc, priority, dueDate)
-        this.inProgressTasks.push(task)
-    }
-
-    deleteTask(task: Task): void {
-        if (task.isCompleted) {
-            const index = this.completedTasks.indexOf(task)
-            if (index > -1) {
-                this.completedTasks.splice(index, 1)
-            }
-        } else {
-            const index = this.inProgressTasks.indexOf(task)
-            if (index > -1) {
-                this.inProgressTasks.splice(index, 1)
-            }
-        }
-    }
-
-    completeTask(task: Task): void {
-        task.completeTask()
-        this.inProgressTasks.splice(this.inProgressTasks.indexOf(task), 1)
-        this.completedTasks.push(task)
+        return tasks.filter(task => task.dueDate.getTime() === date.getTime());
     }
 }
