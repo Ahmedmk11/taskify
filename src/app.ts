@@ -2,8 +2,6 @@
 // Definitions of Functions and Classes.
 // --------------------------------------------------------------
 
-import cloneDeep from 'clone-deep'
-
 export class Category {
     name: string
     tasks: Task[]
@@ -65,12 +63,12 @@ export class User {
     inOrderTasks: Task[]
     categories: Category[]
 
-    constructor(name: string, email: string, password: string, inProgressTasks: Task[], completedTasks: Task[]) {
+    constructor(name: string, email: string, password: string) {
         this.name = name
         this.email = email
         this.password = password
-        this.inProgressTasks = inProgressTasks
-        this.completedTasks = completedTasks
+        this.inProgressTasks = []
+        this.completedTasks = []
         this.inOrderTasks = []
         this.categories = [new Category('Main')]
     }

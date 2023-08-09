@@ -15,60 +15,85 @@ import {
     getAuth,
     createUserWithEmailAndPassword,
     updateProfile,
+    signOut,
+    signInWithEmailAndPassword,
 } from 'firebase/auth'
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyDViC_ryeWhFGhNE5lR7AtotxRcol-BHN8',
-    authDomain: 'testing-70c91.firebaseapp.com',
-    projectId: 'testing-70c91',
-    storageBucket: 'testing-70c91.appspot.com',
-    messagingSenderId: '154061849766',
-    appId: '1:154061849766:web:3f0402987daed28539e067',
-    measurementId: 'G-KLN7YFJ463',
+    apiKey: "AIzaSyB-hDUl9MHjRBnNl75jhPWxQsDZ0xSa7hM",
+    authDomain: "taskmaster-231fe.firebaseapp.com",
+    databaseURL: "https://taskmaster-231fe-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "taskmaster-231fe",
+    storageBucket: "taskmaster-231fe.appspot.com",
+    messagingSenderId: "852107150099",
+    appId: "1:852107150099:web:1a30265a547af55468d0e6",
+    measurementId: "G-LTCJ2FDP4P"
 }
 
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const db = getFirestore(app)
 
-export async function readFromDB() {
-    const users = collection(db, 'users')
-    const usersSnapshot = await getDocs(users)
-    const usersList = usersSnapshot.docs.map((doc) => doc.data())
-    console.log(usersList)
+export async function registerUser(e: Event, emailInput: string, passwordInput: string, fullNameInput: string): Promise<void> {
+    e.preventDefault()
+    try {
+        await writeToDB(emailInput, passwordInput, fullNameInput)
+        console.log('User registered and data saved to Firestore successfully')
+        // navigate('/') // Navigate to the home page
+    } catch (error) {
+        console.error('Error registering user:', error)
+    }
 }
 
-export async function writeToDB(email, password, name) {
+export function signInHandler(e: Event, emailInput: string, passwordInput: string): void {
+    e.preventDefault()
+    const auth = getAuth()
+    signInWithEmailAndPassword(auth, emailInput, passwordInput)
+        .then((userCredential) => { 
+            const user = userCredential.user
+            console.log(user)
+            // navigate('/') // Navigate to the home page
+        })
+        .catch((error) => {
+            const errorCode = error.code
+            const errorMessage = error.message
+            console.log(errorCode, errorMessage)
+        })
+}
+
+export function signOutHandler(): void {
+    const auth = getAuth()
+    signOut(auth).then(() => {
+        console.log('User signed out!')
+        // navigate('/') // Navigate to the sign in page
+    }).catch((error) => {
+        console.log(error)
+    })
+}
+
+export async function writeToDB(email: string, password: string, name: string): Promise<void> {
     const auth = getAuth()
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user
-            const userDocRef = doc(db, 'users2', user.uid)
+            const userDocRef = doc(db, 'users', user.uid)
             const userData = {
-                email: user.email,
                 uid: user.uid,
-                password: password,
+                email: user.email,
+                displayName: name,
+                inProgressTasks: [],
+                completedTasks: [],
+                inOrderTasks: [],
+                categories: []
             }
-            updateProfile(user, { displayName: name })
-                .then(() => {
-                    console.log(
-                        'User registered with full name:',
-                        user.displayName
-                    )
-                })
-                .catch((error) => {
-                    console.log('Error updating display name:', error)
-                })
             return setDoc(userDocRef, userData)
         })
         .then(() => {
-            // User data saved to Firestore successfully
             console.log('User data saved to Firestore')
         })
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
-            // Handle error
             console.log(errorCode, errorMessage)
         })
 }
