@@ -1,20 +1,13 @@
-.selected-nav-item {
-    background-color: #E5F7FF;
-    border-right: 2px solid #1890FF;
-}
-
-.nav-item:not(.selected-nav-item):hover {
-    img, p {
-        filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg) brightness(101%) contrast(101%);
-    }
-}
+// --------------------------------------------------------------
+// Navigation Bar SCSS.
+// --------------------------------------------------------------
 
 #nav-bar {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
-    width: 210px;
+    min-width: 210px;
     height: 100vh;
     color: black;
     font-size: 16px;
@@ -28,8 +21,10 @@
             width: 100%;
             text-align: center;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
             align-items: center;
+            margin-top: 25px;
             h1 {
                 margin: 0%;
                 line-height: 22px;
@@ -38,7 +33,6 @@
                 font-weight: 550;
                 color: #1890FF;
                 text-align: center;
-                font-variation-settings: 'wdth' 750;
                 cursor: pointer;
             }
         }
@@ -74,4 +68,55 @@
             -o-transition: all 200ms ease-in-out;
         }
     }
-}    
+}
+
+.selected-nav-item {
+    background-color: #E5F7FF;
+    border-right: 2px solid #1890FF;
+}
+
+.nav-item:not(.selected-nav-item):hover {
+    img, p {
+        filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg) brightness(101%) contrast(101%);
+    }
+}
+
+// --------------------------------------------------------------
+// Tool Bar SCSS.
+// --------------------------------------------------------------
+
+#tool-bar {
+    width: 100%;
+    height: 67px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    #tool-bar-item {
+        width: 150px;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 50px;
+    }
+    #tool-bar-profile {
+        width: 102px;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        p {
+            font-size: 14px;
+            font-weight: 400;
+            text-align: center;
+            color: black;
+        }
+    }
+    img {
+        cursor: pointer;
+    }
+}
