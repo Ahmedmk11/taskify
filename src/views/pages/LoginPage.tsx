@@ -1,15 +1,15 @@
 // --------------------------------------------------------------
-// Home page frontend code.
+// Login page frontend code.
 // --------------------------------------------------------------
 
 import React from 'react'
 
-function Home() {
+function Login() {
     return (
         <>
-            <h1>Home</h1>
+            <h1>Login</h1>
         </>
     )
 }
 
-export default Home
+export default Login

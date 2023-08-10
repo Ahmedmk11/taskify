@@ -7,7 +7,7 @@ import { getAnalytics } from 'firebase/analytics'
 import {
     getFirestore,
     collection,
-    getDocs,
+    getDoc,
     setDoc,
     doc,
 } from 'firebase/firestore'
@@ -19,16 +19,7 @@ import {
     signInWithEmailAndPassword,
 } from 'firebase/auth'
 
-const firebaseConfig = {
-    apiKey: "AIzaSyB-hDUl9MHjRBnNl75jhPWxQsDZ0xSa7hM",
-    authDomain: "taskmaster-231fe.firebaseapp.com",
-    databaseURL: "https://taskmaster-231fe-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "taskmaster-231fe",
-    storageBucket: "taskmaster-231fe.appspot.com",
-    messagingSenderId: "852107150099",
-    appId: "1:852107150099:web:1a30265a547af55468d0e6",
-    measurementId: "G-LTCJ2FDP4P"
-}
+import { firebaseConfig } from '../firebase-config-data'
 
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
@@ -96,4 +87,14 @@ export async function writeToDB(email: string, password: string, name: string): 
             const errorMessage = error.message
             console.log(errorCode, errorMessage)
         })
+}
+
+export async function readDataFromDB(collID: string, docID: string): Promise<void> { // check if this works
+    const docRef = doc(db, collID, docID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+    } else {
+        console.log("No such document!");
+    }
 }

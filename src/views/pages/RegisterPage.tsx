@@ -1,15 +1,15 @@
 // --------------------------------------------------------------
-// Home page frontend code.
+// Register page frontend code.
 // --------------------------------------------------------------
 
 import React from 'react'
 
-function Home() {
+function Register() {
     return (
         <>
-            <h1>Home</h1>
+            <h1>Register</h1>
         </>
     )
 }
 
-export default Home
+export default Register

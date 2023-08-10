@@ -2,6 +2,8 @@
 // Definitions of Functions and Classes.
 // --------------------------------------------------------------
 
+import { readDataFromDB } from './firebase'
+
 export class Category {
     name: string
     tasks: Task[]
@@ -217,3 +219,5 @@ export class User {
         return tasks.filter(task => task.dueDate.getTime() === date.getTime());
     }
 }
+
+// readDataFromDB('users', 'eA34bbZxji5JxkQuphpU')
