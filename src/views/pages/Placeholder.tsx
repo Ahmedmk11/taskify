@@ -1,16 +1,16 @@
 // --------------------------------------------------------------
-// Home page frontend code.
+// Placeholder page frontend code.
 // --------------------------------------------------------------
 
 import React from 'react'
 import NavBar from '../components/NavBar'
 
-function Home() {
+function Placeholder() {
     return (
         <>
-            <NavBar currentPage='home' />
+            <NavBar currentPage='placeholder' />
         </>
     )
 }
 
-export default Home
+export default Placeholder

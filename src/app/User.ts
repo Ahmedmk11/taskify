@@ -1,60 +1,9 @@
 // --------------------------------------------------------------
-// Definitions of Functions and Classes.
+// User class definition.
 // --------------------------------------------------------------
 
-import { readDataFromDB } from './firebase'
-
-export class Category {
-    name: string
-    tasks: Task[]
-
-    constructor(name: string, tasks: Task[] = []) {
-        this.name = name
-        this.tasks = tasks
-    }
-}
-
-export class Task {
-    id: string
-    title: string
-    desc: string
-    priority: string
-    dueDate: Date
-    isCompleted: boolean
-
-    constructor(title: string, desc: string, priority: string, dueDate: Date) {
-        this.id = Math.random().toString(36).substring(2, 9);
-        this.title = title
-        this.desc = desc
-        this.priority = priority
-        this.dueDate = dueDate
-        this.isCompleted = false
-    }
-
-    updateTitle(newTitle: string): void {
-        this.title = newTitle
-    }
-
-    updateDesc(newDesc: string): void {
-        this.desc = newDesc
-    }
-
-    updatePriority(newPriority: string): void {
-        this.priority = newPriority
-    }
-
-    updatedueDate(newdueDate: Date): void {
-        this.dueDate = newdueDate
-    }
-
-    completeTask(): void {
-        this.isCompleted = true
-    }
-
-    unCompleteTask(): void {
-        this.isCompleted = false
-    }
-}
+import { Task } from './Task'
+import { Category } from './Category'
 
 export class User {
     name: string
@@ -219,5 +168,3 @@ export class User {
         return tasks.filter(task => task.dueDate.getTime() === date.getTime());
     }
 }
-
-// readDataFromDB('users', 'eA34bbZxji5JxkQuphpU')

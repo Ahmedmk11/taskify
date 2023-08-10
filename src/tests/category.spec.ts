@@ -1,4 +1,4 @@
-import { Category } from '../app'
+import { Category } from '../app/Category'
 
 describe('Task', () => {
     let category: Category

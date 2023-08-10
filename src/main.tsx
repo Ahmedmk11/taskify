@@ -1,8 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import Home from './views/pages/Home'
 import { BrowserRouter } from 'react-router-dom'
-import RouteSwitch from './RouteSwitch'
+import RouteSwitch from './routeSwitch'
 
 const root = document.getElementById('root')!
 ReactDOM.createRoot(root).render(

@@ -1,4 +1,5 @@
-import { User, Task } from '../app'
+import { User } from '../app/User'
+import { Task } from '../app/Task'
 
 describe('User', () => {
     let user: User

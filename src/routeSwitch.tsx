@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './views/pages/Home'
 import Login from './views/pages/LoginPage'
 import Register from './views/pages/RegisterPage'
+import Placeholder from './views/pages/Placeholder'
 
 const RouteSwitch = () => {
     return (
@@ -13,6 +14,7 @@ const RouteSwitch = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/placeholder" element={<Placeholder />} />
         </Routes>
     )
 }
