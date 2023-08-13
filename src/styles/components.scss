@@ -3,6 +3,7 @@
 // --------------------------------------------------------------
 
 #nav-bar {
+    user-select: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -10,9 +11,9 @@
     min-width: 210px;
     height: 100vh;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     background-color: #fff;
-    border-right: 1px solid #D9D9D9;
+    border-right: 1px solid #d9d9d9;
     #nav-bar-top {
         height: calc(100% - 80px);
         width: 100%;
@@ -31,7 +32,7 @@
                 font-size: 32px;
                 font-family: 'Roboto', sans-serif;
                 font-weight: 550;
-                color: #1890FF;
+                color: #1890ff;
                 text-align: center;
                 cursor: pointer;
             }
@@ -40,6 +41,39 @@
             display: flex;
             flex-direction: column;
             width: 100%;
+            #hide-show {
+                margin-left: 90px;
+            }
+            #home-sub {
+                margin-top: 6px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out;
+                -webkit-transition: max-height 0.3s ease-in-out;
+                -moz-transition: max-height 0.3s ease-in-out;
+                -ms-transition: max-height 0.3s ease-in-out;
+                -o-transition: max-height 0.3s ease-in-out;
+                #p-item {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0%;
+                    width: 100%;
+                    height: 44px;
+                    box-sizing: border-box;
+                    p {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        width: 100%;
+                        height: 100%;
+                        margin: 0%;
+                        margin-left: 50px;
+                    }
+                }
+            }
         }
     }
     #nav-bar-bottom {
@@ -51,7 +85,7 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        width: calc(100% - 3px);
+        width: calc(100% - 2px);
         height: 44px;
         cursor: pointer;
         img {
@@ -60,7 +94,8 @@
             margin-right: 10px;
             margin-left: 25px;
         }
-        img,p {
+        img,
+        p {
             transition: all 200ms ease-in-out;
             -webkit-transition: all 200ms ease-in-out;
             -moz-transition: all 200ms ease-in-out;
@@ -70,14 +105,28 @@
     }
 }
 
+.show-class {
+    max-height: 180px !important;
+}
+
+.rotate {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+}
+
 .selected-nav-item {
-    background-color: #E5F7FF;
-    border-right: 2px solid #1890FF;
+    background-color: #e5f7ff;
+    border-right: 2px solid #1890ff;
 }
 
 .nav-item:not(.selected-nav-item):hover {
-    img, p {
-        filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg) brightness(101%) contrast(101%);
+    img,
+    p {
+        filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg)
+            brightness(101%) contrast(101%);
     }
 }
 
@@ -118,5 +167,142 @@
     }
     img {
         cursor: pointer;
+    }
+}
+
+// --------------------------------------------------------------
+// Action Bar SCSS.
+// --------------------------------------------------------------
+
+#action-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 92px;
+    h2 {
+        margin-left: 24px;
+        color: rgba($color: #000000, $alpha: 0.85);
+        font-size: 30px;
+        font-weight: 600;
+    }
+    #action-bar-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 628px;
+        height: 100%;
+        margin-right: 24px;
+        #action-bar-filter,
+        #action-bar-sort {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background-color: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+            cursor: pointer;
+            &:hover {
+                border-color: #1890ff;
+                outline: none;
+                box-shadow: 0 0 5px 1px rgba($color: #1890ff, $alpha: 0.4);
+            }
+        }
+    }
+}
+
+.custom-button-size {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+// --------------------------------------------------------------
+// Card SCSS.
+// --------------------------------------------------------------
+
+#card {
+    height: 180px;
+    width: 260px;
+    padding: 18px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    box-sizing: border-box;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    #card-info-settings {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        #priority {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+            background-color: red;
+        }
+        #card-settings {
+            width: fit-content;
+            cursor: pointer;
+        }
+    }
+    #card-body {
+        width: 100%;
+        #card-title {
+            width: 100%;
+            font-size: 16px;
+            font-weight: 500;
+            color: black;
+            line-height: 24px;
+            text-align: start;
+        }
+        #card-description {
+            width: 100%;
+            font-size: 14px;
+            font-weight: 400;
+            color: black;
+            line-height: 22px;
+            text-align: start;
+        }
+    }
+    #bottom {
+        width: 100%;
+        p {
+            margin: 0%;
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba($color: #000000, $alpha: 0.45);
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 }

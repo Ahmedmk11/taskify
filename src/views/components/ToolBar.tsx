@@ -12,11 +12,12 @@ import aviIcn from '../../assets/icons/avi.svg'
 //     currentPage: string;
 // }
 
-function ToolBar() { //props: ToolBarProps) {
+function ToolBar() {
+    //props: ToolBarProps) {
     // const { currentPage } = props
 
     return (
-        <div id='tool-bar'>
+        <div id="tool-bar">
             <div id="tool-bar-item">
                 <img src={notificationsIcn} alt="Icon for notificatons" />
                 <div id="tool-bar-profile">

@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.18",
     "@material-tailwind/react": "^2.0.8",
+    "antd": "^5.8.3",
     "firebase": "^10.1.0",
     "nanoid": "^4.0.2",
     "node-sass": "^9.0.0",

@@ -9,7 +9,7 @@ import ToolBar from '../components/ToolBar'
 function Placeholder() {
     return (
         <>
-            <NavBar currentPage='placeholder' />
+            <NavBar currentPage="placeholder" />
             <ToolBar />
         </>
     )

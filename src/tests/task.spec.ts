@@ -28,13 +28,18 @@ describe('Task', () => {
         expect(task.dueDate).toEqual(newdueDateDate)
     })
 
-    it('should complete task', () => {
-        task.completeTask()
-        expect(task.isCompleted).toBe(true)
+    it('should start task', () => {
+        task.startTask()
+        expect(task.status).toBe('inprogress')
     })
 
-    it('should uncomplete task', () => {
-        task.unCompleteTask()
-        expect(task.isCompleted).toBe(false)
+    it('should pause task', () => {
+        task.pauseTask()
+        expect(task.status).toBe('pending')
+    })
+
+    it('should close task', () => {
+        task.closeTask()
+        expect(task.status).toBe('closed')
     })
 })

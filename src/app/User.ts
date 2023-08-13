@@ -9,8 +9,7 @@ export class User {
     name: string
     email: string
     password: string
-    inProgressTasks: Task[]
-    completedTasks: Task[]
+    taskArray: Task[]
     inOrderTasks: Task[]
     categories: Category[]
 
@@ -18,60 +17,65 @@ export class User {
         this.name = name
         this.email = email
         this.password = password
-        this.inProgressTasks = []
-        this.completedTasks = []
+        this.taskArray = []
         this.inOrderTasks = []
         this.categories = [new Category('Main')]
     }
 
     updateMainCategory(): void {
-        const mainCategory = this.categories.find(category => category.name === 'Main');
+        const mainCategory = this.categories.find(
+            (category) => category.name === 'Main'
+        )
         if (mainCategory) {
-            mainCategory.tasks = this.inProgressTasks.concat(this.completedTasks);
+            mainCategory.tasks = this.taskArray
         }
-    }    
+    }
 
-    createTask(title: string, desc?: string, priority?: string, dueDate?: Date): void;
-    createTask(task: Task): void;
-    createTask(titleOrTask: string | Task, desc?: string, priority?: string, dueDate?: Date): void {
+    createTask(
+        title: string,
+        desc?: string,
+        priority?: string,
+        dueDate?: Date
+    ): void
+    createTask(task: Task): void
+    createTask(
+        titleOrTask: string | Task,
+        desc?: string,
+        priority?: string,
+        dueDate?: Date
+    ): void {
         if (titleOrTask instanceof Task) {
-            this.inProgressTasks.push(titleOrTask);
-            this.inOrderTasks.push(titleOrTask) // this line creates an error
+            this.taskArray.push(titleOrTask)
+            this.inOrderTasks.push(titleOrTask)
         } else {
-            const newTask = new Task(titleOrTask, desc!, priority!, dueDate!);
-            this.inProgressTasks.push(newTask);
+            const newTask = new Task(titleOrTask, desc!, priority!, dueDate!)
+            this.taskArray.push(newTask)
             this.inOrderTasks.push(newTask)
         }
         this.updateMainCategory()
     }
-    
+
     deleteTask(task: Task): void {
-        if (task.isCompleted) {
-            const index = this.completedTasks.indexOf(task)
-            if (index > -1) {
-                this.completedTasks.splice(index, 1)
-            }
-        } else {
-            const index = this.inProgressTasks.indexOf(task)
-            if (index > -1) {
-                this.inProgressTasks.splice(index, 1)
-            }
+        const index = this.taskArray.indexOf(task)
+        if (index > -1) {
+            this.taskArray.splice(index, 1)
         }
         this.inOrderTasks.splice(this.inOrderTasks.indexOf(task), 1)
         this.updateMainCategory()
     }
 
-    completeTask(task: Task): void {
-        task.completeTask()
-        this.inProgressTasks.splice(this.inProgressTasks.indexOf(task), 1)
-        this.completedTasks.push(task)
+    startTask(task: Task): void {
+        task.startTask()
         this.updateMainCategory()
     }
 
-    unCompleteTask(task: Task): void {
-        task.unCompleteTask()
-        this.completedTasks.splice(this.completedTasks.indexOf(task), 1)
-        this.inProgressTasks.push(task)
+    pauseTask(task: Task): void {
+        task.pauseTask()
+        this.updateMainCategory()
+    }
+
+    closeTask(task: Task): void {
+        task.closeTask()
         this.updateMainCategory()
     }
 
@@ -84,7 +88,7 @@ export class User {
     }
 
     sortTasksByCreation(isAscending: boolean): Task[] {
-        return (isAscending) ? this.inOrderTasks : this.inOrderTasks.reverse()
+        return isAscending ? this.inOrderTasks : this.inOrderTasks.reverse()
     }
 
     sortTasksByTitle(tasks: Task[], isAscending: boolean): Task[] {
@@ -161,10 +165,10 @@ export class User {
     }
 
     filterTasksByPriority(tasks: Task[], priority: string): Task[] {
-        return tasks.filter(task => task.priority === priority)
+        return tasks.filter((task) => task.priority === priority)
     }
 
     filterTasksByDate(tasks: Task[], date: Date): Task[] {
-        return tasks.filter(task => task.dueDate.getTime() === date.getTime());
+        return tasks.filter((task) => task.dueDate.getTime() === date.getTime())
     }
 }

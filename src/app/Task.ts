@@ -8,15 +8,17 @@ export class Task {
     desc: string
     priority: string
     dueDate: Date
-    isCompleted: boolean
+    creationDate: Date
+    status: string
 
     constructor(title: string, desc: string, priority: string, dueDate: Date) {
-        this.id = Math.random().toString(36).substring(2, 9);
+        this.id = Math.random().toString(36).substring(2, 9)
         this.title = title
         this.desc = desc
         this.priority = priority
         this.dueDate = dueDate
-        this.isCompleted = false
+        this.creationDate = new Date()
+        this.status = 'open'
     }
 
     updateTitle(newTitle: string): void {
@@ -35,11 +37,15 @@ export class Task {
         this.dueDate = newdueDate
     }
 
-    completeTask(): void {
-        this.isCompleted = true
+    startTask(): void {
+        this.status = 'inprogress'
     }
 
-    unCompleteTask(): void {
-        this.isCompleted = false
+    pauseTask(): void {
+        this.status = 'pending'
+    }
+
+    closeTask(): void {
+        this.status = 'closed'
     }
 }

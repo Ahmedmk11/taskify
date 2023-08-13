@@ -25,7 +25,12 @@ const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const db = getFirestore(app)
 
-export async function registerUser(e: Event, emailInput: string, passwordInput: string, fullNameInput: string): Promise<void> {
+export async function registerUser(
+    e: Event,
+    emailInput: string,
+    passwordInput: string,
+    fullNameInput: string
+): Promise<void> {
     e.preventDefault()
     try {
         await writeToDB(emailInput, passwordInput, fullNameInput)
@@ -36,11 +41,15 @@ export async function registerUser(e: Event, emailInput: string, passwordInput: 
     }
 }
 
-export function signInHandler(e: Event, emailInput: string, passwordInput: string): void {
+export function signInHandler(
+    e: Event,
+    emailInput: string,
+    passwordInput: string
+): void {
     e.preventDefault()
     const auth = getAuth()
     signInWithEmailAndPassword(auth, emailInput, passwordInput)
-        .then((userCredential) => { 
+        .then((userCredential) => {
             const user = userCredential.user
             console.log(user)
             // navigate('/') // Navigate to the home page
@@ -54,15 +63,21 @@ export function signInHandler(e: Event, emailInput: string, passwordInput: strin
 
 export function signOutHandler(): void {
     const auth = getAuth()
-    signOut(auth).then(() => {
-        console.log('User signed out!')
-        // navigate('/') // Navigate to the sign in page
-    }).catch((error) => {
-        console.log(error)
-    })
+    signOut(auth)
+        .then(() => {
+            console.log('User signed out!')
+            // navigate('/') // Navigate to the sign in page
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 }
 
-export async function writeToDB(email: string, password: string, name: string): Promise<void> {
+export async function writeToDB(
+    email: string,
+    password: string,
+    name: string
+): Promise<void> {
     const auth = getAuth()
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -75,7 +90,7 @@ export async function writeToDB(email: string, password: string, name: string): 
                 inProgressTasks: [],
                 completedTasks: [],
                 inOrderTasks: [],
-                categories: []
+                categories: [],
             }
             return setDoc(userDocRef, userData)
         })
@@ -89,12 +104,16 @@ export async function writeToDB(email: string, password: string, name: string): 
         })
 }
 
-export async function readDataFromDB(collID: string, docID: string): Promise<void> { // check if this works
-    const docRef = doc(db, collID, docID);
-    const docSnap = await getDoc(docRef);
+export async function readDataFromDB(
+    collID: string,
+    docID: string
+): Promise<void> {
+    // check if this works
+    const docRef = doc(db, collID, docID)
+    const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
+        console.log('Document data:', docSnap.data())
     } else {
-        console.log("No such document!");
+        console.log('No such document!')
     }
 }
