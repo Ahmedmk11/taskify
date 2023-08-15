@@ -7,6 +7,7 @@ import React from 'react'
 
 import notificationsIcn from '../../assets/icons/notifications.svg'
 import aviIcn from '../../assets/icons/avi.svg'
+import logoIcn from '../../assets/icons/logo.svg'
 
 // type ToolBarProps = {
 //     currentPage: string;
@@ -18,6 +19,9 @@ function ToolBar() {
 
     return (
         <div id="tool-bar">
+            <div id="tool-bar-header">
+                    <img src={logoIcn} alt="logo" />
+            </div>
             <div id="tool-bar-item">
                 <img src={notificationsIcn} alt="Icon for notificatons" />
                 <div id="tool-bar-profile">

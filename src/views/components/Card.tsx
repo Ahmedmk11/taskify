@@ -6,6 +6,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import settingsIcn from '../../assets/icons/settings.svg'
+import dateIcn from '../../assets/icons/date.svg'
 
 type CardProps = {
     categories: string[]
@@ -19,18 +20,30 @@ function Card(props: CardProps) {
 
     return (
         <div id="card">
-            <div id="card-info-settings">
-                <div id="priority"></div>
-                <div id="card-settings">
-                    <img src={settingsIcn} alt="Icon for settings" />
+            <div id="card-container">
+                <div id="card-info-settings">
+                    {
+                        <div id="card-categories">
+                            {categories.length >= 2 && (
+                                <div className="category">{categories[1]}</div>
+                            )}
+                            {categories.length >= 3 && (
+                                <div className="category">{categories[2]}</div>
+                            )}
+                        </div>
+                    }
+                    <div id="card-settings">
+                        <img src={settingsIcn} alt="Icon for settings" />
+                    </div>
                 </div>
-            </div>
-            <div id="card-body">
-                <div id="card-title">{title}</div>
-                <div id="card-description">{description}</div>
-            </div>
-            <div id="bottom">
-                <p>View More</p>
+                <div id="card-body">
+                    <div id="card-title">{title}</div>
+                    <div id="card-description">{description}</div>
+                </div>
+                <div id="card-bottom">
+                    <img src={dateIcn} alt="date icon" />
+                    <p>Due to: <span>16 May</span></p>
+                </div>
             </div>
         </div>
     )
@@ -52,11 +65,3 @@ Card.defaultProps = {
 }
 
 export default Card
-
-{
-    /* <div id="card-categories">
-                    {categories.map((category) => (
-                        <div className="category">{category}</div>
-                    ))}
-                </div> */
-}
