@@ -24,7 +24,9 @@ function ActionBar() {
                 <h2>Tasks</h2>
                 <div id="action-bar-buttons">
                     <Space wrap>
-                        <Button className='new-button' type="primary">New Task</Button>
+                        <Button className="new-button" type="primary">
+                            New Task
+                        </Button>
                     </Space>
                     <Space direction="vertical">
                         <Search
@@ -35,9 +37,6 @@ function ActionBar() {
                     </Space>
                     <Button className="custom-button-size">
                         <img src={filterIcn} alt="Icon for filter" />
-                    </Button>
-                    <Button className="custom-button-size">
-                        <img src={sortIcn} alt="Icon for sort" />
                     </Button>
                 </div>
             </div>

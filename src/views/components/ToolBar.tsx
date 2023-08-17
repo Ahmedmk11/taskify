@@ -20,7 +20,7 @@ function ToolBar() {
     return (
         <div id="tool-bar">
             <div id="tool-bar-header">
-                    <img src={logoIcn} alt="logo" />
+                <img src={logoIcn} alt="logo" />
             </div>
             <div id="tool-bar-item">
                 <img src={notificationsIcn} alt="Icon for notificatons" />

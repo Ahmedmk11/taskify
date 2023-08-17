@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import homeIcn from '../../assets/icons/home.svg'
 import placeHolderIcn from '../../assets/icons/placeholder.svg'
-import logoutIcn from '../../assets/icons/logout.svg'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
@@ -23,20 +22,21 @@ function NavBar(props: NavBarProps) {
     return (
         <div id="nav-bar">
             <div id="nav-bar-top">
-                <div className="nav-item" onClick={() => {
-                    navigate('/home')
-                }}>
+                <div
+                    className={classSelect('home')}
+                    onClick={() => {
+                        navigate('/home')
+                    }}
+                >
                     <img src={homeIcn} alt="Icon for home page" />
                 </div>
                 <div
                     className={classSelect('placeholder')}
                     onClick={() => {
                         navigate('/placeholder')
-                    }}>
-                    <img
-                        src={placeHolderIcn}
-                        alt="Icon for placeholder page"
-                    />
+                    }}
+                >
+                    <img src={placeHolderIcn} alt="Icon for placeholder page" />
                 </div>
             </div>
         </div>

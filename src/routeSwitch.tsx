@@ -9,7 +9,6 @@ import Placeholder from './views/pages/Placeholder'
 import NotFound from './views/pages/NotFound'
 
 const RouteSwitch = () => {
-    const [isHomeSubVisible, setHomeSubVisible] = useState(false)
     return (
         <Routes>
             <Route path="*" element={<NotFound />} />
