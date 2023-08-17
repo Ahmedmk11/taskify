@@ -9,6 +9,7 @@ import ToolBar from '../components/ToolBar'
 import ActionBar from '../components/ActionBar'
 import plusIcn from '../../assets/icons/plus.svg'
 import Card from '../components/Card'
+import ReactDOM from 'react-dom'
 
 type HomeProps = {
     currentPage: string
@@ -17,8 +18,6 @@ type HomeProps = {
 function Home(props: HomeProps) {
     const { currentPage } = props
     const [targetCardID, setTargetCardID] = useState<string>('')
-    const [sourceColumnID, setSourceColumnID] = useState<string>('')
-    const [targetColumnID, setTargetColumnID] = useState<string>('')
     const [isDraggedOnce, setIsDraggedOnce] = useState([true, true, true])
 
     function onHover(ev: any) {
@@ -38,40 +37,9 @@ function Home(props: HomeProps) {
                 targetColumnHeight + targetCardHeight
             }px`
             isDraggedOnce[index] = false
-            setTargetColumnID(targetColumn.id)
             setIsDraggedOnce(isDraggedOnce)
         }
     }
-
-    function onHoverStop(ev: any) {
-        // here
-        // const targetColumn = ev.target.closest('.column');
-        // const index = targetColumn.id.split('-')[1] - 1
-        // if (ev.buttons === 1 && !isDraggedOnce[index]) {
-        //     targetColumn.style.height = 'fit-content';
-        //     isDraggedOnce[index] = true
-        //     setIsDraggedOnce(isDraggedOnce)
-        // }
-    }
-
-    // function getCursorPosition(ev: any) {
-    //     const x = ev.clientX
-    //     const y = ev.clientY
-    //     const targetColumn = document.getElementById(targetColumnID)
-    //     if (targetColumn && targetColumnID !== sourceColumnID) {
-    //         const targetColumnBounds = targetColumn.getBoundingClientRect()
-    //         console.log('first if')
-    //         if (
-    //             ev.buttons === 1 &&
-    //             (x < targetColumnBounds.left || x > targetColumnBounds.right) &&
-    //             (y < targetColumnBounds.top || y > targetColumnBounds.bottom)
-    //         ) {
-    //             console.log('out')
-    //             targetColumn.style.height = 'fit-content'
-    //         }
-    //     }
-    // }
-    // document.addEventListener('drag', getCursorPosition)
 
     function allowDrop(ev: any) {
         ev.preventDefault()
@@ -80,8 +48,18 @@ function Home(props: HomeProps) {
     function drag(ev: any) {
         const target = ev.target.closest('[id^="draggable-card"]')
         setTargetCardID(target.id)
-        setSourceColumnID(target.closest('.column').id)
         ev.dataTransfer.setData('text', target.id)
+    }
+
+    function createCard(col = 'col-1') {
+        const colEl = document.getElementById(col)
+        if (colEl?.querySelector('#create-new-task') == null) {
+            const container = document.createElement('div')
+            container.id = 'create-new-task'
+            ReactDOM.render(<Card type="create" />, container)
+            const cards = colEl!.querySelector('.cards')
+            cards!.insertBefore(container, cards!.childNodes[0])
+        }
     }
 
     function drop(ev: any) {
@@ -124,26 +102,28 @@ function Home(props: HomeProps) {
             <div id="home-content">
                 <NavBar currentPage={currentPage} />
                 <div id="home-main">
-                    <ActionBar />
+                    <ActionBar createTask={createCard} />
                     <div id="home-main-content">
                         <div
                             id="col-1"
                             onDrop={drop}
                             onDragEnter={onHover}
-                            onDragLeave={onHoverStop}
                             className="column"
                             onDragOver={allowDrop}
                         >
                             <div className="cards-status">
                                 <p>Todo</p>
                                 <div className="image-container">
-                                    <img src={plusIcn} alt="plus icon" />
+                                    <img
+                                        onClick={() => {
+                                            createCard('col-1')
+                                        }}
+                                        src={plusIcn}
+                                        alt="plus icon"
+                                    />
                                 </div>
                             </div>
                             <div className="cards">
-                                <div id="create-new-task">
-                                    <Card type="d" />
-                                </div>
                                 <div
                                     className="draggable-card"
                                     id="draggable-card-2"
@@ -168,14 +148,19 @@ function Home(props: HomeProps) {
                             id="col-2"
                             onDrop={drop}
                             onDragEnter={onHover}
-                            onDragLeave={onHoverStop}
                             className="column"
                             onDragOver={allowDrop}
                         >
                             <div className="cards-status">
                                 <p>In Progress</p>
                                 <div className="image-container">
-                                    <img src={plusIcn} alt="plus icon" />
+                                    <img
+                                        onClick={() => {
+                                            createCard('col-2')
+                                        }}
+                                        src={plusIcn}
+                                        alt="plus icon"
+                                    />
                                 </div>
                             </div>
                             <div className="cards">
@@ -203,14 +188,19 @@ function Home(props: HomeProps) {
                             id="col-3"
                             onDrop={drop}
                             onDragEnter={onHover}
-                            onDragLeave={onHoverStop}
                             className="column"
                             onDragOver={allowDrop}
                         >
                             <div className="cards-status">
                                 <p>Done</p>
                                 <div className="image-container">
-                                    <img src={plusIcn} alt="plus icon" />
+                                    <img
+                                        onClick={() => {
+                                            createCard('col-3')
+                                        }}
+                                        src={plusIcn}
+                                        alt="plus icon"
+                                    />
                                 </div>
                             </div>
                             <div className="cards">

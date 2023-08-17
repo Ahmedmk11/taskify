@@ -4,13 +4,7 @@
 
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import {
-    Button,
-    Space,
-    Input,
-    DatePicker,
-    Select,
-} from 'antd'
+import { Button, Space, Input, DatePicker, Select } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import type { DatePickerProps } from 'antd'
 
@@ -39,6 +33,11 @@ function Card(props: CardProps) {
         var a = document.getElementById(id)
         a!.style.height = 'auto'
         a!.style.height = a!.scrollHeight + 'px'
+    }
+
+    function cancelCard(ev: any) {
+        const container = ev.target.closest('#create-new-task')
+        container!.remove()
     }
 
     useEffect(() => {
@@ -135,7 +134,10 @@ function Card(props: CardProps) {
     )
     return (
         <div id="card">
-            <div id="card-container" className={type !== 'task' ? 'card-input' : ''}>
+            <div
+                id="card-container"
+                className={type !== 'task' ? 'card-input' : ''}
+            >
                 <div id="card-info-settings">
                     {
                         <div id="card-categories">
@@ -213,13 +215,17 @@ function Card(props: CardProps) {
                 </div>
                 <div id="card-bottom">
                     {type !== 'task' ? (
-                        <Space id='card-bottom-space'>
+                        <Space id="card-bottom-space">
                             <Space direction="vertical">
-                                <DatePicker onChange={onDateInput} placeholder='Due date' />
+                                <DatePicker
+                                    onChange={onDateInput}
+                                    placeholder="Due date"
+                                />
                             </Space>
                             <Select
                                 placeholder="Priority"
-                                onChange={handlePriorityChange}>
+                                onChange={handlePriorityChange}
+                            >
                                 <Option value="default">Default</Option>
                                 <Option value="low">Low</Option>
                                 <Option value="medium">Medium</Option>
@@ -238,8 +244,10 @@ function Card(props: CardProps) {
                 {type !== 'task' && (
                     <div className="card-bottom-bottom">
                         <Space wrap>
-                            <Button>Cancel</Button>
-                            <Button id='save-input-btn'>Save</Button>
+                            <Button onClick={(e) => {
+                                cancelCard(e)
+                            }}>Cancel</Button>
+                            <Button id="save-input-btn">Save</Button>
                         </Space>
                     </div>
                 )}

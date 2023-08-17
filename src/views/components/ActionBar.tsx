@@ -5,18 +5,16 @@
 import React from 'react'
 import { Button, Space, Input } from 'antd'
 const { Search } = Input
-// import PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 
 import filterIcn from '../../assets/icons/filter.svg'
-import sortIcn from '../../assets/icons/sort.svg'
 
-// type ActionBarProps = {
-//     currentPage: string;
-// }
+type ActionBarProps = {
+    createTask: () => void
+}
 
-function ActionBar() {
-    //props: ActionBarProps) {
-    // const { currentPage } = props
+function ActionBar(props: ActionBarProps) {
+    const { createTask } = props
 
     return (
         <>
@@ -24,7 +22,9 @@ function ActionBar() {
                 <h2>Tasks</h2>
                 <div id="action-bar-buttons">
                     <Space wrap>
-                        <Button className="new-button" type="primary">
+                        <Button onClick={() => {
+                            createTask()
+                        }} className="new-button" type="primary">
                             New Task
                         </Button>
                     </Space>
@@ -45,12 +45,8 @@ function ActionBar() {
     )
 }
 
-// ActionBar.propTypes = {
-//     currentPage: PropTypes.string,
-// }
-
-// ActionBar.defaultProps = {
-//     currentPage: 'home',
-// }
+ActionBar.propTypes = {
+    createTask: PropTypes.func,
+}
 
 export default ActionBar
