@@ -52,14 +52,14 @@ function Home(props: HomeProps) {
     }
 
     function createCard(col = 'col-1') {
+        const chk = document.getElementById('create-new-task')
+        chk?.remove()
         const colEl = document.getElementById(col)
-        if (colEl?.querySelector('#create-new-task') == null) {
-            const container = document.createElement('div')
-            container.id = 'create-new-task'
-            ReactDOM.render(<Card type="create" />, container)
-            const cards = colEl!.querySelector('.cards')
-            cards!.insertBefore(container, cards!.childNodes[0])
-        }
+        const container = document.createElement('div')
+        container.id = 'create-new-task'
+        ReactDOM.render(<Card type="create" />, container)
+        const cards = colEl!.querySelector('.cards')
+        cards!.insertBefore(container, cards!.childNodes[0])
     }
 
     function drop(ev: any) {
@@ -131,7 +131,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card />
+                                    <Card id='card-0' />
                                 </div>
                                 <div
                                     className="draggable-card"
@@ -140,7 +140,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card description="Proident quis Lorem minim sint officia voluptate deserunt sunt aliquip. Incididunt nulla reprehenderit ex enim elit ullamco adipisicing consequat anim aute. Excepteur et consectetur mollit in mollit quis culpa sit. Consectetur exercitation quis incididunt ullamco ipsum ex. Pariatur minim est elit culpa dolore mollit. Duis culpa do laboris laborum quis sit esse ipsum labore." />
+                                    <Card id='card-1' description="Proident quis Lorem minim sint officia voluptate deserunt sunt aliquip. Incididunt nulla reprehenderit ex enim elit ullamco adipisicing consequat anim aute. Excepteur et consectetur mollit in mollit quis culpa sit. Consectetur exercitation quis incididunt ullamco ipsum ex. Pariatur minim est elit culpa dolore mollit. Duis culpa do laboris laborum quis sit esse ipsum labore." />
                                 </div>
                             </div>
                         </div>
@@ -171,7 +171,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card />
+                                    <Card id='card-2' />
                                 </div>
                                 <div
                                     className="draggable-card"
@@ -180,7 +180,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card />
+                                    <Card id='card-3' />
                                 </div>
                             </div>
                         </div>
@@ -211,7 +211,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card />
+                                    <Card id='card-4' />
                                 </div>
                                 <div
                                     className="draggable-card"
@@ -220,7 +220,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card description="Aliqua voluptate excepteur ipsum irure non dolor ex veniam consequat incididunt. Magna in exercitation irure mollit aliqua dolor aliquip aliqua excepteur sunt dolor commodo commodo voluptate. Ullamco sint officia minim mollit voluptate ex eu minim laboris minim reprehenderit." />
+                                    <Card id='card-5' description="Aliqua voluptate excepteur ipsum irure non dolor ex veniam consequat incididunt. Magna in exercitation irure mollit aliqua dolor aliquip aliqua excepteur sunt dolor commodo commodo voluptate. Ullamco sint officia minim mollit voluptate ex eu minim laboris minim reprehenderit." />
                                 </div>
                                 <div
                                     className="draggable-card"
@@ -229,7 +229,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card />
+                                    <Card id='card-6' />
                                 </div>
                                 <div
                                     className="draggable-card"
@@ -238,7 +238,7 @@ function Home(props: HomeProps) {
                                     onDragStart={drag}
                                     onDragEnd={handleDragEnd}
                                 >
-                                    <Card />
+                                    <Card id='card-7' />
                                 </div>
                             </div>
                         </div>

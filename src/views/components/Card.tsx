@@ -19,27 +19,28 @@ type CardProps = {
     description: string
     date: string
     type: string
+    id: string
 }
 
 function Card(props: CardProps) {
-    const { categories, title, description, date, type } = props
+    const { categories, title, description, date, type, id } = props
     const [selectedCategories, setSelectedCategories] =
         React.useState<string[]>(categories)
     const [inputValue, setInputValue] = React.useState('')
 
     const onDateInput: DatePickerProps['onChange'] = () => {}
 
-    function resizeTextarea(id: string) {
-        var a = document.getElementById(id)
-        a!.style.height = 'auto'
-        a!.style.height = a!.scrollHeight + 'px'
-    }
-
     function cancelCard(ev: any) {
         const container = ev.target.closest('#create-new-task')
         container!.remove()
     }
 
+    function resizeTextarea(id: string) {
+        var a = document.getElementById(id)
+        a!.style.height = 'auto'
+        a!.style.height = a!.scrollHeight + 'px'
+    }
+    
     useEffect(() => {
         let a = document.getElementsByTagName('textarea')
         for (var i = 0, inb = a.length; i < inb; i++) {
@@ -133,14 +134,13 @@ function Card(props: CardProps) {
         </div>
     )
     return (
-        <div id="card">
+        <div className="card" id={type !== 'task' ? '' : id}>
             <div
-                id="card-container"
-                className={type !== 'task' ? 'card-input' : ''}
+                className={type !== 'task' ? 'card-container card-input' : 'card-container'}
             >
-                <div id="card-info-settings">
+                <div className="card-info-settings">
                     {
-                        <div id="card-categories">
+                        <div className="card-categories">
                             {type !== 'task' ? (
                                 <Select
                                     className="category-input"
@@ -165,26 +165,25 @@ function Card(props: CardProps) {
                             )}
                         </div>
                     }
-                    <div id="card-settings">
+                    <div className="card-settings">
                         {type !== 'task' ? null : (
                             <img src={settingsIcn} alt="Icon for settings" />
                         )}
                     </div>
                 </div>
-                <div id="card-body">
+                <div className="card-body">
                     <div
-                        id="card-title"
                         className={
                             type !== 'task'
-                                ? 'popup-newtask-title'
+                                ? 'popup-newtask-title card-title'
                                 : 'card-title'
                         }
                     >
                         {type !== 'task' ? (
                             <textarea
                                 rows={1}
-                                id="text-area-title"
-                                className="textarea-new-task-title"
+                                id='text-area-title'
+                                className="textarea-new-task-title text-area-title"
                                 placeholder="Title"
                                 onKeyUp={resizeTextarea.bind(
                                     null,
@@ -197,10 +196,10 @@ function Card(props: CardProps) {
                         )}
                     </div>
                     {type !== 'task' ? (
-                        <div id="card-description">
+                        <div className="card-description">
                             <textarea
-                                id="text-area-desc"
-                                className="textarea-new-task-desc"
+                                id='text-area-desc'
+                                className="textarea-new-task-desc text-area-new-desc"
                                 placeholder="Description"
                                 onKeyUp={resizeTextarea.bind(
                                     null,
@@ -210,21 +209,23 @@ function Card(props: CardProps) {
                             />
                         </div>
                     ) : (
-                        <div id="card-description">{description}</div>
+                        <div className="card-description">{description}</div>
                     )}
                 </div>
-                <div id="card-bottom">
+                <div className="card-bottom">
                     {type !== 'task' ? (
-                        <Space id="card-bottom-space">
+                        <Space className="card-bottom-space">
                             <Space direction="vertical">
                                 <DatePicker
                                     onChange={onDateInput}
                                     placeholder="Due date"
+                                    style={{ width: 140 }}
                                 />
                             </Space>
                             <Select
                                 placeholder="Priority"
                                 onChange={handlePriorityChange}
+                                style={{ width: 140 }}
                             >
                                 <Option value="default">Default</Option>
                                 <Option value="low">Low</Option>
@@ -247,7 +248,7 @@ function Card(props: CardProps) {
                             <Button onClick={(e) => {
                                 cancelCard(e)
                             }}>Cancel</Button>
-                            <Button id="save-input-btn">Save</Button>
+                            <Button className='default-priority-btn' id="save-input-btn">Save</Button>
                         </Space>
                     </div>
                 )}
@@ -263,6 +264,7 @@ Card.propTypes = {
     description: PropTypes.string,
     date: PropTypes.string,
     type: PropTypes.string,
+    id: PropTypes.string
 }
 
 Card.defaultProps = {
@@ -271,6 +273,7 @@ Card.defaultProps = {
     description: 'Finish the website by the end of the week.',
     date: '18/08/2023',
     type: 'task',
+    id: 'card-0'
 }
 
 export default Card
