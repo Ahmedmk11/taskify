@@ -248,7 +248,7 @@ function Card(props: CardProps) {
                         <Space wrap>
                             <Button onClick={(e) => {
                                 cancelCard(e)
-                            }}>Cancel</Button>
+                            }} danger >Cancel</Button>
                             <Button className='default-priority-btn' id="save-input-btn">Save</Button>
                         </Space>
                     </div>

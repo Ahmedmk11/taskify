@@ -27,6 +27,16 @@
   gap: 24px;
   width: calc(100% - 24px);
   margin-left: 24px;
+  transition: transform 0.3s ease-in-out;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  -moz-transition: -moz-transform 0.3s ease-in-out;
+  -ms-transition: -ms-transform 0.3s ease-in-out;
+  -o-transition: -o-transform 0.3s ease-in-out;
+  transform-origin: left center;
+  -webkit-transform-origin: left center;
+  -moz-transform-origin: left center;
+  -ms-transform-origin: left center;
+  -o-transform-origin: left center;
 }
 #home-body #home-content #home-main #home-main-content .column {
   display: flex;
@@ -82,7 +92,23 @@
 }
 
 .hovered {
-  transition: height 0.3s ease; /* Add a smooth transition effect */
+  transition: height 0.3s ease;
+}
+
+.show-filter-container {
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+}
+
+.hide-filter-container {
+  transform: translateX(-266px);
+  -webkit-transform: translateX(-266px);
+  -moz-transform: translateX(-266px);
+  -ms-transform: translateX(-266px);
+  -o-transform: translateX(-266px);
 }
 
 /*# sourceMappingURL=home.css.map */

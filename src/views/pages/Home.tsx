@@ -2,11 +2,12 @@
 // Home page frontend code.
 // --------------------------------------------------------------
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import ActionBar from '../components/ActionBar'
+import Filter from '../components/Filter'
 import plusIcn from '../../assets/icons/plus.svg'
 import Card from '../components/Card'
 import ReactDOM from 'react-dom'
@@ -19,6 +20,11 @@ function Home(props: HomeProps) {
     const { currentPage } = props
     const [targetCardID, setTargetCardID] = useState<string>('')
     const [isDraggedOnce, setIsDraggedOnce] = useState([true, true, true])
+    const [isVisible, setIsVisible] = useState(false)
+
+    useEffect(() => {
+        document.getElementById('filters-container')?.classList.add('visibility-hidden')
+    }, [])
 
     function onHover(ev: any) {
         const targetCard =
@@ -73,26 +79,15 @@ function Home(props: HomeProps) {
     }
 
     const showFilters = () => {
-        const mainContent = document.getElementById('home-main-content')
-        const filterContainer = document.createElement('div')
-        filterContainer.id = 'filter-container'
-        const filterContent = document.createElement('div')
-        filterContent.id = 'filter-content'
-        const filterHeader = document.createElement('div')
-        filterHeader.id = 'filter-header'
-        const filterTitle = document.createElement('h2')
-        filterTitle.innerText = 'Filters'
-        const filterClose = document.createElement('div')
-        filterClose.id = 'filter-close'
-        filterClose.innerText = 'X'
-        filterClose.onclick = () => {
-            filterContainer.remove()
-        }
-        filterHeader.appendChild(filterTitle)
-        filterHeader.appendChild(filterClose)
-        filterContent.appendChild(filterHeader)
-        filterContainer.appendChild(filterContent)
-        mainContent!.insertBefore(filterContainer, mainContent!.childNodes[0])
+        setIsVisible(true)
+        document.getElementById('filters-container')?.classList.remove('visibility-hidden')
+    }
+
+    const hideFilters = () => {
+        setIsVisible(false)
+        setTimeout(() => {
+            document.getElementById('filters-container')?.classList.add('visibility-hidden')
+        }, 300)
     }
 
     function drop(ev: any) {
@@ -142,7 +137,18 @@ function Home(props: HomeProps) {
                 <NavBar currentPage={currentPage} />
                 <div id="home-main">
                     <ActionBar handleCreate={createCardPop} handleFilters={showFilters} />
-                    <div id="home-main-content">
+                    <div id="home-main-content" 
+                            className={
+                                isVisible
+                                    ? 'show-filter-container'
+                                    : 'hide-filter-container'
+                        }>
+                        <Filter className={
+                                isVisible
+                                    ? ''
+                                    : 'hide-filters'
+                                } 
+                            hideFilters={hideFilters} categories={['Main', 'Work', 'UI Design']} />
                         <div
                             id="col-1"
                             onDrop={drop}

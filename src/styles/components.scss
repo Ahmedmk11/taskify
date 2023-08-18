@@ -17,6 +17,7 @@
     position: sticky;
     top: 85px;
     left: 0;
+    z-index: 1000;
     #nav-bar-top {
         display: flex;
         flex-direction: column;
@@ -418,4 +419,142 @@
         border: 1px solid $color-red !important;
         color: white !important;
     }
+}
+
+// --------------------------------------------------------------
+// Filter SCSS.
+// --------------------------------------------------------------
+
+#filters-container {
+    user-select: none;
+    width: 220px;
+    height: fit-content;
+    min-height: 600px;
+    box-shadow: 0px 4px 4px 0px $color-light-black-25;
+    padding: 8px 12px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    #filters-header {
+        width: 100%;
+        border-bottom: 1px solid $color-gray;
+        p {
+            margin: 0%;
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 500;
+            color: $color-light-black-85;
+        }
+    }
+    #filters-content {
+        width: 100%;
+        .filter-item-container {
+            width: 100%;
+            .filter-item-header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                border-radius: 6px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                -ms-border-radius: 6px;
+                -o-border-radius: 6px;
+                height: 42px;
+                padding: 0px 12px;
+                box-sizing: border-box;
+                p {
+                    margin: 0%;
+                    font-size: 16px;
+                    line-height: 24px;
+                    font-weight: 500;
+                    color: $color-blue;
+                }
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+            #status-sub, #categories-sub, #due-sub {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                margin-top: 6px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-in-out;
+                -webkit-transition: max-height 0.2s ease-in-out;
+                -moz-transition: max-height 0.2s ease-in-out;
+                -ms-transition: max-height 0.2s ease-in-out;
+                -o-transition: max-height 0.2s ease-in-out;
+                .filter-item {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+                    width: 100%;
+                    background-color: $color-background;
+                    font-size: 14px;
+                    line-height: 22px;
+                    font-weight: 400;
+                    padding-left: 48px;
+                    box-sizing: border-box;
+                    color: $color-light-black-85;
+                    height: 40px;
+                    &:hover {
+                        cursor: pointer;
+                    }
+                    p {
+                        margin: 0%;
+                    }
+                }
+            }
+        }
+    }
+    #filter-buttons {
+        height: fit-content;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        align-items: center;
+        gap: 6px;
+        div {
+            width: 100%;
+        }
+        .filter-button {
+            width: 100% !important;
+        }
+    }
+}
+
+.filter-selected {
+    color: $color-blue !important;
+    background-color: #E6F7FF !important;
+    border-right: 3px solid $color-blue !important;
+}
+
+.show-class {
+    max-height: 126px !important;
+}
+
+.hide-filters {
+    transform: translateX(0%);
+    -webkit-transform: translateX(0%);
+    -moz-transform: translateX(0%);
+    -ms-transform: translateX(0%);
+    -o-transform: translateX(0%);
+}
+
+.visibility-hidden {
+    visibility: hidden !important;
 }
