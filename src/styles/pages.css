@@ -1,12 +1,12 @@
 #home-body,
 #placeholder-body,
 #search-body {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 #home-body #home-content,
 #home-body #placeholder-content,
@@ -17,12 +17,12 @@
 #search-body #home-content,
 #search-body #placeholder-content,
 #search-body #search-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
 }
 #home-body #home-content #home-main,
 #home-body #home-content #placeholder-main,
@@ -51,8 +51,8 @@
 #search-body #search-content #home-main,
 #search-body #search-content #placeholder-main,
 #search-body #search-content #search-main {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 #home-body #home-content #home-main #home-main-content,
 #home-body #home-content #placeholder-main #home-main-content,
@@ -81,24 +81,24 @@
 #search-body #search-content #home-main #home-main-content,
 #search-body #search-content #placeholder-main #home-main-content,
 #search-body #search-content #search-main #home-main-content {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 24px;
-  width: calc(100% - 24px);
-  margin-left: 24px;
-  transition: transform 0.3s ease-in-out;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out;
-  -ms-transition: -ms-transform 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out;
-  transform-origin: left center;
-  -webkit-transform-origin: left center;
-  -moz-transform-origin: left center;
-  -ms-transform-origin: left center;
-  -o-transform-origin: left center;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    width: calc(100% - 24px);
+    margin-left: 24px;
+    transition: transform 0.3s ease-in-out;
+    -webkit-transition: -webkit-transform 0.3s ease-in-out;
+    -moz-transition: -moz-transform 0.3s ease-in-out;
+    -ms-transition: -ms-transform 0.3s ease-in-out;
+    -o-transition: -o-transform 0.3s ease-in-out;
+    transform-origin: left center;
+    -webkit-transform-origin: left center;
+    -moz-transform-origin: left center;
+    -ms-transform-origin: left center;
+    -o-transform-origin: left center;
 }
 #home-body #home-content #home-main #home-main-content .column,
 #home-body #home-content #placeholder-main #home-main-content .column,
@@ -113,7 +113,11 @@
 #placeholder-body #home-content #placeholder-main #home-main-content .column,
 #placeholder-body #home-content #search-main #home-main-content .column,
 #placeholder-body #placeholder-content #home-main #home-main-content .column,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column,
+#placeholder-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column,
 #placeholder-body #placeholder-content #search-main #home-main-content .column,
 #placeholder-body #search-content #home-main #home-main-content .column,
 #placeholder-body #search-content #placeholder-main #home-main-content .column,
@@ -127,251 +131,923 @@
 #search-body #search-content #home-main #home-main-content .column,
 #search-body #search-content #placeholder-main #home-main-content .column,
 #search-body #search-content #search-main #home-main-content .column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  padding: 12px 16px;
-  width: 290px;
-  gap: 10px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  -ms-border-radius: 6px;
-  -o-border-radius: 6px;
-  height: fit-content;
-  transition: height 0.3s ease-in-out;
-  -webkit-transition: height 0.3s ease-in-out;
-  -moz-transition: height 0.3s ease-in-out;
-  -ms-transition: height 0.3s ease-in-out;
-  -o-transition: height 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 12px 16px;
+    width: 290px;
+    gap: 10px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    height: fit-content;
+    transition: height 0.3s ease-in-out;
+    -webkit-transition: height 0.3s ease-in-out;
+    -moz-transition: height 0.3s ease-in-out;
+    -ms-transition: height 0.3s ease-in-out;
+    -o-transition: height 0.3s ease-in-out;
 }
 #home-body #home-content #home-main #home-main-content .column .cards-status,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status,
+#home-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
 #home-body #home-content #search-main #home-main-content .column .cards-status,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status,
+#home-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status,
+#home-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#home-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
 #home-body #search-content #home-main #home-main-content .column .cards-status,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status,
-#home-body #search-content #search-main #home-main-content .column .cards-status,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status,
+#home-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#home-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#placeholder-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
 #search-body #home-content #home-main #home-main-content .column .cards-status,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status,
-#search-body #home-content #search-main #home-main-content .column .cards-status,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status,
-#search-body #search-content #home-main #home-main-content .column .cards-status,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status,
-#search-body #search-content #search-main #home-main-content .column .cards-status {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 260px;
+#search-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status,
+#search-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 260px;
 }
-#home-body #home-content #home-main #home-main-content .column .cards-status .image-container,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#home-body #home-content #search-main #home-main-content .column .cards-status .image-container,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container,
-#home-body #search-content #home-main #home-main-content .column .cards-status .image-container,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#home-body #search-content #search-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status .image-container,
-#search-body #home-content #home-main #home-main-content .column .cards-status .image-container,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#search-body #home-content #search-main #home-main-content .column .cards-status .image-container,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container,
-#search-body #search-content #home-main #home-main-content .column .cards-status .image-container,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#search-body #search-content #search-main #home-main-content .column .cards-status .image-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
+#home-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#home-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#placeholder-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container,
+#search-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 }
-#home-body #home-content #home-main #home-main-content .column .cards-status .image-container img,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#home-body #home-content #search-main #home-main-content .column .cards-status .image-container img,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container img,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container img,
-#home-body #search-content #home-main #home-main-content .column .cards-status .image-container img,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#home-body #search-content #search-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status .image-container img,
-#search-body #home-content #home-main #home-main-content .column .cards-status .image-container img,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#search-body #home-content #search-main #home-main-content .column .cards-status .image-container img,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container img,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container img,
-#search-body #search-content #home-main #home-main-content .column .cards-status .image-container img,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#search-body #search-content #search-main #home-main-content .column .cards-status .image-container img {
-  cursor: pointer;
+#home-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#home-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#placeholder-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img,
+#search-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    .image-container
+    img {
+    cursor: pointer;
 }
 #home-body #home-content #home-main #home-main-content .column .cards-status p,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status p,
-#home-body #home-content #search-main #home-main-content .column .cards-status p,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status p,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status p,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status p,
-#home-body #search-content #home-main #home-main-content .column .cards-status p,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status p,
-#home-body #search-content #search-main #home-main-content .column .cards-status p,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status p,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status p,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status p,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status p,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status p,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status p,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status p,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status p,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status p,
-#search-body #home-content #home-main #home-main-content .column .cards-status p,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status p,
-#search-body #home-content #search-main #home-main-content .column .cards-status p,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status p,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status p,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status p,
-#search-body #search-content #home-main #home-main-content .column .cards-status p,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status p,
-#search-body #search-content #search-main #home-main-content .column .cards-status p {
-  margin: 0%;
-  font-size: 16px;
-  font-weight: 500;
-  color: #000;
+#home-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#home-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#placeholder-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #home-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #home-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #search-content
+    #home-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards-status
+    p,
+#search-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards-status
+    p {
+    margin: 0%;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
 }
 #home-body #home-content #home-main #home-main-content .column .cards,
 #home-body #home-content #placeholder-main #home-main-content .column .cards,
 #home-body #home-content #search-main #home-main-content .column .cards,
 #home-body #placeholder-content #home-main #home-main-content .column .cards,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards,
+#home-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards,
 #home-body #placeholder-content #search-main #home-main-content .column .cards,
 #home-body #search-content #home-main #home-main-content .column .cards,
 #home-body #search-content #placeholder-main #home-main-content .column .cards,
 #home-body #search-content #search-main #home-main-content .column .cards,
 #placeholder-body #home-content #home-main #home-main-content .column .cards,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards,
+#placeholder-body
+    #home-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards,
 #placeholder-body #home-content #search-main #home-main-content .column .cards,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards,
+#placeholder-body
+    #placeholder-content
+    #home-main
+    #home-main-content
+    .column
+    .cards,
+#placeholder-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards,
+#placeholder-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards,
 #placeholder-body #search-content #home-main #home-main-content .column .cards,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards,
-#placeholder-body #search-content #search-main #home-main-content .column .cards,
+#placeholder-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards,
+#placeholder-body
+    #search-content
+    #search-main
+    #home-main-content
+    .column
+    .cards,
 #search-body #home-content #home-main #home-main-content .column .cards,
 #search-body #home-content #placeholder-main #home-main-content .column .cards,
 #search-body #home-content #search-main #home-main-content .column .cards,
 #search-body #placeholder-content #home-main #home-main-content .column .cards,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards,
-#search-body #placeholder-content #search-main #home-main-content .column .cards,
+#search-body
+    #placeholder-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards,
+#search-body
+    #placeholder-content
+    #search-main
+    #home-main-content
+    .column
+    .cards,
 #search-body #search-content #home-main #home-main-content .column .cards,
-#search-body #search-content #placeholder-main #home-main-content .column .cards,
+#search-body
+    #search-content
+    #placeholder-main
+    #home-main-content
+    .column
+    .cards,
 #search-body #search-content #search-main #home-main-content .column .cards {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  gap: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 24px;
 }
 
 .hovered {
-  transition: height 0.3s ease;
+    transition: height 0.3s ease;
 }
 
 .show-filter-container {
-  transform: translateX(0);
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
 }
 
 .hide-filter-container {
-  transform: translateX(-266px);
-  -webkit-transform: translateX(-266px);
-  -moz-transform: translateX(-266px);
-  -ms-transform: translateX(-266px);
-  -o-transform: translateX(-266px);
+    transform: translateX(-266px);
+    -webkit-transform: translateX(-266px);
+    -moz-transform: translateX(-266px);
+    -ms-transform: translateX(-266px);
+    -o-transform: translateX(-266px);
 }
 
 #search-main-content {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 24px;
-  margin-top: 24px;
-  width: calc(100% - 24px);
-  margin-left: 24px;
-  transition: transform 0.3s ease-in-out;
-  -webkit-transition: -webkit-transform 0.3s ease-in-out;
-  -moz-transition: -moz-transform 0.3s ease-in-out;
-  -ms-transition: -ms-transform 0.3s ease-in-out;
-  -o-transition: -o-transform 0.3s ease-in-out;
-  transform-origin: left center;
-  -webkit-transform-origin: left center;
-  -moz-transform-origin: left center;
-  -ms-transform-origin: left center;
-  -o-transform-origin: left center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    margin-top: 24px;
+    width: calc(100% - 24px);
+    margin-left: 24px;
+    transition: transform 0.3s ease-in-out;
+    -webkit-transition: -webkit-transform 0.3s ease-in-out;
+    -moz-transition: -moz-transform 0.3s ease-in-out;
+    -ms-transition: -ms-transform 0.3s ease-in-out;
+    -o-transition: -o-transform 0.3s ease-in-out;
+    transform-origin: left center;
+    -webkit-transform-origin: left center;
+    -moz-transform-origin: left center;
+    -ms-transform-origin: left center;
+    -o-transform-origin: left center;
 }
 #search-main-content #result-items {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 260px);
-  grid-auto-rows: 1fr;
-  grid-gap: 24px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 260px);
+    grid-auto-rows: 1fr;
+    grid-gap: 24px;
 }
 
 .show-filter-container-srch {
-  transform: translateX(0);
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -moz-transform: translateX(0);
+    -ms-transform: translateX(0);
+    -o-transform: translateX(0);
 }
 
 .hide-filter-container-srch {
-  transform: translateX(-266px);
-  -webkit-transform: translateX(-266px);
-  -moz-transform: translateX(-266px);
-  -ms-transform: translateX(-266px);
-  -o-transform: translateX(-266px);
+    transform: translateX(-266px);
+    -webkit-transform: translateX(-266px);
+    -moz-transform: translateX(-266px);
+    -ms-transform: translateX(-266px);
+    -o-transform: translateX(-266px);
 }
 
 /*# sourceMappingURL=pages.css.map */

@@ -56,93 +56,12 @@ export class User {
         task.startTask()
     }
 
-    pauseTask(task: Task): void {
-        task.pauseTask()
-    }
-
     closeTask(task: Task): void {
         task.closeTask()
     }
 
     addCategory(category: string): void {
         this.categories.push(category)
-    }
-
-    sortTasksByCreation(isAscending: boolean): Task[] {
-        return isAscending ? this.inOrderTasks : this.inOrderTasks.reverse()
-    }
-
-    sortTasksByTitle(tasks: Task[], isAscending: boolean): Task[] {
-        if (isAscending) {
-            return tasks.sort((a, b) => {
-                if (a.title < b.title) {
-                    return -1
-                } else if (a.title > b.title) {
-                    return 1
-                }
-                return 0
-            })
-        }
-        return tasks.sort((a, b) => {
-            if (a.title > b.title) {
-                return -1
-            } else if (a.title < b.title) {
-                return 1
-            }
-            return 0
-        })
-    }
-
-    sortTasksByPriority(tasks: Task[], isAscending: boolean): Task[] {
-        if (isAscending) {
-            return tasks.sort((a, b) => {
-                if (a.priority === 'Low') {
-                    return -1
-                } else if (a.priority === 'Medium') {
-                    if (b.priority === 'Low') {
-                        return 1
-                    } else {
-                        return -1
-                    }
-                } else {
-                    return 1
-                }
-            })
-        }
-        return tasks.sort((a, b) => {
-            if (a.priority === 'High') {
-                return -1
-            } else if (a.priority === 'Medium') {
-                if (b.priority === 'High') {
-                    return 1
-                } else {
-                    return -1
-                }
-            } else {
-                return 1
-            }
-        })
-    }
-
-    sortTasksByDueDate(tasks: Task[], isAscending: boolean): Task[] {
-        if (isAscending) {
-            return tasks.sort((a, b) => {
-                if (a.dueDate < b.dueDate) {
-                    return -1
-                } else if (a.dueDate > b.dueDate) {
-                    return 1
-                }
-                return 0
-            })
-        }
-        return tasks.sort((a, b) => {
-            if (a.dueDate > b.dueDate) {
-                return -1
-            } else if (a.dueDate < b.dueDate) {
-                return 1
-            }
-            return 0
-        })
     }
 
     filterTasksByPriority(tasks: Task[], priority: string): Task[] {

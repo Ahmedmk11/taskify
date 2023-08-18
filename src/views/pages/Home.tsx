@@ -11,16 +11,26 @@ import Filter from '../components/Filter'
 import plusIcn from '../../assets/icons/plus.svg'
 import Card from '../components/Card'
 import ReactDOM from 'react-dom'
+import { useLocation } from 'react-router-dom';
+import { Task } from '../../app/Task'
 
 type HomeProps = {
     currentPage: string
+    tasks: Task[]
 }
 
 function Home(props: HomeProps) {
-    const { currentPage } = props
+    const { currentPage, tasks } = props
     const [targetCardID, setTargetCardID] = useState<string>('')
     const [isDraggedOnce, setIsDraggedOnce] = useState([true, true, true])
     const [isVisible, setIsVisible] = useState(false)
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.createCardPop) {
+            createCardPop();
+        }
+    }, [location]);
 
     useEffect(() => {
         document
@@ -62,22 +72,6 @@ function Home(props: HomeProps) {
         ReactDOM.render(<Card type="create" />, container)
         const cards = colEl!.querySelector('.cards')
         cards!.insertBefore(container, cards!.childNodes[0])
-    }
-
-    const createCard = (id: string) => {
-        const ccid = `draggable-card-${id}`
-        const cid = `card-${id}`
-        return (
-            <div
-                className="draggable-card"
-                id={ccid}
-                draggable="true"
-                onDragStart={drag}
-                onDragEnd={handleDragEnd}
-            >
-                <Card id={cid} />
-            </div>
-        )
     }
 
     const showFilters = () => {
@@ -143,7 +137,6 @@ function Home(props: HomeProps) {
                 <NavBar currentPage={currentPage} />
                 <div id="home-main">
                     <ActionBar
-                        isDisabled={false}
                         handleCreate={createCardPop}
                         handleFilters={showFilters}
                     />
@@ -179,7 +172,36 @@ function Home(props: HomeProps) {
                                     />
                                 </div>
                             </div>
-                            <div className="cards"></div>
+                            <div className="cards">
+                            {
+                                tasks.map((task, index) => (
+                                    task.status === 'todo' &&
+                                    <div
+                                        className="draggable-card"
+                                        id={`card-container-${index}`}
+                                        draggable="true"
+                                        onDragStart={drag}
+                                        onDragEnd={handleDragEnd}
+                                        key={task.id}
+                                    >
+                                        <Card
+                                            id={`card-${index}`}
+                                            categories={task.categories}
+                                            title={task.title}
+                                            description={task.desc}
+                                            date={task.dueDate.toLocaleDateString(
+                                                'en-GB',
+                                                {
+                                                    day: 'numeric',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                }
+                                            )}
+                                            priority={task.priority}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <div
                             id="col-2"
@@ -200,7 +222,36 @@ function Home(props: HomeProps) {
                                     />
                                 </div>
                             </div>
-                            <div className="cards"></div>
+                            <div className="cards">
+                            {
+                                tasks.map((task, index) => (
+                                    task.status === 'inprogress' &&
+                                    <div
+                                        className="draggable-card"
+                                        id={`card-container-${index}`}
+                                        draggable="true"
+                                        onDragStart={drag}
+                                        onDragEnd={handleDragEnd}
+                                        key={task.id}
+                                    >
+                                        <Card
+                                            id={`card-${index}`}
+                                            categories={task.categories}
+                                            title={task.title}
+                                            description={task.desc}
+                                            date={task.dueDate.toLocaleDateString(
+                                                'en-GB',
+                                                {
+                                                    day: 'numeric',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                }
+                                            )}
+                                            priority={task.priority}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <div
                             id="col-3"
@@ -221,7 +272,36 @@ function Home(props: HomeProps) {
                                     />
                                 </div>
                             </div>
-                            <div className="cards"></div>
+                            <div className="cards">
+                            {
+                                tasks.map((task, index) => (
+                                    task.status === 'done' &&
+                                    <div
+                                        className="draggable-card"
+                                        id={`card-container-${index}`}
+                                        draggable="true"
+                                        onDragStart={drag}
+                                        onDragEnd={handleDragEnd}
+                                        key={task.id}
+                                    >
+                                        <Card
+                                            id={`card-${index}`}
+                                            categories={task.categories}
+                                            title={task.title}
+                                            description={task.desc}
+                                            date={task.dueDate.toLocaleDateString(
+                                                'en-GB',
+                                                {
+                                                    day: 'numeric',
+                                                    month: 'short',
+                                                    year: 'numeric',
+                                                }
+                                            )}
+                                            priority={task.priority}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -232,10 +312,53 @@ function Home(props: HomeProps) {
 
 Home.propTypes = {
     currentPage: PropTypes.string,
+    tasks: PropTypes.array.isRequired,
 }
 
 Home.defaultProps = {
     currentPage: 'home',
+    tasks: [
+        {
+            id: '1',
+            title: 'Task 1',
+            desc: 'This is a description for task 1.',
+            priority: 'low',
+            dueDate: new Date(2023, 4, 16),
+            creationDate: new Date(2023, 3, 1),
+            status: 'todo',
+            categories: ['Main', 'Work'],
+        },
+        {
+            id: '2',
+            title: 'Task 2',
+            desc: 'This is a description for task 2.',
+            priority: 'medium',
+            dueDate: new Date(2023, 5, 20),
+            creationDate: new Date(2023, 4, 5),
+            status: 'inprogress',
+            categories: ['Main', 'Personal'],
+        },
+        {
+            id: '3',
+            title: 'Task 3',
+            desc: 'This is a description for task 3.',
+            priority: 'high',
+            dueDate: new Date(2023, 6, 25),
+            creationDate: new Date(2023, 5, 10),
+            status: 'done',
+            categories: ['Main', 'Work'],
+        },
+        {
+            id: '4',
+            title: 'Task 4',
+            desc: 'This is a description for task 4.',
+            priority: 'default',
+            dueDate: new Date(2025, 6, 30),
+            creationDate: new Date(2023, 5, 10),
+            status: 'done',
+            categories: ['Main', 'Test', 'Work'],
+        },
+    ],
 }
 
 export default Home

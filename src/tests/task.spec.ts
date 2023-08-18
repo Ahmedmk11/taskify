@@ -46,6 +46,6 @@ describe('Task', () => {
 
     it('should close task', () => {
         task.closeTask()
-        expect(task.status).toBe('closed')
+        expect(task.status).toBe('done')
     })
 })

@@ -14,7 +14,6 @@ type ActionBarProps = {
     handleCreate: () => void
     handleFilters: () => void
     title: string
-    isDisabled: boolean
 }
 
 function ActionBar(props: ActionBarProps) {
@@ -28,7 +27,6 @@ function ActionBar(props: ActionBarProps) {
                 <div id="action-bar-buttons">
                     <Space wrap>
                         <Button
-                            disabled={props.isDisabled}
                             onClick={() => {
                                 handleCreate()
                             }}
@@ -66,7 +64,6 @@ ActionBar.propTypes = {
     handleCreate: PropTypes.func,
     handleFilters: PropTypes.func,
     title: PropTypes.string.isRequired,
-    isDisabled: PropTypes.bool.isRequired,
 }
 
 ActionBar.defaultProps = {
@@ -77,7 +74,6 @@ ActionBar.defaultProps = {
         console.log('filters')
     },
     title: 'Tasks',
-    isDisabled: false,
 }
 
 export default ActionBar

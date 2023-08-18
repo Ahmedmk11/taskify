@@ -11,6 +11,8 @@ import { useSearchParams } from 'react-router-dom'
 import Card from '../components/Card'
 import { Task } from '../../app/Task'
 import Filter from '../components/Filter'
+import { useNavigate } from 'react-router-dom'
+import ReactDOM from 'react-dom'
 
 type SearchProps = {
     tasks: Task[]
@@ -21,6 +23,7 @@ function Search(props: SearchProps) {
     const [isVisible, setIsVisible] = useState(false)
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
+    const navigate = useNavigate()
 
     useEffect(() => {
         document
@@ -59,6 +62,17 @@ function Search(props: SearchProps) {
         }, 300)
     }
 
+    const createCardPop = (col = 'col-1') => {
+        const chk = document.getElementById('create-new-task')
+        chk?.remove()
+        const colEl = document.getElementById(col)
+        const container = document.createElement('div')
+        container.id = 'create-new-task'
+        ReactDOM.render(<Card type="create" />, container)
+        const cards = colEl!.querySelector('.cards')
+        cards!.insertBefore(container, cards!.childNodes[0])
+    }
+
     return (
         <div id="search-body">
             <ToolBar />
@@ -66,7 +80,9 @@ function Search(props: SearchProps) {
                 <NavBar currentPage={'home'} />
                 <div id="search-main">
                     <ActionBar
-                        isDisabled={true}
+                        handleCreate={() => {
+                            navigate('/home', { state: { createCardPop: true } });
+                          }}
                         handleFilters={showFilters}
                         title={`${
                             getSearchResults(tasks).length === 0
@@ -80,27 +96,34 @@ function Search(props: SearchProps) {
                                   }`
                         } for "${query}"`}
                     />
-                    <div id="search-main-content" className={
+                    <div
+                        id="search-main-content"
+                        className={
                             isVisible
                                 ? 'show-filter-container-srch'
                                 : 'hide-filter-container-srch'
-                        }>
+                        }
+                    >
                         <Filter
                             className={isVisible ? '' : 'hide-filters'}
                             hideFilters={hideFilters}
                             categories={['Main', 'Work', 'UI Design']}
                         />
-                        <div id='result-items'>
-                            {getSearchResults(tasks).map((task) => (
+                        <div id="result-items">
+                            {getSearchResults(tasks)!.map((task) => (
                                 <Card
+                                    key={task.id}
                                     categories={task.categories}
                                     title={task.title}
                                     description={task.desc}
-                                    date={task.dueDate.toLocaleDateString('en-GB', {
-                                        day: 'numeric',
-                                        month: 'short',
-                                        year: 'numeric',
-                                    })}
+                                    date={task.dueDate.toLocaleDateString(
+                                        'en-GB',
+                                        {
+                                            day: 'numeric',
+                                            month: 'short',
+                                            year: 'numeric',
+                                        }
+                                    )}
                                     id={task.id}
                                     priority={task.priority}
                                 />
@@ -120,46 +143,46 @@ Search.propTypes = {
 Search.defaultProps = {
     tasks: [
         {
-          id: '1',
-          title: 'Task 1',
-          desc: 'This is a description for task 1.',
-          priority: 'low',
-          dueDate: new Date(2023, 4, 16),
-          creationDate: new Date(2023, 3, 1),
-          status: 'todo',
-          categories: ['Main', 'Work'],
+            id: '1',
+            title: 'Task 1',
+            desc: 'This is a description for task 1.',
+            priority: 'low',
+            dueDate: new Date(2023, 4, 16),
+            creationDate: new Date(2023, 3, 1),
+            status: 'todo',
+            categories: ['Main', 'Work'],
         },
         {
-          id: '2',
-          title: 'Task 2',
-          desc: 'This is a description for task 2.',
-          priority: 'medium',
-          dueDate: new Date(2023, 5, 20),
-          creationDate: new Date(2023, 4, 5),
-          status: 'inprogress',
-          categories: ['Main', 'Personal'],
+            id: '2',
+            title: 'Task 2',
+            desc: 'This is a description for task 2.',
+            priority: 'medium',
+            dueDate: new Date(2023, 5, 20),
+            creationDate: new Date(2023, 4, 5),
+            status: 'inprogress',
+            categories: ['Main', 'Personal'],
         },
         {
-          id: '3',
-          title: 'Task 3',
-          desc: 'This is a description for task 3.',
-          priority: 'high',
-          dueDate: new Date(2023, 6, 25),
-          creationDate: new Date(2023, 5, 10),
-          status: 'closed',
-          categories: ['Main', 'Work'],
+            id: '3',
+            title: 'Task 3',
+            desc: 'This is a description for task 3.',
+            priority: 'high',
+            dueDate: new Date(2023, 6, 25),
+            creationDate: new Date(2023, 5, 10),
+            status: 'done',
+            categories: ['Main', 'Work'],
         },
         {
-          id: '4',
-          title: 'Task 4',
-          desc: 'This is a description for task 4.',
-          priority: 'default',
-          dueDate: new Date(2025, 6, 30),
-          creationDate: new Date(2023, 5, 10),
-          status: 'closed',
-          categories: ['Main', 'Test', 'Work'],
+            id: '4',
+            title: 'Task 4',
+            desc: 'This is a description for task 4.',
+            priority: 'default',
+            dueDate: new Date(2025, 6, 30),
+            creationDate: new Date(2023, 5, 10),
+            status: 'done',
+            categories: ['Main', 'Test', 'Work'],
         },
-    ]
+    ],
 }
 
 export default Search

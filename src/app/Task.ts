@@ -52,6 +52,6 @@ export class Task {
     }
 
     closeTask(): void {
-        this.status = 'closed'
+        this.status = 'done'
     }
 }
