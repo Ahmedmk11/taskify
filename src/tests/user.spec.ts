@@ -253,5 +253,4 @@ describe('User', () => {
         expect(sortedTasks[1]).toBe(task3)
         expect(sortedTasks[2]).toBe(task)
     })
-
 })

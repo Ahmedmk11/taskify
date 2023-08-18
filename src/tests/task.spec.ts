@@ -28,6 +28,12 @@ describe('Task', () => {
         expect(task.dueDate).toEqual(newdueDateDate)
     })
 
+    it('should update task categories', () => {
+        const newCategories = ['Main', 'Secondary']
+        task.updateCategories(newCategories)
+        expect(task.categories).toEqual(newCategories)
+    })
+
     it('should start task', () => {
         task.startTask()
         expect(task.status).toBe('inprogress')

@@ -7,6 +7,7 @@ import Login from './views/pages/LoginPage'
 import Register from './views/pages/RegisterPage'
 import Placeholder from './views/pages/Placeholder'
 import NotFound from './views/pages/NotFound'
+import Search from './views/pages/Search'
 
 const RouteSwitch = () => {
     return (
@@ -15,6 +16,7 @@ const RouteSwitch = () => {
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/register" element={<Register />} />
             <Route path="/placeholder" element={<Placeholder />} />
         </Routes>

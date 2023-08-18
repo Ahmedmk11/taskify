@@ -10,6 +10,7 @@ export class Task {
     dueDate: Date
     creationDate: Date
     status: string
+    categories: string[]
 
     constructor(title: string, desc: string, priority: string, dueDate: Date) {
         this.id = Math.random().toString(36).substring(2, 9)
@@ -19,6 +20,7 @@ export class Task {
         this.dueDate = dueDate
         this.creationDate = new Date()
         this.status = 'open'
+        this.categories = ['Main']
     }
 
     updateTitle(newTitle: string): void {
@@ -35,6 +37,10 @@ export class Task {
 
     updatedueDate(newdueDate: Date): void {
         this.dueDate = newdueDate
+    }
+
+    updateCategories(newCategories: string[]): void {
+        this.categories = newCategories
     }
 
     startTask(): void {

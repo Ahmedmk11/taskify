@@ -4,21 +4,27 @@
 // Home SCSS.
 // --------------------------------------------------------------
 
-#home-body {
+#home-body,
+#placeholder-body,
+#search-body {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    #home-content {
+    #home-content,
+    #placeholder-content,
+    #search-content {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-start;
         width: 100%;
         height: 100%;
-        #home-main {
+        #home-main,
+        #placeholder-main,
+        #search-main {
             width: 100%;
             height: 100%;
             #home-main-content {
@@ -115,4 +121,18 @@
     -moz-transform: translateX(-266px);
     -ms-transform: translateX(-266px);
     -o-transform: translateX(-266px);
+}
+
+// --------------------------------------------------------------
+// Search SCSS.
+// --------------------------------------------------------------
+
+#search-main-content {
+    margin-top: 24px;
+    width: calc(100% - 24px);
+    margin-left: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 260px);
+    grid-auto-rows: 1fr;
+    grid-gap: 24px;
 }

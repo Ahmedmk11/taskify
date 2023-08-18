@@ -20,10 +20,11 @@ type CardProps = {
     date: string
     type: string
     id: string
+    priority: string
 }
 
 function Card(props: CardProps) {
-    const { categories, title, description, date, type, id } = props
+    const { categories, title, description, date, type, id, priority } = props
     const [selectedCategories, setSelectedCategories] =
         React.useState<string[]>(categories)
     const [inputValue, setInputValue] = React.useState('')
@@ -40,7 +41,7 @@ function Card(props: CardProps) {
         a!.style.height = 'auto'
         a!.style.height = a!.scrollHeight + 'px'
     }
-    
+
     useEffect(() => {
         let a = document.getElementsByTagName('textarea')
         for (var i = 0, inb = a.length; i < inb; i++) {
@@ -133,11 +134,15 @@ function Card(props: CardProps) {
             )}
         </div>
     )
-    
+
     return (
         <div className="card" id={type !== 'task' ? '' : id}>
             <div
-                className={type !== 'task' ? 'card-container card-input' : 'card-container'}
+                className={
+                    type !== 'task'
+                        ? 'card-container card-input'
+                        : `card-container ${priority}-priority}`
+                }
             >
                 <div className="card-info-settings">
                     {
@@ -183,7 +188,7 @@ function Card(props: CardProps) {
                         {type !== 'task' ? (
                             <textarea
                                 rows={1}
-                                id='text-area-title'
+                                id="text-area-title"
                                 className="textarea-new-task-title text-area-title"
                                 placeholder="Title"
                                 onKeyUp={resizeTextarea.bind(
@@ -199,7 +204,7 @@ function Card(props: CardProps) {
                     {type !== 'task' ? (
                         <div className="card-description">
                             <textarea
-                                id='text-area-desc'
+                                id="text-area-desc"
                                 className="textarea-new-task-desc text-area-new-desc"
                                 placeholder="Description"
                                 onKeyUp={resizeTextarea.bind(
@@ -246,10 +251,20 @@ function Card(props: CardProps) {
                 {type !== 'task' && (
                     <div className="card-bottom-bottom">
                         <Space wrap>
-                            <Button onClick={(e) => {
-                                cancelCard(e)
-                            }} danger >Cancel</Button>
-                            <Button className='default-priority-btn' id="save-input-btn">Save</Button>
+                            <Button
+                                onClick={(e) => {
+                                    cancelCard(e)
+                                }}
+                                danger
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                className="default-priority-btn"
+                                id="save-input-btn"
+                            >
+                                Save
+                            </Button>
                         </Space>
                     </div>
                 )}
@@ -265,7 +280,8 @@ Card.propTypes = {
     description: PropTypes.string,
     date: PropTypes.string,
     type: PropTypes.string,
-    id: PropTypes.string
+    id: PropTypes.string,
+    priority: PropTypes.string,
 }
 
 Card.defaultProps = {
@@ -274,7 +290,8 @@ Card.defaultProps = {
     description: 'Finish the website by the end of the week.',
     date: '16 May 2023',
     type: 'task',
-    id: 'card-0'
+    id: 'card-0',
+    priority: 'default',
 }
 
 export default Card

@@ -23,7 +23,9 @@ function Home(props: HomeProps) {
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
-        document.getElementById('filters-container')?.classList.add('visibility-hidden')
+        document
+            .getElementById('filters-container')
+            ?.classList.add('visibility-hidden')
     }, [])
 
     function onHover(ev: any) {
@@ -80,13 +82,17 @@ function Home(props: HomeProps) {
 
     const showFilters = () => {
         setIsVisible(true)
-        document.getElementById('filters-container')?.classList.remove('visibility-hidden')
+        document
+            .getElementById('filters-container')
+            ?.classList.remove('visibility-hidden')
     }
 
     const hideFilters = () => {
         setIsVisible(false)
         setTimeout(() => {
-            document.getElementById('filters-container')?.classList.add('visibility-hidden')
+            document
+                .getElementById('filters-container')
+                ?.classList.add('visibility-hidden')
         }, 300)
     }
 
@@ -136,19 +142,23 @@ function Home(props: HomeProps) {
             <div id="home-content">
                 <NavBar currentPage={currentPage} />
                 <div id="home-main">
-                    <ActionBar handleCreate={createCardPop} handleFilters={showFilters} />
-                    <div id="home-main-content" 
-                            className={
-                                isVisible
-                                    ? 'show-filter-container'
-                                    : 'hide-filter-container'
-                        }>
-                        <Filter className={
-                                isVisible
-                                    ? ''
-                                    : 'hide-filters'
-                                } 
-                            hideFilters={hideFilters} categories={['Main', 'Work', 'UI Design']} />
+                    <ActionBar
+                        handleCreate={createCardPop}
+                        handleFilters={showFilters}
+                    />
+                    <div
+                        id="home-main-content"
+                        className={
+                            isVisible
+                                ? 'show-filter-container'
+                                : 'hide-filter-container'
+                        }
+                    >
+                        <Filter
+                            className={isVisible ? '' : 'hide-filters'}
+                            hideFilters={hideFilters}
+                            categories={['Main', 'Work', 'UI Design']}
+                        />
                         <div
                             id="col-1"
                             onDrop={drop}

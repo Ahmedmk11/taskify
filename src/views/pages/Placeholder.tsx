@@ -9,13 +9,13 @@ import ActionBar from '../components/ActionBar'
 
 function Placeholder() {
     return (
-        <div id="home-body">
+        <div id="placeholder-body">
             <ToolBar />
-            <div id="home-content">
+            <div id="placeholder-content">
                 <NavBar currentPage={'placeholder'} />
-                <div id="home-main">
+                <div id="placeholder-main">
                     <ActionBar />
-                    <div id="home-main-content"></div>
+                    <div id="placeholder-main-content"></div>
                 </div>
             </div>
         </div>
