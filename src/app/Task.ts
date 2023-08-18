@@ -43,12 +43,12 @@ export class Task {
         this.categories = newCategories
     }
 
-    startTask(): void {
-        this.status = 'inprogress'
+    unStartTask(): void {
+        this.status = 'open'
     }
 
-    pauseTask(): void {
-        this.status = 'pending'
+    startTask(): void {
+        this.status = 'inprogress'
     }
 
     closeTask(): void {

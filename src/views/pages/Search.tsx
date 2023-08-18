@@ -10,6 +10,7 @@ import ActionBar from '../components/ActionBar'
 import { useSearchParams } from 'react-router-dom'
 import Card from '../components/Card'
 import { Task } from '../../app/Task'
+import Filter from '../components/Filter'
 
 type SearchProps = {
     tasks: Task[]
@@ -17,8 +18,15 @@ type SearchProps = {
 
 function Search(props: SearchProps) {
     const { tasks } = props
+    const [isVisible, setIsVisible] = useState(false)
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
+
+    useEffect(() => {
+        document
+            .getElementById('filters-container')
+            ?.classList.add('visibility-hidden')
+    }, [])
 
     const getSearchResults = (tasks: Task[]) => {
         return tasks.filter((task) => {
@@ -35,6 +43,22 @@ function Search(props: SearchProps) {
         })
     }
 
+    const showFilters = () => {
+        setIsVisible(true)
+        document
+            .getElementById('filters-container')
+            ?.classList.remove('visibility-hidden')
+    }
+
+    const hideFilters = () => {
+        setIsVisible(false)
+        setTimeout(() => {
+            document
+                .getElementById('filters-container')
+                ?.classList.add('visibility-hidden')
+        }, 300)
+    }
+
     return (
         <div id="search-body">
             <ToolBar />
@@ -42,6 +66,8 @@ function Search(props: SearchProps) {
                 <NavBar currentPage={'home'} />
                 <div id="search-main">
                     <ActionBar
+                        isDisabled={true}
+                        handleFilters={showFilters}
                         title={`${
                             getSearchResults(tasks).length === 0
                                 ? 'No results found'
@@ -54,21 +80,32 @@ function Search(props: SearchProps) {
                                   }`
                         } for "${query}"`}
                     />
-                    <div id="search-main-content">
-                        {getSearchResults(tasks).map((task) => (
-                            <Card
-                                categories={task.categories}
-                                title={task.title}
-                                description={task.desc}
-                                date={task.dueDate.toLocaleDateString('en-GB', {
-                                    day: 'numeric',
-                                    month: 'short',
-                                    year: 'numeric',
-                                })}
-                                id={task.id}
-                                priority={task.priority}
-                            />
-                        ))}
+                    <div id="search-main-content" className={
+                            isVisible
+                                ? 'show-filter-container-srch'
+                                : 'hide-filter-container-srch'
+                        }>
+                        <Filter
+                            className={isVisible ? '' : 'hide-filters'}
+                            hideFilters={hideFilters}
+                            categories={['Main', 'Work', 'UI Design']}
+                        />
+                        <div id='result-items'>
+                            {getSearchResults(tasks).map((task) => (
+                                <Card
+                                    categories={task.categories}
+                                    title={task.title}
+                                    description={task.desc}
+                                    date={task.dueDate.toLocaleDateString('en-GB', {
+                                        day: 'numeric',
+                                        month: 'short',
+                                        year: 'numeric',
+                                    })}
+                                    id={task.id}
+                                    priority={task.priority}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -83,27 +120,46 @@ Search.propTypes = {
 Search.defaultProps = {
     tasks: [
         {
-            id: '1',
-            title: 'Task 1',
-            desc: 'This is a description for task 1.',
-            categories: ['Main'],
-            status: 'todo',
+          id: '1',
+          title: 'Task 1',
+          desc: 'This is a description for task 1.',
+          priority: 'low',
+          dueDate: new Date(2023, 4, 16),
+          creationDate: new Date(2023, 3, 1),
+          status: 'todo',
+          categories: ['Main', 'Work'],
         },
         {
-            id: '2',
-            title: 'Task 2',
-            desc: 'This is a description for task 2.',
-            categories: ['Main'],
-            status: 'todo',
+          id: '2',
+          title: 'Task 2',
+          desc: 'This is a description for task 2.',
+          priority: 'medium',
+          dueDate: new Date(2023, 5, 20),
+          creationDate: new Date(2023, 4, 5),
+          status: 'inprogress',
+          categories: ['Main', 'Personal'],
         },
         {
-            id: '3',
-            title: 'hmm 3',
-            desc: 'This is a description for 3.',
-            categories: ['Main'],
-            status: 'todo',
+          id: '3',
+          title: 'Task 3',
+          desc: 'This is a description for task 3.',
+          priority: 'high',
+          dueDate: new Date(2023, 6, 25),
+          creationDate: new Date(2023, 5, 10),
+          status: 'closed',
+          categories: ['Main', 'Work'],
         },
-    ],
+        {
+          id: '4',
+          title: 'Task 4',
+          desc: 'This is a description for task 4.',
+          priority: 'default',
+          dueDate: new Date(2025, 6, 30),
+          creationDate: new Date(2023, 5, 10),
+          status: 'closed',
+          categories: ['Main', 'Test', 'Work'],
+        },
+    ]
 }
 
 export default Search

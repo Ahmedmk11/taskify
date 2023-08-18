@@ -6,13 +6,13 @@ describe('User', () => {
     let task: Task
 
     beforeEach(() => {
-        task = new Task('Task 1', 'Description', 'High', new Date('2023-08-08'))
+        task = new Task('Task 1', 'Description', 'high', new Date('2023-08-08'))
         user = new User('Ahmed', 'ahmed@gmail.com', '123')
         user.createTask(task)
     })
 
     it('should create a new task for the user', () => {
-        user.createTask('Task 2', 'Description', 'Low', new Date('2023-08-08'))
+        user.createTask('Task 2', 'Description', 'low', new Date('2023-08-08'))
         expect(user.taskArray.length).toBe(2)
     })
 
@@ -20,7 +20,7 @@ describe('User', () => {
         const newTask = new Task(
             'Task 2',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-08')
         )
         user.createTask(newTask)
@@ -37,11 +37,6 @@ describe('User', () => {
         expect(task.status).toBe('inprogress')
     })
 
-    it('should pause a task for the user', () => {
-        user.pauseTask(task)
-        expect(task.status).toBe('pending')
-    })
-
     it('should close a task for the user', () => {
         user.closeTask(task)
         expect(task.status).toBe('closed')
@@ -51,13 +46,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-08')
         )
         const task3 = new Task(
             'z Task 3',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-08')
         )
         const tasks = [task2, task, task3]
@@ -71,13 +66,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-08')
         )
         const task3 = new Task(
             'z Task 3',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-08')
         )
         const tasks = [task2, task, task3]
@@ -91,13 +86,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-09')
         )
         const task3 = new Task(
             'Task 3',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-10')
         )
         const tasks = [task2, task, task3]
@@ -111,13 +106,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-09')
         )
         const task3 = new Task(
             'Task 3',
             'Description',
-            'High',
+            'high',
             new Date('2023-08-10')
         )
         const tasks = [task2, task, task3]
@@ -131,13 +126,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'Low',
+            'low',
             new Date('2023-08-08')
         )
         const task3 = new Task(
             'Task 3',
             'Description',
-            'Medium',
+            'medium',
             new Date('2023-08-08')
         )
         const tasks = [task2, task, task3]
@@ -151,13 +146,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'Low',
+            'low',
             new Date('2023-08-08')
         )
         const task3 = new Task(
             'Task 3',
             'Description',
-            'Medium',
+            'medium',
             new Date('2023-08-08')
         )
         const tasks = [task2, task, task3]
@@ -168,9 +163,9 @@ describe('User', () => {
     })
 
     it('should show low priority tasks only', () => {
-        user.createTask('Task 2', 'Description', 'Low', new Date('2023-08-08'))
-        user.createTask('Task 3', 'Description', 'Low', new Date('2023-08-08'))
-        const res = user.filterTasksByPriority(user.taskArray, 'Low')
+        user.createTask('Task 2', 'Description', 'low', new Date('2023-08-08'))
+        user.createTask('Task 3', 'Description', 'low', new Date('2023-08-08'))
+        const res = user.filterTasksByPriority(user.taskArray, 'low')
         expect(res.length).toBe(2)
         expect(user.taskArray.length).toBe(3)
     })
@@ -179,31 +174,31 @@ describe('User', () => {
         user.createTask(
             'Task 2',
             'Description',
-            'Medium',
+            'medium',
             new Date('2023-08-08')
         )
         user.createTask(
             'Task 3',
             'Description',
-            'Medium',
+            'medium',
             new Date('2023-08-08')
         )
-        const res = user.filterTasksByPriority(user.taskArray, 'Medium')
+        const res = user.filterTasksByPriority(user.taskArray, 'medium')
         expect(res.length).toBe(2)
         expect(user.taskArray.length).toBe(3)
     })
 
     it('should show high priority tasks only', () => {
-        user.createTask('Task 2', 'Description', 'High', new Date('2023-08-08'))
-        user.createTask('Task 3', 'Description', 'Low', new Date('2023-08-08'))
-        const res = user.filterTasksByPriority(user.taskArray, 'High')
+        user.createTask('Task 2', 'Description', 'high', new Date('2023-08-08'))
+        user.createTask('Task 3', 'Description', 'low', new Date('2023-08-08'))
+        const res = user.filterTasksByPriority(user.taskArray, 'high')
         expect(res.length).toBe(2)
         expect(user.taskArray.length).toBe(3)
     })
 
     it('should show tasks due on a certain day only', () => {
-        user.createTask('Task 2', 'Description', 'Low', new Date('2023-08-10'))
-        user.createTask('Task 3', 'Description', 'Low', new Date('2023-08-09'))
+        user.createTask('Task 2', 'Description', 'low', new Date('2023-08-10'))
+        user.createTask('Task 3', 'Description', 'low', new Date('2023-08-09'))
         const res = user.filterTasksByDate(
             user.taskArray,
             new Date('2023-08-08')
@@ -216,13 +211,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'Low',
+            'low',
             new Date('2023-08-10')
         )
         const task3 = new Task(
             'Task 3',
             'Description',
-            'Low',
+            'low',
             new Date('2023-08-09')
         )
         user.createTask(task3)
@@ -237,13 +232,13 @@ describe('User', () => {
         const task2 = new Task(
             'Task 2',
             'Description',
-            'Low',
+            'low',
             new Date('2023-08-10')
         )
         const task3 = new Task(
             'Task 3',
             'Description',
-            'Low',
+            'low',
             new Date('2023-08-09')
         )
         user.createTask(task3)

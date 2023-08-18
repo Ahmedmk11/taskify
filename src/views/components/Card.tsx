@@ -141,7 +141,7 @@ function Card(props: CardProps) {
                 className={
                     type !== 'task'
                         ? 'card-container card-input'
-                        : `card-container ${priority}-priority}`
+                        : `card-container ${priority}-priority`
                 }
             >
                 <div className="card-info-settings">
@@ -167,7 +167,16 @@ function Card(props: CardProps) {
                                     ))}
                                 </Select>
                             ) : (
-                                <div className="category pointer">category</div>
+                                categories
+                                    .slice(1, categories.length)
+                                    .map((category) => (
+                                        <div
+                                            className="category no-pointer"
+                                            key={category}
+                                        >
+                                            {category}
+                                        </div>
+                                    ))
                             )}
                         </div>
                     }

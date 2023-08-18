@@ -143,6 +143,7 @@ function Home(props: HomeProps) {
                 <NavBar currentPage={currentPage} />
                 <div id="home-main">
                     <ActionBar
+                        isDisabled={false}
                         handleCreate={createCardPop}
                         handleFilters={showFilters}
                     />

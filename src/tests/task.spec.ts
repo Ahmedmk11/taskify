@@ -4,7 +4,7 @@ describe('Task', () => {
     let task: Task
 
     beforeEach(() => {
-        task = new Task('Task 1', 'Description', 'Low', new Date('2023-08-08'))
+        task = new Task('Task 1', 'Description', 'low', new Date('2023-08-08'))
     })
 
     it('should update task title', () => {
@@ -18,8 +18,8 @@ describe('Task', () => {
     })
 
     it('should update task priority', () => {
-        task.updatePriority('High')
-        expect(task.priority).toBe('High')
+        task.updatePriority('high')
+        expect(task.priority).toBe('high')
     })
 
     it('should update task dueDate date', () => {
@@ -34,14 +34,14 @@ describe('Task', () => {
         expect(task.categories).toEqual(newCategories)
     })
 
+    it('should unstart task', () => {
+        task.unStartTask()
+        expect(task.status).toBe('open')
+    })
+
     it('should start task', () => {
         task.startTask()
         expect(task.status).toBe('inprogress')
-    })
-
-    it('should pause task', () => {
-        task.pauseTask()
-        expect(task.status).toBe('pending')
     })
 
     it('should close task', () => {
