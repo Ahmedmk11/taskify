@@ -133,6 +133,7 @@ function Card(props: CardProps) {
             )}
         </div>
     )
+    
     return (
         <div className="card" id={type !== 'task' ? '' : id}>
             <div

@@ -2,7 +2,7 @@
 // Home page frontend code.
 // --------------------------------------------------------------
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
@@ -45,13 +45,7 @@ function Home(props: HomeProps) {
         ev.preventDefault()
     }
 
-    function drag(ev: any) {
-        const target = ev.target.closest('[id^="draggable-card"]')
-        setTargetCardID(target.id)
-        ev.dataTransfer.setData('text', target.id)
-    }
-
-    function createCard(col = 'col-1') {
+    function createCardPop(col = 'col-1') {
         const chk = document.getElementById('create-new-task')
         chk?.remove()
         const colEl = document.getElementById(col)
@@ -60,6 +54,45 @@ function Home(props: HomeProps) {
         ReactDOM.render(<Card type="create" />, container)
         const cards = colEl!.querySelector('.cards')
         cards!.insertBefore(container, cards!.childNodes[0])
+    }
+
+    const createCard = (id: string) => {
+        const ccid = `draggable-card-${id}`
+        const cid = `card-${id}`
+        return (
+            <div
+                className="draggable-card"
+                id={ccid}
+                draggable="true"
+                onDragStart={drag}
+                onDragEnd={handleDragEnd}
+            >
+                <Card id={cid} />
+            </div>
+        )
+    }
+
+    const showFilters = () => {
+        const mainContent = document.getElementById('home-main-content')
+        const filterContainer = document.createElement('div')
+        filterContainer.id = 'filter-container'
+        const filterContent = document.createElement('div')
+        filterContent.id = 'filter-content'
+        const filterHeader = document.createElement('div')
+        filterHeader.id = 'filter-header'
+        const filterTitle = document.createElement('h2')
+        filterTitle.innerText = 'Filters'
+        const filterClose = document.createElement('div')
+        filterClose.id = 'filter-close'
+        filterClose.innerText = 'X'
+        filterClose.onclick = () => {
+            filterContainer.remove()
+        }
+        filterHeader.appendChild(filterTitle)
+        filterHeader.appendChild(filterClose)
+        filterContent.appendChild(filterHeader)
+        filterContainer.appendChild(filterContent)
+        mainContent!.insertBefore(filterContainer, mainContent!.childNodes[0])
     }
 
     function drop(ev: any) {
@@ -85,6 +118,12 @@ function Home(props: HomeProps) {
         }
     }
 
+    function drag(ev: any) {
+        const target = ev.target.closest('[id^="draggable-card"]')
+        setTargetCardID(target.id)
+        ev.dataTransfer.setData('text', target.id)
+    }
+
     function handleDragEnd() {
         setTargetCardID('')
         const columns = document.querySelectorAll(
@@ -102,7 +141,7 @@ function Home(props: HomeProps) {
             <div id="home-content">
                 <NavBar currentPage={currentPage} />
                 <div id="home-main">
-                    <ActionBar createTask={createCard} />
+                    <ActionBar handleCreate={createCardPop} handleFilters={showFilters} />
                     <div id="home-main-content">
                         <div
                             id="col-1"
@@ -116,33 +155,14 @@ function Home(props: HomeProps) {
                                 <div className="image-container">
                                     <img
                                         onClick={() => {
-                                            createCard('col-1')
+                                            createCardPop('col-1')
                                         }}
                                         src={plusIcn}
                                         alt="plus icon"
                                     />
                                 </div>
                             </div>
-                            <div className="cards">
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-2"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-0' />
-                                </div>
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-3"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-1' description="Proident quis Lorem minim sint officia voluptate deserunt sunt aliquip. Incididunt nulla reprehenderit ex enim elit ullamco adipisicing consequat anim aute. Excepteur et consectetur mollit in mollit quis culpa sit. Consectetur exercitation quis incididunt ullamco ipsum ex. Pariatur minim est elit culpa dolore mollit. Duis culpa do laboris laborum quis sit esse ipsum labore." />
-                                </div>
-                            </div>
+                            <div className="cards"></div>
                         </div>
                         <div
                             id="col-2"
@@ -156,33 +176,14 @@ function Home(props: HomeProps) {
                                 <div className="image-container">
                                     <img
                                         onClick={() => {
-                                            createCard('col-2')
+                                            createCardPop('col-2')
                                         }}
                                         src={plusIcn}
                                         alt="plus icon"
                                     />
                                 </div>
                             </div>
-                            <div className="cards">
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-4"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-2' />
-                                </div>
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-5"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-3' />
-                                </div>
-                            </div>
+                            <div className="cards"></div>
                         </div>
                         <div
                             id="col-3"
@@ -196,51 +197,14 @@ function Home(props: HomeProps) {
                                 <div className="image-container">
                                     <img
                                         onClick={() => {
-                                            createCard('col-3')
+                                            createCardPop('col-3')
                                         }}
                                         src={plusIcn}
                                         alt="plus icon"
                                     />
                                 </div>
                             </div>
-                            <div className="cards">
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-6"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-4' />
-                                </div>
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-7"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-5' description="Aliqua voluptate excepteur ipsum irure non dolor ex veniam consequat incididunt. Magna in exercitation irure mollit aliqua dolor aliquip aliqua excepteur sunt dolor commodo commodo voluptate. Ullamco sint officia minim mollit voluptate ex eu minim laboris minim reprehenderit." />
-                                </div>
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-8"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-6' />
-                                </div>
-                                <div
-                                    className="draggable-card"
-                                    id="draggable-card-9"
-                                    draggable="true"
-                                    onDragStart={drag}
-                                    onDragEnd={handleDragEnd}
-                                >
-                                    <Card id='card-7' />
-                                </div>
-                            </div>
+                            <div className="cards"></div>
                         </div>
                     </div>
                 </div>

@@ -10,11 +10,12 @@ import PropTypes from 'prop-types'
 import filterIcn from '../../assets/icons/filter.svg'
 
 type ActionBarProps = {
-    createTask: () => void
+    handleCreate: () => void
+    handleFilters: () => void
 }
 
 function ActionBar(props: ActionBarProps) {
-    const { createTask } = props
+    const { handleCreate, handleFilters } = props
 
     return (
         <>
@@ -23,7 +24,7 @@ function ActionBar(props: ActionBarProps) {
                 <div id="action-bar-buttons">
                     <Space wrap>
                         <Button onClick={() => {
-                            createTask()
+                            handleCreate()
                         }} className="new-button" type="primary">
                             New Task
                         </Button>
@@ -35,7 +36,9 @@ function ActionBar(props: ActionBarProps) {
                             style={{ width: 363 }}
                         />
                     </Space>
-                    <Button className="custom-button-size">
+                    <Button className="custom-button-size" onClick={() => {
+                        handleFilters()
+                    }}>
                         <img src={filterIcn} alt="Icon for filter" />
                     </Button>
                 </div>
@@ -46,7 +49,13 @@ function ActionBar(props: ActionBarProps) {
 }
 
 ActionBar.propTypes = {
-    createTask: PropTypes.func,
+    handleCreate: PropTypes.func,
+    handleFilters: PropTypes.func,
+}
+
+ActionBar.defaultProps = {
+    handleCreate: () => {console.log('create')},
+    handleFilters: () => {console.log('filters')},
 }
 
 export default ActionBar

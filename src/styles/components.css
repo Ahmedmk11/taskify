@@ -55,6 +55,7 @@
   border-bottom: 1px solid #d9d9d9;
   position: sticky;
   top: 0;
+  z-index: 1000;
 }
 #tool-bar #tool-bar-header {
   margin-left: 24px;

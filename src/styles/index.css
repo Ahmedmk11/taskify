@@ -28,6 +28,10 @@ body {
   width: 100%;
   background-color: #fafafa;
 }
+#root img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
 
 .pointer {
   cursor: pointer;
