@@ -237,7 +237,7 @@ function Card(props: CardProps) {
                         <div className="border">
                             <img src={dateIcn} alt="date icon" />
                             <p>
-                                Due to: <span>16 May</span>
+                                Due to: <span>{date}</span>
                             </p>
                         </div>
                     )}
@@ -271,7 +271,7 @@ Card.defaultProps = {
     categories: ['Main', 'Work'],
     title: 'Finish Website',
     description: 'Finish the website by the end of the week.',
-    date: '18/08/2023',
+    date: '16 May 2023',
     type: 'task',
     id: 'card-0'
 }

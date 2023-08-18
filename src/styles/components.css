@@ -4,10 +4,13 @@
   justify-content: space-between;
   align-items: center;
   min-width: 74px;
-  height: 100vh;
+  height: 80.5vh;
   background-color: #fff;
   padding: 24px 0px;
   border-right: 1px solid #d9d9d9;
+  position: sticky;
+  top: 85px;
+  left: 0;
 }
 #nav-bar #nav-bar-top {
   display: flex;
@@ -50,6 +53,8 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #d9d9d9;
+  position: sticky;
+  top: 0;
 }
 #tool-bar #tool-bar-header {
   margin-left: 24px;
@@ -210,9 +215,9 @@
   width: fit-content;
   height: 26px;
   padding: 3px 12px;
-  border-radius: 6px;
   color: #000;
   background-color: #f0f0f0;
+  border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   -ms-border-radius: 6px;

@@ -3,7 +3,6 @@
 // --------------------------------------------------------------
 
 import { Task } from './Task'
-import { Category } from './Category'
 
 export class User {
     name: string
@@ -11,7 +10,7 @@ export class User {
     password: string
     taskArray: Task[]
     inOrderTasks: Task[]
-    categories: Category[]
+    categories: string[]
 
     constructor(name: string, email: string, password: string) {
         this.name = name
@@ -19,16 +18,7 @@ export class User {
         this.password = password
         this.taskArray = []
         this.inOrderTasks = []
-        this.categories = [new Category('Main')]
-    }
-
-    updateMainCategory(): void {
-        const mainCategory = this.categories.find(
-            (category) => category.name === 'Main'
-        )
-        if (mainCategory) {
-            mainCategory.tasks = this.taskArray
-        }
+        this.categories = ['Main']
     }
 
     createTask(
@@ -52,7 +42,6 @@ export class User {
             this.taskArray.push(newTask)
             this.inOrderTasks.push(newTask)
         }
-        this.updateMainCategory()
     }
 
     deleteTask(task: Task): void {
@@ -61,30 +50,22 @@ export class User {
             this.taskArray.splice(index, 1)
         }
         this.inOrderTasks.splice(this.inOrderTasks.indexOf(task), 1)
-        this.updateMainCategory()
     }
 
     startTask(task: Task): void {
         task.startTask()
-        this.updateMainCategory()
     }
 
     pauseTask(task: Task): void {
         task.pauseTask()
-        this.updateMainCategory()
     }
 
     closeTask(task: Task): void {
         task.closeTask()
-        this.updateMainCategory()
     }
 
-    addCategory(category: Category): void {
+    addCategory(category: string): void {
         this.categories.push(category)
-    }
-
-    addTaskToCategory(category: Category, task: Task): void {
-        category.tasks.push(task)
     }
 
     sortTasksByCreation(isAscending: boolean): Task[] {

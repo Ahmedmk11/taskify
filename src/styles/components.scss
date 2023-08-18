@@ -1,3 +1,5 @@
+@import 'variables';
+
 // --------------------------------------------------------------
 // Navigation Bar SCSS.
 // --------------------------------------------------------------
@@ -8,10 +10,13 @@
     justify-content: space-between;
     align-items: center;
     min-width: 74px;
-    height: 100vh;
+    height: 80.5vh; // change this
     background-color: #fff;
     padding: 24px 0px;
-    border-right: 1px solid #d9d9d9;
+    border-right: 1px solid $color-gray;
+    position: sticky;
+    top: 85px;
+    left: 0;
     #nav-bar-top {
         display: flex;
         flex-direction: column;
@@ -60,7 +65,9 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #d9d9d9;
+    border-bottom: 1px solid $color-gray;
+    position: sticky;
+    top: 0;
     #tool-bar-header {
         margin-left: 24px;
         display: flex;
@@ -109,7 +116,7 @@
     height: 75px;
     h2 {
         margin-left: 24px;
-        color: rgba($color: #000000, $alpha: 0.85);
+        color: $color-light-black-85;
         font-size: 30px;
         font-weight: 600;
     }
@@ -131,7 +138,7 @@
             width: 30px;
             height: 30px;
             background-color: #fff;
-            border: 1px solid #d9d9d9;
+            border: 1px solid $color-gray;
             border-radius: 6px;
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
@@ -139,9 +146,9 @@
             -o-border-radius: 6px;
             cursor: pointer;
             &:hover {
-                border-color: #1890ff;
+                border-color: $color-blue;
                 outline: none;
-                box-shadow: 0 0 5px 1px rgba($color: #1890ff, $alpha: 0.4);
+                box-shadow: 0 0 5px 1px rgba($color: $color-blue, $alpha: 0.4);
             }
         }
     }
@@ -162,7 +169,7 @@
 #action-bar-hr {
     width: 96%;
     height: 1px;
-    background-color: #d9d9d9;
+    background-color: $color-gray;
     margin-top: 0px;
     margin-bottom: 0px;
     border: none;
@@ -178,7 +185,7 @@
     min-height: 182px;
     box-sizing: border-box;
     .card-container {
-        box-shadow: 4px 4px 0px 1px #1890ff;
+        box-shadow: 4px 4px 0px 1px $color-blue;
         height: 100%;
         width: 260px;
         padding: 18px 24px;
@@ -188,7 +195,7 @@
         align-items: flex-start;
         gap: 18px;
         background-color: #fff;
-        border: 1px solid #f0f0f0;
+        border: 1px solid $color-light-gray;
         box-sizing: border-box;
         border-radius: 6px;
         -webkit-border-radius: 6px;
@@ -224,9 +231,9 @@
                     width: fit-content;
                     height: 26px;
                     padding: 3px 12px;
-                    border-radius: 6px;
                     color: #000;
-                    background-color: #f0f0f0;
+                    background-color: $color-light-gray;
+                    border-radius: 6px;
                     -webkit-border-radius: 6px;
                     -moz-border-radius: 6px;
                     -ms-border-radius: 6px;
@@ -275,19 +282,19 @@
     width: 100%;
     input,
     .ant-select-selection-item {
-        color: rgba($color: black, $alpha: 0.45) !important;
+        color: $color-light-black-45 !important;
         &::placeholder {
-            color: rgba($color: black, $alpha: 0.45) !important;
+            color: $color-light-black-45 !important;
         }
     }
 }
 
 .ant-select-selection-placeholder {
-    color: rgba($color: black, $alpha: 0.45) !important;
+    color: $color-light-black-45 !important;
 }
 
 .border {
-    border: 1px solid #d9d9d9;
+    border: 1px solid $color-gray;
     border-radius: 6px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -305,9 +312,9 @@
     gap: 8px;
     p {
         margin: 0%;
-        color: rgba($color: #000000, $alpha: 0.45);
+        color: $color-light-black-45;
         span {
-            color: rgba($color: #000000, $alpha: 0.85);
+            color: $color-light-black-85;
         }
     }
 }
@@ -329,13 +336,13 @@
     resize: none;
     border: none;
     outline: none;
-    color: rgba($color: #000000, $alpha: 0.85);
+    color: $color-light-black-85;
     line-height: 24px;
     text-align: start;
     border-bottom: 1px solid #000;
     width: fit-content;
     &::placeholder {
-        color: rgba($color: #000000, $alpha: 0.25);
+        color: $color-light-black-25;
     }
 }
 
@@ -348,10 +355,10 @@
     resize: none;
     border: none;
     outline: none;
-    color: rgba($color: #000000, $alpha: 0.85);
+    color: $color-light-black-85;
     line-height: 22px;
     &::placeholder {
-        color: rgba($color: #000000, $alpha: 0.25);
+        color: $color-light-black-25;
     }
 }
 
@@ -364,50 +371,50 @@
 }
 
 .default-priority {
-    box-shadow: 4px 4px 0px 1px #1890ff !important;
+    box-shadow: 4px 4px 0px 1px $color-blue !important;
 }
 .low-priority {
-    box-shadow: 4px 4px 0px 1px #a0d911 !important;
+    box-shadow: 4px 4px 0px 1px $color-green !important;
 }
 .medium-priority {
-    box-shadow: 4px 4px 0px 1px #fadb14 !important;
+    box-shadow: 4px 4px 0px 1px $color-yellow !important;
 }
 .high-priority {
-    box-shadow: 4px 4px 0px 1px #f5222d !important;
+    box-shadow: 4px 4px 0px 1px $color-red !important;
 }
 .default-priority-btn {
-    background-color: #1890ff !important;
+    background-color: $color-blue !important;
     color: #fff !important;
-    border: 1px solid #1890ff !important;
+    border: 1px solid $color-blue !important;
     &:hover {
-        border: 1px solid #1890ff !important;
+        border: 1px solid $color-blue !important;
         color: white !important;
     }
 }
 .low-priority-btn {
-    background-color: #a0d911 !important;
+    background-color: $color-green !important;
     color: #fff !important;
-    border: 1px solid #a0d911 !important;
+    border: 1px solid $color-green !important;
     &:hover {
-        border: 1px solid #a0d911 !important;
+        border: 1px solid $color-green !important;
         color: white !important;
     }
 }
 .medium-priority-btn {
-    background-color: #fadb14 !important;
+    background-color: $color-yellow !important;
     color: #fff !important;
-    border: 1px solid #fadb14 !important;
+    border: 1px solid $color-yellow !important;
     &:hover {
-        border: 1px solid #fadb14 !important;
+        border: 1px solid $color-yellow !important;
         color: white !important;
     }
 }
 .high-priority-btn {
-    background-color: #f5222d !important;
+    background-color: $color-red !important;
     color: #fff !important;
-    border: 1px solid #f5222d !important;
+    border: 1px solid $color-red !important;
     &:hover {
-        border: 1px solid #f5222d !important;
+        border: 1px solid $color-red !important;
         color: white !important;
     }
 }

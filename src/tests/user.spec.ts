@@ -254,24 +254,4 @@ describe('User', () => {
         expect(sortedTasks[2]).toBe(task)
     })
 
-    it('should update main category', () => {
-        const task2 = new Task(
-            'Task 2',
-            'Description',
-            'Low',
-            new Date('2023-08-10')
-        )
-        const task3 = new Task(
-            'Task 3',
-            'Description',
-            'Low',
-            new Date('2023-08-09')
-        )
-        user.createTask(task2)
-        user.createTask(task3)
-        expect(
-            user.categories.find((category) => category.name === 'Main')?.tasks
-                .length
-        ).toBe(3)
-    })
 })
