@@ -80,9 +80,8 @@ function Search(props: SearchProps) {
                 <NavBar currentPage={'home'} />
                 <div id="search-main">
                     <ActionBar
-                        handleCreate={() => {
-                            navigate('/home', { state: { createCardPop: true } });
-                          }}
+                        isSrch={true}
+                        isDisabled={getSearchResults(tasks).length === 0 ? true: false}
                         handleFilters={showFilters}
                         title={`${
                             getSearchResults(tasks).length === 0

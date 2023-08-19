@@ -27,16 +27,16 @@ function Home(props: HomeProps) {
     const location = useLocation();
 
     useEffect(() => {
-        if (location.state?.createCardPop) {
-            createCardPop();
-        }
-    }, [location]);
-
-    useEffect(() => {
         document
             .getElementById('filters-container')
             ?.classList.add('visibility-hidden')
     }, [])
+    
+    useEffect(() => {
+    if (location.state?.createCardPop) {
+            createCardPop();
+        }
+    }, [location]);
 
     function onHover(ev: any) {
         const targetCard =
@@ -96,7 +96,7 @@ function Home(props: HomeProps) {
         const draggedElement = document.getElementById(data)
         const targetColumn = ev.target.closest('.column')
         const targetCardsContainer = targetColumn.querySelector('.cards')
-        const targetCard = ev.target.closest('[id^="draggable-card"]')
+        const targetCard = ev.target.closest('[class^="draggable-card"]')
         if (targetCard) {
             const targetCardRect = targetCard.getBoundingClientRect()
             const dropPosition = ev.clientY
@@ -114,7 +114,7 @@ function Home(props: HomeProps) {
     }
 
     function drag(ev: any) {
-        const target = ev.target.closest('[id^="draggable-card"]')
+        const target = ev.target.closest('[class^="draggable-card"]')
         setTargetCardID(target.id)
         ev.dataTransfer.setData('text', target.id)
     }
@@ -320,8 +320,8 @@ Home.defaultProps = {
     tasks: [
         {
             id: '1',
-            title: 'Task 1',
-            desc: 'This is a description for task 1.',
+            title: 'Task 1 lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            desc: 'This is a description for task 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl.',
             priority: 'low',
             dueDate: new Date(2023, 4, 16),
             creationDate: new Date(2023, 3, 1),

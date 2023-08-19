@@ -2,7 +2,7 @@
 // Card react component.
 // --------------------------------------------------------------
 
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Space, Input, DatePicker, Select } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
@@ -25,15 +25,24 @@ type CardProps = {
 
 function Card(props: CardProps) {
     const { categories, title, description, date, type, id, priority } = props
-    const [selectedCategories, setSelectedCategories] =
-        React.useState<string[]>(categories)
-    const [inputValue, setInputValue] = React.useState('')
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(categories)
+    const [inputValue, setInputValue] = useState('')
+    const [isExpanded, setIsExpanded] = useState(false)
 
     const onDateInput: DatePickerProps['onChange'] = () => {}
 
     function cancelCard(ev: any) {
         const container = ev.target.closest('#create-new-task')
         container!.remove()
+    }
+
+    const expand = () => {
+        setIsExpanded(!isExpanded)
+        document.addEventListener('click', (ev: any) => {
+            if (!ev.target.closest('.card')) {
+                setIsExpanded(false)
+            }
+        })
     }
 
     function resizeTextarea(id: string) {
@@ -136,7 +145,7 @@ function Card(props: CardProps) {
     )
 
     return (
-        <div className="card" id={type !== 'task' ? '' : id}>
+        <div className={isExpanded ? 'card expanded' : 'card'} id={type !== 'task' ? '' : id}>
             <div
                 className={
                     type !== 'task'
@@ -257,26 +266,36 @@ function Card(props: CardProps) {
                         </div>
                     )}
                 </div>
-                {type !== 'task' && (
-                    <div className="card-bottom-bottom">
-                        <Space wrap>
-                            <Button
-                                onClick={(e) => {
-                                    cancelCard(e)
-                                }}
-                                danger
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                className="default-priority-btn"
-                                id="save-input-btn"
-                            >
-                                Save
+                <div className="card-bottom-bottom">
+                    {type !== 'task' ? (
+                            <Space wrap>
+                                <Button
+                                    onClick={(e) => {
+                                        cancelCard(e)
+                                    }}
+                                    danger
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    className="default-priority-btn"
+                                    id="save-input-btn"
+                                >
+                                    Save
+                                </Button>
+                            </Space>
+                    )
+                    : (
+                        <Space className='read-more' onClick={() => {(type !== 'task') ? null : expand()}} wrap>
+                            <Button type="link">
+                                {
+                                    isExpanded ? 'Read less' : 'Read more'
+                                }
                             </Button>
                         </Space>
-                    </div>
-                )}
+                    )
+                }
+                </div>
             </div>
         </div>
     )
