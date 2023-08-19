@@ -1,22 +1,20 @@
 // --------------------------------------------------------------
-// Placeholder page frontend code.
+// Login page frontend code.
 // --------------------------------------------------------------
 
 import React from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
-import ActionBar from '../components/ActionBar'
 import Footer from '../components/Footer'
 
-function Placeholder() {
+function LoginPage() {
     return (
-        <div id="placeholder-body">
+        <div id="login-body">
             <ToolBar />
-            <div id="placeholder-content">
-                <NavBar currentPage={'placeholder'} />
-                <div id="placeholder-main">
-                    <ActionBar />
-                    <div id="placeholder-main-content"></div>
+            <div id="login-content">
+                <NavBar />
+                <div id="login-main">
+                    <div id="login-main-content"></div>
                 </div>
             </div>
             <Footer />
@@ -24,4 +22,4 @@ function Placeholder() {
     )
 }
 
-export default Placeholder
+export default LoginPage

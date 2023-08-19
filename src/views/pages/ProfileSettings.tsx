@@ -1,22 +1,20 @@
 // --------------------------------------------------------------
-// Placeholder page frontend code.
+// ProfileSettings page frontend code.
 // --------------------------------------------------------------
 
 import React from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
-import ActionBar from '../components/ActionBar'
 import Footer from '../components/Footer'
 
-function Placeholder() {
+function ProfileSettings() {
     return (
-        <div id="placeholder-body">
+        <div id="profile-settings-body">
             <ToolBar />
-            <div id="placeholder-content">
-                <NavBar currentPage={'placeholder'} />
-                <div id="placeholder-main">
-                    <ActionBar />
-                    <div id="placeholder-main-content"></div>
+            <div id="profile-settings-content">
+                <NavBar />
+                <div id="profile-settings-main">
+                    <div id="profile-settings-main-content"></div>
                 </div>
             </div>
             <Footer />
@@ -24,4 +22,4 @@ function Placeholder() {
     )
 }
 
-export default Placeholder
+export default ProfileSettings

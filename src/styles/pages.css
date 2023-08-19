@@ -1,6 +1,10 @@
 #home-body,
 #placeholder-body,
-#search-body {
+#search-body,
+#profile-settings-body,
+#login-body,
+#not-found-body,
+#register-body {
   width: 100%;
   height: 100%;
   display: flex;
@@ -11,15 +15,55 @@
 #home-body #home-content,
 #home-body #placeholder-content,
 #home-body #search-content,
+#home-body #profile-settings-content,
+#home-body #login-content,
+#home-body #not-found-content,
+#home-body #register-content,
 #placeholder-body #home-content,
 #placeholder-body #placeholder-content,
 #placeholder-body #search-content,
+#placeholder-body #profile-settings-content,
+#placeholder-body #login-content,
+#placeholder-body #not-found-content,
+#placeholder-body #register-content,
 #search-body #home-content,
 #search-body #placeholder-content,
-#search-body #search-content {
+#search-body #search-content,
+#search-body #profile-settings-content,
+#search-body #login-content,
+#search-body #not-found-content,
+#search-body #register-content,
+#profile-settings-body #home-content,
+#profile-settings-body #placeholder-content,
+#profile-settings-body #search-content,
+#profile-settings-body #profile-settings-content,
+#profile-settings-body #login-content,
+#profile-settings-body #not-found-content,
+#profile-settings-body #register-content,
+#login-body #home-content,
+#login-body #placeholder-content,
+#login-body #search-content,
+#login-body #profile-settings-content,
+#login-body #login-content,
+#login-body #not-found-content,
+#login-body #register-content,
+#not-found-body #home-content,
+#not-found-body #placeholder-content,
+#not-found-body #search-content,
+#not-found-body #profile-settings-content,
+#not-found-body #login-content,
+#not-found-body #not-found-content,
+#not-found-body #register-content,
+#register-body #home-content,
+#register-body #placeholder-content,
+#register-body #search-content,
+#register-body #profile-settings-content,
+#register-body #login-content,
+#register-body #not-found-content,
+#register-body #register-content {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
   height: 100%;
@@ -27,61 +71,323 @@
 #home-body #home-content #home-main,
 #home-body #home-content #placeholder-main,
 #home-body #home-content #search-main,
+#home-body #home-content #profile-settings-main,
+#home-body #home-content #login-main,
+#home-body #home-content #register-main,
 #home-body #placeholder-content #home-main,
 #home-body #placeholder-content #placeholder-main,
 #home-body #placeholder-content #search-main,
+#home-body #placeholder-content #profile-settings-main,
+#home-body #placeholder-content #login-main,
+#home-body #placeholder-content #register-main,
 #home-body #search-content #home-main,
 #home-body #search-content #placeholder-main,
 #home-body #search-content #search-main,
+#home-body #search-content #profile-settings-main,
+#home-body #search-content #login-main,
+#home-body #search-content #register-main,
+#home-body #profile-settings-content #home-main,
+#home-body #profile-settings-content #placeholder-main,
+#home-body #profile-settings-content #search-main,
+#home-body #profile-settings-content #profile-settings-main,
+#home-body #profile-settings-content #login-main,
+#home-body #profile-settings-content #register-main,
+#home-body #login-content #home-main,
+#home-body #login-content #placeholder-main,
+#home-body #login-content #search-main,
+#home-body #login-content #profile-settings-main,
+#home-body #login-content #login-main,
+#home-body #login-content #register-main,
+#home-body #not-found-content #home-main,
+#home-body #not-found-content #placeholder-main,
+#home-body #not-found-content #search-main,
+#home-body #not-found-content #profile-settings-main,
+#home-body #not-found-content #login-main,
+#home-body #not-found-content #register-main,
+#home-body #register-content #home-main,
+#home-body #register-content #placeholder-main,
+#home-body #register-content #search-main,
+#home-body #register-content #profile-settings-main,
+#home-body #register-content #login-main,
+#home-body #register-content #register-main,
 #placeholder-body #home-content #home-main,
 #placeholder-body #home-content #placeholder-main,
 #placeholder-body #home-content #search-main,
+#placeholder-body #home-content #profile-settings-main,
+#placeholder-body #home-content #login-main,
+#placeholder-body #home-content #register-main,
 #placeholder-body #placeholder-content #home-main,
 #placeholder-body #placeholder-content #placeholder-main,
 #placeholder-body #placeholder-content #search-main,
+#placeholder-body #placeholder-content #profile-settings-main,
+#placeholder-body #placeholder-content #login-main,
+#placeholder-body #placeholder-content #register-main,
 #placeholder-body #search-content #home-main,
 #placeholder-body #search-content #placeholder-main,
 #placeholder-body #search-content #search-main,
+#placeholder-body #search-content #profile-settings-main,
+#placeholder-body #search-content #login-main,
+#placeholder-body #search-content #register-main,
+#placeholder-body #profile-settings-content #home-main,
+#placeholder-body #profile-settings-content #placeholder-main,
+#placeholder-body #profile-settings-content #search-main,
+#placeholder-body #profile-settings-content #profile-settings-main,
+#placeholder-body #profile-settings-content #login-main,
+#placeholder-body #profile-settings-content #register-main,
+#placeholder-body #login-content #home-main,
+#placeholder-body #login-content #placeholder-main,
+#placeholder-body #login-content #search-main,
+#placeholder-body #login-content #profile-settings-main,
+#placeholder-body #login-content #login-main,
+#placeholder-body #login-content #register-main,
+#placeholder-body #not-found-content #home-main,
+#placeholder-body #not-found-content #placeholder-main,
+#placeholder-body #not-found-content #search-main,
+#placeholder-body #not-found-content #profile-settings-main,
+#placeholder-body #not-found-content #login-main,
+#placeholder-body #not-found-content #register-main,
+#placeholder-body #register-content #home-main,
+#placeholder-body #register-content #placeholder-main,
+#placeholder-body #register-content #search-main,
+#placeholder-body #register-content #profile-settings-main,
+#placeholder-body #register-content #login-main,
+#placeholder-body #register-content #register-main,
 #search-body #home-content #home-main,
 #search-body #home-content #placeholder-main,
 #search-body #home-content #search-main,
+#search-body #home-content #profile-settings-main,
+#search-body #home-content #login-main,
+#search-body #home-content #register-main,
 #search-body #placeholder-content #home-main,
 #search-body #placeholder-content #placeholder-main,
 #search-body #placeholder-content #search-main,
+#search-body #placeholder-content #profile-settings-main,
+#search-body #placeholder-content #login-main,
+#search-body #placeholder-content #register-main,
 #search-body #search-content #home-main,
 #search-body #search-content #placeholder-main,
-#search-body #search-content #search-main {
+#search-body #search-content #search-main,
+#search-body #search-content #profile-settings-main,
+#search-body #search-content #login-main,
+#search-body #search-content #register-main,
+#search-body #profile-settings-content #home-main,
+#search-body #profile-settings-content #placeholder-main,
+#search-body #profile-settings-content #search-main,
+#search-body #profile-settings-content #profile-settings-main,
+#search-body #profile-settings-content #login-main,
+#search-body #profile-settings-content #register-main,
+#search-body #login-content #home-main,
+#search-body #login-content #placeholder-main,
+#search-body #login-content #search-main,
+#search-body #login-content #profile-settings-main,
+#search-body #login-content #login-main,
+#search-body #login-content #register-main,
+#search-body #not-found-content #home-main,
+#search-body #not-found-content #placeholder-main,
+#search-body #not-found-content #search-main,
+#search-body #not-found-content #profile-settings-main,
+#search-body #not-found-content #login-main,
+#search-body #not-found-content #register-main,
+#search-body #register-content #home-main,
+#search-body #register-content #placeholder-main,
+#search-body #register-content #search-main,
+#search-body #register-content #profile-settings-main,
+#search-body #register-content #login-main,
+#search-body #register-content #register-main,
+#profile-settings-body #home-content #home-main,
+#profile-settings-body #home-content #placeholder-main,
+#profile-settings-body #home-content #search-main,
+#profile-settings-body #home-content #profile-settings-main,
+#profile-settings-body #home-content #login-main,
+#profile-settings-body #home-content #register-main,
+#profile-settings-body #placeholder-content #home-main,
+#profile-settings-body #placeholder-content #placeholder-main,
+#profile-settings-body #placeholder-content #search-main,
+#profile-settings-body #placeholder-content #profile-settings-main,
+#profile-settings-body #placeholder-content #login-main,
+#profile-settings-body #placeholder-content #register-main,
+#profile-settings-body #search-content #home-main,
+#profile-settings-body #search-content #placeholder-main,
+#profile-settings-body #search-content #search-main,
+#profile-settings-body #search-content #profile-settings-main,
+#profile-settings-body #search-content #login-main,
+#profile-settings-body #search-content #register-main,
+#profile-settings-body #profile-settings-content #home-main,
+#profile-settings-body #profile-settings-content #placeholder-main,
+#profile-settings-body #profile-settings-content #search-main,
+#profile-settings-body #profile-settings-content #profile-settings-main,
+#profile-settings-body #profile-settings-content #login-main,
+#profile-settings-body #profile-settings-content #register-main,
+#profile-settings-body #login-content #home-main,
+#profile-settings-body #login-content #placeholder-main,
+#profile-settings-body #login-content #search-main,
+#profile-settings-body #login-content #profile-settings-main,
+#profile-settings-body #login-content #login-main,
+#profile-settings-body #login-content #register-main,
+#profile-settings-body #not-found-content #home-main,
+#profile-settings-body #not-found-content #placeholder-main,
+#profile-settings-body #not-found-content #search-main,
+#profile-settings-body #not-found-content #profile-settings-main,
+#profile-settings-body #not-found-content #login-main,
+#profile-settings-body #not-found-content #register-main,
+#profile-settings-body #register-content #home-main,
+#profile-settings-body #register-content #placeholder-main,
+#profile-settings-body #register-content #search-main,
+#profile-settings-body #register-content #profile-settings-main,
+#profile-settings-body #register-content #login-main,
+#profile-settings-body #register-content #register-main,
+#login-body #home-content #home-main,
+#login-body #home-content #placeholder-main,
+#login-body #home-content #search-main,
+#login-body #home-content #profile-settings-main,
+#login-body #home-content #login-main,
+#login-body #home-content #register-main,
+#login-body #placeholder-content #home-main,
+#login-body #placeholder-content #placeholder-main,
+#login-body #placeholder-content #search-main,
+#login-body #placeholder-content #profile-settings-main,
+#login-body #placeholder-content #login-main,
+#login-body #placeholder-content #register-main,
+#login-body #search-content #home-main,
+#login-body #search-content #placeholder-main,
+#login-body #search-content #search-main,
+#login-body #search-content #profile-settings-main,
+#login-body #search-content #login-main,
+#login-body #search-content #register-main,
+#login-body #profile-settings-content #home-main,
+#login-body #profile-settings-content #placeholder-main,
+#login-body #profile-settings-content #search-main,
+#login-body #profile-settings-content #profile-settings-main,
+#login-body #profile-settings-content #login-main,
+#login-body #profile-settings-content #register-main,
+#login-body #login-content #home-main,
+#login-body #login-content #placeholder-main,
+#login-body #login-content #search-main,
+#login-body #login-content #profile-settings-main,
+#login-body #login-content #login-main,
+#login-body #login-content #register-main,
+#login-body #not-found-content #home-main,
+#login-body #not-found-content #placeholder-main,
+#login-body #not-found-content #search-main,
+#login-body #not-found-content #profile-settings-main,
+#login-body #not-found-content #login-main,
+#login-body #not-found-content #register-main,
+#login-body #register-content #home-main,
+#login-body #register-content #placeholder-main,
+#login-body #register-content #search-main,
+#login-body #register-content #profile-settings-main,
+#login-body #register-content #login-main,
+#login-body #register-content #register-main,
+#not-found-body #home-content #home-main,
+#not-found-body #home-content #placeholder-main,
+#not-found-body #home-content #search-main,
+#not-found-body #home-content #profile-settings-main,
+#not-found-body #home-content #login-main,
+#not-found-body #home-content #register-main,
+#not-found-body #placeholder-content #home-main,
+#not-found-body #placeholder-content #placeholder-main,
+#not-found-body #placeholder-content #search-main,
+#not-found-body #placeholder-content #profile-settings-main,
+#not-found-body #placeholder-content #login-main,
+#not-found-body #placeholder-content #register-main,
+#not-found-body #search-content #home-main,
+#not-found-body #search-content #placeholder-main,
+#not-found-body #search-content #search-main,
+#not-found-body #search-content #profile-settings-main,
+#not-found-body #search-content #login-main,
+#not-found-body #search-content #register-main,
+#not-found-body #profile-settings-content #home-main,
+#not-found-body #profile-settings-content #placeholder-main,
+#not-found-body #profile-settings-content #search-main,
+#not-found-body #profile-settings-content #profile-settings-main,
+#not-found-body #profile-settings-content #login-main,
+#not-found-body #profile-settings-content #register-main,
+#not-found-body #login-content #home-main,
+#not-found-body #login-content #placeholder-main,
+#not-found-body #login-content #search-main,
+#not-found-body #login-content #profile-settings-main,
+#not-found-body #login-content #login-main,
+#not-found-body #login-content #register-main,
+#not-found-body #not-found-content #home-main,
+#not-found-body #not-found-content #placeholder-main,
+#not-found-body #not-found-content #search-main,
+#not-found-body #not-found-content #profile-settings-main,
+#not-found-body #not-found-content #login-main,
+#not-found-body #not-found-content #register-main,
+#not-found-body #register-content #home-main,
+#not-found-body #register-content #placeholder-main,
+#not-found-body #register-content #search-main,
+#not-found-body #register-content #profile-settings-main,
+#not-found-body #register-content #login-main,
+#not-found-body #register-content #register-main,
+#register-body #home-content #home-main,
+#register-body #home-content #placeholder-main,
+#register-body #home-content #search-main,
+#register-body #home-content #profile-settings-main,
+#register-body #home-content #login-main,
+#register-body #home-content #register-main,
+#register-body #placeholder-content #home-main,
+#register-body #placeholder-content #placeholder-main,
+#register-body #placeholder-content #search-main,
+#register-body #placeholder-content #profile-settings-main,
+#register-body #placeholder-content #login-main,
+#register-body #placeholder-content #register-main,
+#register-body #search-content #home-main,
+#register-body #search-content #placeholder-main,
+#register-body #search-content #search-main,
+#register-body #search-content #profile-settings-main,
+#register-body #search-content #login-main,
+#register-body #search-content #register-main,
+#register-body #profile-settings-content #home-main,
+#register-body #profile-settings-content #placeholder-main,
+#register-body #profile-settings-content #search-main,
+#register-body #profile-settings-content #profile-settings-main,
+#register-body #profile-settings-content #login-main,
+#register-body #profile-settings-content #register-main,
+#register-body #login-content #home-main,
+#register-body #login-content #placeholder-main,
+#register-body #login-content #search-main,
+#register-body #login-content #profile-settings-main,
+#register-body #login-content #login-main,
+#register-body #login-content #register-main,
+#register-body #not-found-content #home-main,
+#register-body #not-found-content #placeholder-main,
+#register-body #not-found-content #search-main,
+#register-body #not-found-content #profile-settings-main,
+#register-body #not-found-content #login-main,
+#register-body #not-found-content #register-main,
+#register-body #register-content #home-main,
+#register-body #register-content #placeholder-main,
+#register-body #register-content #search-main,
+#register-body #register-content #profile-settings-main,
+#register-body #register-content #login-main,
+#register-body #register-content #register-main {
   width: 100%;
   height: 100%;
   padding-bottom: 52px;
 }
-#home-body #home-content #home-main #home-main-content,
-#home-body #home-content #placeholder-main #home-main-content,
-#home-body #home-content #search-main #home-main-content,
-#home-body #placeholder-content #home-main #home-main-content,
-#home-body #placeholder-content #placeholder-main #home-main-content,
-#home-body #placeholder-content #search-main #home-main-content,
-#home-body #search-content #home-main #home-main-content,
-#home-body #search-content #placeholder-main #home-main-content,
-#home-body #search-content #search-main #home-main-content,
-#placeholder-body #home-content #home-main #home-main-content,
-#placeholder-body #home-content #placeholder-main #home-main-content,
-#placeholder-body #home-content #search-main #home-main-content,
-#placeholder-body #placeholder-content #home-main #home-main-content,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content,
-#placeholder-body #placeholder-content #search-main #home-main-content,
-#placeholder-body #search-content #home-main #home-main-content,
-#placeholder-body #search-content #placeholder-main #home-main-content,
-#placeholder-body #search-content #search-main #home-main-content,
-#search-body #home-content #home-main #home-main-content,
-#search-body #home-content #placeholder-main #home-main-content,
-#search-body #home-content #search-main #home-main-content,
-#search-body #placeholder-content #home-main #home-main-content,
-#search-body #placeholder-content #placeholder-main #home-main-content,
-#search-body #placeholder-content #search-main #home-main-content,
-#search-body #search-content #home-main #home-main-content,
-#search-body #search-content #placeholder-main #home-main-content,
-#search-body #search-content #search-main #home-main-content {
+
+.hovered {
+  transition: height 0.3s ease;
+}
+
+.show-filter-container {
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  -moz-transform: translateX(0);
+  -ms-transform: translateX(0);
+  -o-transform: translateX(0);
+}
+
+.hide-filter-container {
+  transform: translateX(-266px);
+  -webkit-transform: translateX(-266px);
+  -moz-transform: translateX(-266px);
+  -ms-transform: translateX(-266px);
+  -o-transform: translateX(-266px);
+}
+
+#home-main-content {
   margin-top: 24px;
   display: flex;
   flex-direction: row;
@@ -101,33 +407,7 @@
   -ms-transform-origin: left center;
   -o-transform-origin: left center;
 }
-#home-body #home-content #home-main #home-main-content .column,
-#home-body #home-content #placeholder-main #home-main-content .column,
-#home-body #home-content #search-main #home-main-content .column,
-#home-body #placeholder-content #home-main #home-main-content .column,
-#home-body #placeholder-content #placeholder-main #home-main-content .column,
-#home-body #placeholder-content #search-main #home-main-content .column,
-#home-body #search-content #home-main #home-main-content .column,
-#home-body #search-content #placeholder-main #home-main-content .column,
-#home-body #search-content #search-main #home-main-content .column,
-#placeholder-body #home-content #home-main #home-main-content .column,
-#placeholder-body #home-content #placeholder-main #home-main-content .column,
-#placeholder-body #home-content #search-main #home-main-content .column,
-#placeholder-body #placeholder-content #home-main #home-main-content .column,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column,
-#placeholder-body #placeholder-content #search-main #home-main-content .column,
-#placeholder-body #search-content #home-main #home-main-content .column,
-#placeholder-body #search-content #placeholder-main #home-main-content .column,
-#placeholder-body #search-content #search-main #home-main-content .column,
-#search-body #home-content #home-main #home-main-content .column,
-#search-body #home-content #placeholder-main #home-main-content .column,
-#search-body #home-content #search-main #home-main-content .column,
-#search-body #placeholder-content #home-main #home-main-content .column,
-#search-body #placeholder-content #placeholder-main #home-main-content .column,
-#search-body #placeholder-content #search-main #home-main-content .column,
-#search-body #search-content #home-main #home-main-content .column,
-#search-body #search-content #placeholder-main #home-main-content .column,
-#search-body #search-content #search-main #home-main-content .column {
+#home-main-content .column {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -152,188 +432,32 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-#home-body #home-content #home-main #home-main-content .column::-webkit-scrollbar,
-#home-body #home-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#home-body #home-content #search-main #home-main-content .column::-webkit-scrollbar,
-#home-body #placeholder-content #home-main #home-main-content .column::-webkit-scrollbar,
-#home-body #placeholder-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#home-body #placeholder-content #search-main #home-main-content .column::-webkit-scrollbar,
-#home-body #search-content #home-main #home-main-content .column::-webkit-scrollbar,
-#home-body #search-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#home-body #search-content #search-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #home-content #home-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #home-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #home-content #search-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #placeholder-content #home-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #placeholder-content #search-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #search-content #home-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #search-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#placeholder-body #search-content #search-main #home-main-content .column::-webkit-scrollbar,
-#search-body #home-content #home-main #home-main-content .column::-webkit-scrollbar,
-#search-body #home-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#search-body #home-content #search-main #home-main-content .column::-webkit-scrollbar,
-#search-body #placeholder-content #home-main #home-main-content .column::-webkit-scrollbar,
-#search-body #placeholder-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#search-body #placeholder-content #search-main #home-main-content .column::-webkit-scrollbar,
-#search-body #search-content #home-main #home-main-content .column::-webkit-scrollbar,
-#search-body #search-content #placeholder-main #home-main-content .column::-webkit-scrollbar,
-#search-body #search-content #search-main #home-main-content .column::-webkit-scrollbar {
+#home-main-content .column::-webkit-scrollbar {
   display: none;
 }
-#home-body #home-content #home-main #home-main-content .column .cards-status,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status,
-#home-body #home-content #search-main #home-main-content .column .cards-status,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status,
-#home-body #search-content #home-main #home-main-content .column .cards-status,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status,
-#home-body #search-content #search-main #home-main-content .column .cards-status,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status,
-#search-body #home-content #home-main #home-main-content .column .cards-status,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status,
-#search-body #home-content #search-main #home-main-content .column .cards-status,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status,
-#search-body #search-content #home-main #home-main-content .column .cards-status,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status,
-#search-body #search-content #search-main #home-main-content .column .cards-status {
+#home-main-content .column .cards-status {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 260px;
 }
-#home-body #home-content #home-main #home-main-content .column .cards-status .image-container,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#home-body #home-content #search-main #home-main-content .column .cards-status .image-container,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container,
-#home-body #search-content #home-main #home-main-content .column .cards-status .image-container,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#home-body #search-content #search-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status .image-container,
-#search-body #home-content #home-main #home-main-content .column .cards-status .image-container,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#search-body #home-content #search-main #home-main-content .column .cards-status .image-container,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container,
-#search-body #search-content #home-main #home-main-content .column .cards-status .image-container,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container,
-#search-body #search-content #search-main #home-main-content .column .cards-status .image-container {
+#home-main-content .column .cards-status .image-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
 }
-#home-body #home-content #home-main #home-main-content .column .cards-status .image-container img,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#home-body #home-content #search-main #home-main-content .column .cards-status .image-container img,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container img,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container img,
-#home-body #search-content #home-main #home-main-content .column .cards-status .image-container img,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#home-body #search-content #search-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status .image-container img,
-#search-body #home-content #home-main #home-main-content .column .cards-status .image-container img,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#search-body #home-content #search-main #home-main-content .column .cards-status .image-container img,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status .image-container img,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status .image-container img,
-#search-body #search-content #home-main #home-main-content .column .cards-status .image-container img,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status .image-container img,
-#search-body #search-content #search-main #home-main-content .column .cards-status .image-container img {
+#home-main-content .column .cards-status .image-container img {
   cursor: pointer;
 }
-#home-body #home-content #home-main #home-main-content .column .cards-status p,
-#home-body #home-content #placeholder-main #home-main-content .column .cards-status p,
-#home-body #home-content #search-main #home-main-content .column .cards-status p,
-#home-body #placeholder-content #home-main #home-main-content .column .cards-status p,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards-status p,
-#home-body #placeholder-content #search-main #home-main-content .column .cards-status p,
-#home-body #search-content #home-main #home-main-content .column .cards-status p,
-#home-body #search-content #placeholder-main #home-main-content .column .cards-status p,
-#home-body #search-content #search-main #home-main-content .column .cards-status p,
-#placeholder-body #home-content #home-main #home-main-content .column .cards-status p,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards-status p,
-#placeholder-body #home-content #search-main #home-main-content .column .cards-status p,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards-status p,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards-status p,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards-status p,
-#placeholder-body #search-content #home-main #home-main-content .column .cards-status p,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards-status p,
-#placeholder-body #search-content #search-main #home-main-content .column .cards-status p,
-#search-body #home-content #home-main #home-main-content .column .cards-status p,
-#search-body #home-content #placeholder-main #home-main-content .column .cards-status p,
-#search-body #home-content #search-main #home-main-content .column .cards-status p,
-#search-body #placeholder-content #home-main #home-main-content .column .cards-status p,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards-status p,
-#search-body #placeholder-content #search-main #home-main-content .column .cards-status p,
-#search-body #search-content #home-main #home-main-content .column .cards-status p,
-#search-body #search-content #placeholder-main #home-main-content .column .cards-status p,
-#search-body #search-content #search-main #home-main-content .column .cards-status p {
+#home-main-content .column .cards-status p {
   margin: 0%;
   font-size: 16px;
   font-weight: 500;
   color: #000;
 }
-#home-body #home-content #home-main #home-main-content .column .cards,
-#home-body #home-content #placeholder-main #home-main-content .column .cards,
-#home-body #home-content #search-main #home-main-content .column .cards,
-#home-body #placeholder-content #home-main #home-main-content .column .cards,
-#home-body #placeholder-content #placeholder-main #home-main-content .column .cards,
-#home-body #placeholder-content #search-main #home-main-content .column .cards,
-#home-body #search-content #home-main #home-main-content .column .cards,
-#home-body #search-content #placeholder-main #home-main-content .column .cards,
-#home-body #search-content #search-main #home-main-content .column .cards,
-#placeholder-body #home-content #home-main #home-main-content .column .cards,
-#placeholder-body #home-content #placeholder-main #home-main-content .column .cards,
-#placeholder-body #home-content #search-main #home-main-content .column .cards,
-#placeholder-body #placeholder-content #home-main #home-main-content .column .cards,
-#placeholder-body #placeholder-content #placeholder-main #home-main-content .column .cards,
-#placeholder-body #placeholder-content #search-main #home-main-content .column .cards,
-#placeholder-body #search-content #home-main #home-main-content .column .cards,
-#placeholder-body #search-content #placeholder-main #home-main-content .column .cards,
-#placeholder-body #search-content #search-main #home-main-content .column .cards,
-#search-body #home-content #home-main #home-main-content .column .cards,
-#search-body #home-content #placeholder-main #home-main-content .column .cards,
-#search-body #home-content #search-main #home-main-content .column .cards,
-#search-body #placeholder-content #home-main #home-main-content .column .cards,
-#search-body #placeholder-content #placeholder-main #home-main-content .column .cards,
-#search-body #placeholder-content #search-main #home-main-content .column .cards,
-#search-body #search-content #home-main #home-main-content .column .cards,
-#search-body #search-content #placeholder-main #home-main-content .column .cards,
-#search-body #search-content #search-main #home-main-content .column .cards {
+#home-main-content .column .cards {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -341,26 +465,6 @@
   width: 100%;
   height: 100%;
   gap: 24px;
-}
-
-.hovered {
-  transition: height 0.3s ease;
-}
-
-.show-filter-container {
-  transform: translateX(0);
-  -webkit-transform: translateX(0);
-  -moz-transform: translateX(0);
-  -ms-transform: translateX(0);
-  -o-transform: translateX(0);
-}
-
-.hide-filter-container {
-  transform: translateX(-266px);
-  -webkit-transform: translateX(-266px);
-  -moz-transform: translateX(-266px);
-  -ms-transform: translateX(-266px);
-  -o-transform: translateX(-266px);
 }
 
 #search-main-content {
@@ -406,6 +510,39 @@
   -moz-transform: translateX(-266px);
   -ms-transform: translateX(-266px);
   -o-transform: translateX(-266px);
+}
+
+#not-found-main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#not-found-main #not-found-main-content {
+  width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+#not-found-main #not-found-main-content h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0%;
+  margin-top: 52px;
+}
+#not-found-main #not-found-main-content p {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 0%;
+  width: 300px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=pages.css.map */

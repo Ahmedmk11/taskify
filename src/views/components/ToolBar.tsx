@@ -23,7 +23,7 @@ function ToolBar(props: ToolBarProps) {
 
     const items: MenuProps['items'] = [
         {
-            label: <a>Profile Settings</a>,
+            label: <a onClick={() => {navigate('/profile')}}>Profile Settings</a>,
             key: '0',
         },
         {

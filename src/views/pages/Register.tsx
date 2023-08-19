@@ -1,22 +1,20 @@
 // --------------------------------------------------------------
-// Placeholder page frontend code.
+// Register page frontend code.
 // --------------------------------------------------------------
 
 import React from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
-import ActionBar from '../components/ActionBar'
 import Footer from '../components/Footer'
 
-function Placeholder() {
+function Register() {
     return (
-        <div id="placeholder-body">
+        <div id="register-body">
             <ToolBar />
-            <div id="placeholder-content">
-                <NavBar currentPage={'placeholder'} />
-                <div id="placeholder-main">
-                    <ActionBar />
-                    <div id="placeholder-main-content"></div>
+            <div id="register-content">
+                <NavBar />
+                <div id="register-main">
+                    <div id="register-main-content"></div>
                 </div>
             </div>
             <Footer />
@@ -24,4 +22,4 @@ function Placeholder() {
     )
 }
 
-export default Placeholder
+export default Register

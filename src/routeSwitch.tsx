@@ -3,11 +3,12 @@ import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 
 import Home from './views/pages/Home'
-import Login from './views/pages/LoginPage'
-import Register from './views/pages/RegisterPage'
+import Login from './views/pages/Login'
+import Register from './views/pages/Register'
 import Placeholder from './views/pages/Placeholder'
 import NotFound from './views/pages/NotFound'
 import Search from './views/pages/Search'
+import ProfileSettings from './views/pages/ProfileSettings'
 
 const RouteSwitch = () => {
     return (
@@ -18,6 +19,7 @@ const RouteSwitch = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/search" element={<Search />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<ProfileSettings />} />
             <Route path="/placeholder" element={<Placeholder />} />
         </Routes>
     )

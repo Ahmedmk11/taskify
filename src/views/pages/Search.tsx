@@ -11,7 +11,6 @@ import { useSearchParams } from 'react-router-dom'
 import Card from '../components/Card'
 import { Task } from '../../app/Task'
 import Filter from '../components/Filter'
-import { useNavigate } from 'react-router-dom'
 import ReactDOM from 'react-dom'
 
 type SearchProps = {
@@ -23,7 +22,6 @@ function Search(props: SearchProps) {
     const [isVisible, setIsVisible] = useState(false)
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
-    const navigate = useNavigate()
 
     useEffect(() => {
         document
@@ -77,7 +75,7 @@ function Search(props: SearchProps) {
         <div id="search-body">
             <ToolBar />
             <div id="search-content">
-                <NavBar currentPage={'home'} />
+                <NavBar />
                 <div id="search-main">
                     <ActionBar
                         isSrch={true}

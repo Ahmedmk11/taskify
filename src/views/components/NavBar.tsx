@@ -48,7 +48,7 @@ NavBar.propTypes = {
 }
 
 NavBar.defaultProps = {
-    currentPage: 'home',
+    currentPage: 'None',
 }
 
 export default NavBar
