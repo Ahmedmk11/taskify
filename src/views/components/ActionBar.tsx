@@ -27,9 +27,14 @@ function ActionBar(props: ActionBarProps) {
             <div id="action-bar">
                 <h2>{title}</h2>
                 <div id="action-bar-buttons">
-                    <Space wrap style={
-                        isSrch ? { visibility: 'hidden' } : { display: 'block' }
-                    }>
+                    <Space
+                        wrap
+                        style={
+                            isSrch
+                                ? { visibility: 'hidden' }
+                                : { display: 'block' }
+                        }
+                    >
                         <Button
                             onClick={() => {
                                 handleCreate()
@@ -70,7 +75,7 @@ ActionBar.propTypes = {
     handleFilters: PropTypes.func,
     title: PropTypes.string.isRequired,
     isSrch: PropTypes.bool,
-    isDisabled: PropTypes.bool
+    isDisabled: PropTypes.bool,
 }
 
 ActionBar.defaultProps = {
@@ -82,7 +87,7 @@ ActionBar.defaultProps = {
     },
     title: 'Tasks',
     isSrch: false,
-    isDisabled: false
+    isDisabled: false,
 }
 
 export default ActionBar

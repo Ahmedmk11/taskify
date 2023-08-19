@@ -81,7 +81,9 @@ function Search(props: SearchProps) {
                 <div id="search-main">
                     <ActionBar
                         isSrch={true}
-                        isDisabled={getSearchResults(tasks).length === 0 ? true: false}
+                        isDisabled={
+                            getSearchResults(tasks).length === 0 ? true : false
+                        }
                         handleFilters={showFilters}
                         title={`${
                             getSearchResults(tasks).length === 0
@@ -143,8 +145,8 @@ Search.defaultProps = {
     tasks: [
         {
             id: '1',
-            title: 'Task 1',
-            desc: 'This is a description for task 1.',
+            title: 'Task 1 lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            desc: 'This is a description for task 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl.',
             priority: 'low',
             dueDate: new Date(2023, 4, 16),
             creationDate: new Date(2023, 3, 1),

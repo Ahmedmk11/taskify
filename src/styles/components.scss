@@ -61,6 +61,7 @@
 #tool-bar {
     width: 100%;
     min-height: 84px;
+    max-height: 84px;
     background-color: #fff;
     display: flex;
     flex-direction: row;
@@ -70,12 +71,16 @@
     position: sticky;
     top: 0;
     z-index: 1000;
+    overflow-y: visible;
     #tool-bar-header {
         margin-left: 24px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        img {
+            cursor: pointer;
+        }
     }
     #tool-bar-item {
         width: 150px;
@@ -100,7 +105,7 @@
             color: black;
         }
     }
-    img {
+    #profile-avi {
         cursor: pointer;
     }
 }
@@ -300,7 +305,8 @@
 
 .expanded {
     max-height: 1000px;
-    .card-description, .card-title {
+    .card-description,
+    .card-title {
         -webkit-line-clamp: 100000 !important;
     }
 }

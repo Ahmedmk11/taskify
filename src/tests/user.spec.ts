@@ -7,7 +7,7 @@ describe('User', () => {
 
     beforeEach(() => {
         task = new Task('Task 1', 'Description', 'high', new Date('2023-08-08'))
-        user = new User('Ahmed', 'ahmed@gmail.com', '123')
+        user = new User('Ahmed', 'ahmed@gmail.com')
         user.createTask(task)
     })
 

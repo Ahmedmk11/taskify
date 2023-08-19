@@ -25,7 +25,8 @@ type CardProps = {
 
 function Card(props: CardProps) {
     const { categories, title, description, date, type, id, priority } = props
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(categories)
+    const [selectedCategories, setSelectedCategories] =
+        useState<string[]>(categories)
     const [inputValue, setInputValue] = useState('')
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -145,7 +146,10 @@ function Card(props: CardProps) {
     )
 
     return (
-        <div className={isExpanded ? 'card expanded' : 'card'} id={type !== 'task' ? '' : id}>
+        <div
+            className={isExpanded ? 'card expanded' : 'card'}
+            id={type !== 'task' ? '' : id}
+        >
             <div
                 className={
                     type !== 'task'
@@ -268,33 +272,35 @@ function Card(props: CardProps) {
                 </div>
                 <div className="card-bottom-bottom">
                     {type !== 'task' ? (
-                            <Space wrap>
-                                <Button
-                                    onClick={(e) => {
-                                        cancelCard(e)
-                                    }}
-                                    danger
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    className="default-priority-btn"
-                                    id="save-input-btn"
-                                >
-                                    Save
-                                </Button>
-                            </Space>
-                    )
-                    : (
-                        <Space className='read-more' onClick={() => {(type !== 'task') ? null : expand()}} wrap>
-                            <Button type="link">
-                                {
-                                    isExpanded ? 'Read less' : 'Read more'
-                                }
+                        <Space wrap>
+                            <Button
+                                onClick={(e) => {
+                                    cancelCard(e)
+                                }}
+                                danger
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                className="default-priority-btn"
+                                id="save-input-btn"
+                            >
+                                Save
                             </Button>
                         </Space>
-                    )
-                }
+                    ) : (
+                        <Space
+                            className="read-more"
+                            onClick={() => {
+                                type !== 'task' ? null : expand()
+                            }}
+                            wrap
+                        >
+                            <Button type="link">
+                                {isExpanded ? 'Read less' : 'Read more'}
+                            </Button>
+                        </Space>
+                    )}
                 </div>
             </div>
         </div>

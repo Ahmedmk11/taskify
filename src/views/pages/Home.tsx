@@ -2,6 +2,7 @@
 // Home page frontend code.
 // --------------------------------------------------------------
 
+'use client'
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import NavBar from '../components/NavBar'
@@ -11,7 +12,7 @@ import Filter from '../components/Filter'
 import plusIcn from '../../assets/icons/plus.svg'
 import Card from '../components/Card'
 import ReactDOM from 'react-dom'
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom'
 import { Task } from '../../app/Task'
 
 type HomeProps = {
@@ -24,19 +25,19 @@ function Home(props: HomeProps) {
     const [targetCardID, setTargetCardID] = useState<string>('')
     const [isDraggedOnce, setIsDraggedOnce] = useState([true, true, true])
     const [isVisible, setIsVisible] = useState(false)
-    const location = useLocation();
+    const location = useLocation()
 
     useEffect(() => {
         document
             .getElementById('filters-container')
             ?.classList.add('visibility-hidden')
     }, [])
-    
+
     useEffect(() => {
-    if (location.state?.createCardPop) {
-            createCardPop();
+        if (location.state?.createCardPop) {
+            createCardPop()
         }
-    }, [location]);
+    }, [location])
 
     function onHover(ev: any) {
         const targetCard =
@@ -173,34 +174,35 @@ function Home(props: HomeProps) {
                                 </div>
                             </div>
                             <div className="cards">
-                            {
-                                tasks.map((task, index) => (
-                                    task.status === 'todo' &&
-                                    <div
-                                        className="draggable-card"
-                                        id={`card-container-${index}`}
-                                        draggable="true"
-                                        onDragStart={drag}
-                                        onDragEnd={handleDragEnd}
-                                        key={task.id}
-                                    >
-                                        <Card
-                                            id={`card-${index}`}
-                                            categories={task.categories}
-                                            title={task.title}
-                                            description={task.desc}
-                                            date={task.dueDate.toLocaleDateString(
-                                                'en-GB',
-                                                {
-                                                    day: 'numeric',
-                                                    month: 'short',
-                                                    year: 'numeric',
-                                                }
-                                            )}
-                                            priority={task.priority}
-                                        />
-                                    </div>
-                                ))}
+                                {tasks.map(
+                                    (task, index) =>
+                                        task.status === 'todo' && (
+                                            <div
+                                                className="draggable-card"
+                                                id={`card-container-${index}`}
+                                                draggable="true"
+                                                onDragStart={drag}
+                                                onDragEnd={handleDragEnd}
+                                                key={task.id}
+                                            >
+                                                <Card
+                                                    id={`card-${index}`}
+                                                    categories={task.categories}
+                                                    title={task.title}
+                                                    description={task.desc}
+                                                    date={task.dueDate.toLocaleDateString(
+                                                        'en-GB',
+                                                        {
+                                                            day: 'numeric',
+                                                            month: 'short',
+                                                            year: 'numeric',
+                                                        }
+                                                    )}
+                                                    priority={task.priority}
+                                                />
+                                            </div>
+                                        )
+                                )}
                             </div>
                         </div>
                         <div
@@ -223,34 +225,35 @@ function Home(props: HomeProps) {
                                 </div>
                             </div>
                             <div className="cards">
-                            {
-                                tasks.map((task, index) => (
-                                    task.status === 'inprogress' &&
-                                    <div
-                                        className="draggable-card"
-                                        id={`card-container-${index}`}
-                                        draggable="true"
-                                        onDragStart={drag}
-                                        onDragEnd={handleDragEnd}
-                                        key={task.id}
-                                    >
-                                        <Card
-                                            id={`card-${index}`}
-                                            categories={task.categories}
-                                            title={task.title}
-                                            description={task.desc}
-                                            date={task.dueDate.toLocaleDateString(
-                                                'en-GB',
-                                                {
-                                                    day: 'numeric',
-                                                    month: 'short',
-                                                    year: 'numeric',
-                                                }
-                                            )}
-                                            priority={task.priority}
-                                        />
-                                    </div>
-                                ))}
+                                {tasks.map(
+                                    (task, index) =>
+                                        task.status === 'inprogress' && (
+                                            <div
+                                                className="draggable-card"
+                                                id={`card-container-${index}`}
+                                                draggable="true"
+                                                onDragStart={drag}
+                                                onDragEnd={handleDragEnd}
+                                                key={task.id}
+                                            >
+                                                <Card
+                                                    id={`card-${index}`}
+                                                    categories={task.categories}
+                                                    title={task.title}
+                                                    description={task.desc}
+                                                    date={task.dueDate.toLocaleDateString(
+                                                        'en-GB',
+                                                        {
+                                                            day: 'numeric',
+                                                            month: 'short',
+                                                            year: 'numeric',
+                                                        }
+                                                    )}
+                                                    priority={task.priority}
+                                                />
+                                            </div>
+                                        )
+                                )}
                             </div>
                         </div>
                         <div
@@ -273,34 +276,35 @@ function Home(props: HomeProps) {
                                 </div>
                             </div>
                             <div className="cards">
-                            {
-                                tasks.map((task, index) => (
-                                    task.status === 'done' &&
-                                    <div
-                                        className="draggable-card"
-                                        id={`card-container-${index}`}
-                                        draggable="true"
-                                        onDragStart={drag}
-                                        onDragEnd={handleDragEnd}
-                                        key={task.id}
-                                    >
-                                        <Card
-                                            id={`card-${index}`}
-                                            categories={task.categories}
-                                            title={task.title}
-                                            description={task.desc}
-                                            date={task.dueDate.toLocaleDateString(
-                                                'en-GB',
-                                                {
-                                                    day: 'numeric',
-                                                    month: 'short',
-                                                    year: 'numeric',
-                                                }
-                                            )}
-                                            priority={task.priority}
-                                        />
-                                    </div>
-                                ))}
+                                {tasks.map(
+                                    (task, index) =>
+                                        task.status === 'done' && (
+                                            <div
+                                                className="draggable-card"
+                                                id={`card-container-${index}`}
+                                                draggable="true"
+                                                onDragStart={drag}
+                                                onDragEnd={handleDragEnd}
+                                                key={task.id}
+                                            >
+                                                <Card
+                                                    id={`card-${index}`}
+                                                    categories={task.categories}
+                                                    title={task.title}
+                                                    description={task.desc}
+                                                    date={task.dueDate.toLocaleDateString(
+                                                        'en-GB',
+                                                        {
+                                                            day: 'numeric',
+                                                            month: 'short',
+                                                            year: 'numeric',
+                                                        }
+                                                    )}
+                                                    priority={task.priority}
+                                                />
+                                            </div>
+                                        )
+                                )}
                             </div>
                         </div>
                     </div>
