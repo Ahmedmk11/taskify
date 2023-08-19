@@ -34,7 +34,11 @@ function Card(props: CardProps) {
 
     function cancelCard(ev: any) {
         const container = ev.target.closest('#create-new-task')
-        container!.remove()
+        container.classList.remove('show-pop')
+        container.classList.add('hide-pop')
+        setTimeout(() => {
+            container!.remove()
+        }, 300)
     }
 
     const expand = () => {

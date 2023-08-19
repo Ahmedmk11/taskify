@@ -73,6 +73,9 @@ function Home(props: HomeProps) {
         ReactDOM.render(<Card type="create" />, container)
         const cards = colEl!.querySelector('.cards')
         cards!.insertBefore(container, cards!.childNodes[0])
+        setTimeout(() => {
+            container.classList.add('show-pop')
+        }, 0)
     }
 
     const showFilters = () => {

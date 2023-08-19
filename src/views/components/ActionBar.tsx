@@ -3,7 +3,7 @@
 // --------------------------------------------------------------
 
 import React from 'react'
-import { Button, Space, Input } from 'antd'
+import { Button, Space, Input, Tooltip } from 'antd'
 const { Search } = Input
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
@@ -47,10 +47,11 @@ function ActionBar(props: ActionBarProps) {
                     </Space>
                     <Space direction="vertical">
                         <Search
-                            placeholder="input search text"
-                            onSearch={(value) =>
+                            placeholder="What are you looking for?"
+                            onSearch={(value) => {
                                 navigate(`/search?query=${value}`)
-                            }
+                            }}
+                            allowClear
                             style={{ width: 363 }}
                         />
                     </Space>
