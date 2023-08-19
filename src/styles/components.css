@@ -4,14 +4,12 @@
   justify-content: space-between;
   align-items: center;
   min-width: 74px;
-  height: 80.5vh;
+  height: 880px;
   background-color: #fff;
   padding: 24px 0px;
   border-right: 1px solid #d9d9d9;
-  position: sticky;
-  top: 85px;
-  left: 0;
   z-index: 1000;
+  box-sizing: border-box;
 }
 #nav-bar #nav-bar-top {
   display: flex;
@@ -55,8 +53,6 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #d9d9d9;
-  position: sticky;
-  top: 0;
   z-index: 1000;
   overflow-y: visible;
 }
@@ -77,7 +73,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-right: 50px;
+  margin-right: 24px;
 }
 #tool-bar #tool-bar-profile {
   width: 102px;
@@ -458,21 +454,57 @@
 }
 
 #create-new-task {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out;
-  -webkit-transition: max-height 0.3s ease-in-out;
-  -moz-transition: max-height 0.3s ease-in-out;
-  -ms-transition: max-height 0.3s ease-in-out;
-  -o-transition: max-height 0.3s ease-in-out;
+  max-height: 0px;
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
 }
 #create-new-task.show-pop {
-  max-height: 440px;
+  animation: show-pop 300ms forwards;
+  -webkit-animation: show-pop 300ms forwards;
 }
 #create-new-task.hide-pop {
-  max-height: 0px;
+  animation: hide-pop 300ms forwards;
+  -webkit-animation: hide-pop 300ms forwards;
 }
 
+@keyframes show-pop {
+  0% {
+    max-height: 0px;
+    opacity: 0;
+  }
+  25% {
+    max-height: 110px;
+  }
+  50% {
+    max-height: 220px;
+  }
+  75% {
+    max-height: 330px;
+  }
+  100% {
+    max-height: 440px;
+    opacity: 1;
+  }
+}
+@keyframes hide-pop {
+  0% {
+    max-height: 440px;
+    opacity: 1;
+  }
+  25% {
+    max-height: 330px;
+  }
+  50% {
+    max-height: 220px;
+  }
+  75% {
+    max-height: 110px;
+  }
+  100% {
+    max-height: 0px;
+    opacity: 0;
+  }
+}
 #filters-container {
   user-select: none;
   width: 220px;
@@ -613,6 +645,36 @@
 
 .visibility-hidden {
   visibility: hidden !important;
+}
+
+#footer-container {
+  width: 100%;
+  min-height: 84px;
+  max-height: 84px;
+  background-color: #fff;
+  border-top: 1px solid #d9d9d9;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 24px;
+  box-sizing: border-box;
+}
+#footer-container #copyright {
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  color: black;
+}
+#footer-container #socials {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+  margin-right: 25px;
 }
 
 /*# sourceMappingURL=components.css.map */

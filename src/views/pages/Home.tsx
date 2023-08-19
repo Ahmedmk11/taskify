@@ -14,6 +14,7 @@ import Card from '../components/Card'
 import ReactDOM from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import { Task } from '../../app/Task'
+import Footer from '../components/Footer'
 
 type HomeProps = {
     currentPage: string
@@ -23,7 +24,6 @@ type HomeProps = {
 function Home(props: HomeProps) {
     const { currentPage, tasks } = props
     const [targetCardID, setTargetCardID] = useState<string>('')
-    const [isDraggedOnce, setIsDraggedOnce] = useState([true, true, true])
     const [isVisible, setIsVisible] = useState(false)
     const location = useLocation()
 
@@ -38,27 +38,6 @@ function Home(props: HomeProps) {
             createCardPop()
         }
     }, [location])
-
-    function onHover(ev: any) {
-        const targetCard =
-            targetCardID == ''
-                ? 'nograb'
-                : document.getElementById(targetCardID)
-        if (targetCard == 'nograb') {
-            return
-        }
-        const targetColumn = ev.target.closest('.column')
-        const targetCardHeight = targetCard!.offsetHeight
-        const targetColumnHeight = targetColumn!.offsetHeight
-        const index = targetColumn.id.split('-')[1] - 1
-        if (ev.buttons === 1 && isDraggedOnce[index]) {
-            targetColumn.style.height = `${
-                targetColumnHeight + targetCardHeight
-            }px`
-            isDraggedOnce[index] = false
-            setIsDraggedOnce(isDraggedOnce)
-        }
-    }
 
     function allowDrop(ev: any) {
         ev.preventDefault()
@@ -125,13 +104,6 @@ function Home(props: HomeProps) {
 
     function handleDragEnd() {
         setTargetCardID('')
-        const columns = document.querySelectorAll(
-            '.column'
-        ) as NodeListOf<HTMLElement>
-        columns.forEach((column) => {
-            column.style.height = 'fit-content'
-        })
-        setIsDraggedOnce([true, true, true])
     }
 
     return (
@@ -160,7 +132,6 @@ function Home(props: HomeProps) {
                         <div
                             id="col-1"
                             onDrop={drop}
-                            onDragEnter={onHover}
                             className="column"
                             onDragOver={allowDrop}
                         >
@@ -211,7 +182,6 @@ function Home(props: HomeProps) {
                         <div
                             id="col-2"
                             onDrop={drop}
-                            onDragEnter={onHover}
                             className="column"
                             onDragOver={allowDrop}
                         >
@@ -262,7 +232,6 @@ function Home(props: HomeProps) {
                         <div
                             id="col-3"
                             onDrop={drop}
-                            onDragEnter={onHover}
                             className="column"
                             onDragOver={allowDrop}
                         >
@@ -313,6 +282,7 @@ function Home(props: HomeProps) {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }
