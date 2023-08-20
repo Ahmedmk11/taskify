@@ -87,6 +87,9 @@
         justify-content: space-between;
         align-items: center;
         margin-right: 24px;
+        #notification-img {
+            cursor: pointer;
+        }
     }
     #tool-bar-profile {
         width: 102px;
@@ -104,6 +107,28 @@
     }
     #profile-avi {
         cursor: pointer;
+    }
+}
+
+#notifs-menu {
+    p {
+        margin: 6px;
+        color: var(--color-light-black-45);
+    }
+    .notif-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        h3 {
+            margin: 0%;
+        }
+        div {
+            font-size: 12px;
+            span {
+                color: var(--color-red);
+            }
+        }
     }
 }
 
@@ -248,7 +273,7 @@
                 height: 100%;
                 justify-content: flex-start;
                 align-items: center;
-                gap: 10px;
+                gap: 3px;
                 .category {
                     width: fit-content;
                     height: 26px;

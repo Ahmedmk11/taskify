@@ -10,11 +10,11 @@ import NotFound from './views/pages/NotFound'
 import Search from './views/pages/Search'
 import ProfileSettings from './views/pages/ProfileSettings'
 import TermsAndConditions from './views/pages/TermsAndConditions'
+import Task from './views/pages/Task'
 
 const RouteSwitch = () => {
     return (
         <Routes>
-            <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
@@ -22,10 +22,12 @@ const RouteSwitch = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<ProfileSettings />} />
             <Route path="/placeholder" element={<Placeholder />} />
+            <Route path="/task/:id" element={<Task />} />
             <Route
                 path="/terms-and-conditions"
                 element={<TermsAndConditions />}
             />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

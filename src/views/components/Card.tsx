@@ -12,19 +12,32 @@ const { Option } = Select
 
 import settingsIcn from '../../assets/icons/settings.svg'
 import dateIcn from '../../assets/icons/date.svg'
+import { Task } from '../../app/Task'
 
 type CardProps = {
-    categories: string[]
-    title: string
-    description: string
-    date: string
     type: string
-    id: string
-    priority: string
+    task: Task
 }
 
 function Card(props: CardProps) {
-    const { categories, title, description, date, type, id, priority } = props
+    const { type, task } = props
+
+    function formatDate(date: Date) {
+        const options: Intl.DateTimeFormatOptions = {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          };
+        return new Intl.DateTimeFormat('en-GB', options).format(date);
+    }
+
+    const categories = task.categories
+    const title = task.title
+    const description = task.desc
+    const date = formatDate(task.dueDate)
+    const id = task.id
+    const priority = task.priority
+
     const [selectedCategories, setSelectedCategories] =
         useState<string[]>(categories)
     const [inputValue, setInputValue] = useState('')
@@ -222,6 +235,7 @@ function Card(props: CardProps) {
                                     'text-area-title'
                                 )}
                                 data-resizable="true"
+                                maxLength={50}
                             />
                         ) : (
                             title
@@ -312,24 +326,13 @@ function Card(props: CardProps) {
 }
 
 Card.propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.string),
-    class: PropTypes.string,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    date: PropTypes.string,
     type: PropTypes.string,
-    id: PropTypes.string,
-    priority: PropTypes.string,
+    task: PropTypes.object,
 }
 
 Card.defaultProps = {
-    categories: ['Main', 'Work'],
-    title: 'Finish Website',
-    description: 'Finish the website by the end of the week.',
-    date: '16 May 2023',
     type: 'task',
-    id: 'card-0',
-    priority: 'default',
+    task: {},
 }
 
 export default Card

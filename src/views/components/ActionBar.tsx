@@ -14,12 +14,12 @@ type ActionBarProps = {
     handleCreate: () => void
     handleFilters: () => void
     title: string
-    isSrch: boolean
+    isHideButton: boolean
     isDisabled: boolean
 }
 
 function ActionBar(props: ActionBarProps) {
-    const { handleCreate, handleFilters, title, isSrch, isDisabled } = props
+    const { handleCreate, handleFilters, title, isHideButton, isDisabled } = props
     const navigate = useNavigate()
 
     return (
@@ -30,7 +30,7 @@ function ActionBar(props: ActionBarProps) {
                     <Space
                         wrap
                         style={
-                            isSrch
+                            isHideButton
                                 ? { visibility: 'hidden' }
                                 : { display: 'block' }
                         }
@@ -75,7 +75,7 @@ ActionBar.propTypes = {
     handleCreate: PropTypes.func,
     handleFilters: PropTypes.func,
     title: PropTypes.string.isRequired,
-    isSrch: PropTypes.bool,
+    isHideButton: PropTypes.bool,
     isDisabled: PropTypes.bool,
 }
 
@@ -87,7 +87,7 @@ ActionBar.defaultProps = {
         console.log('filters')
     },
     title: 'Tasks',
-    isSrch: false,
+    isHideButton: false,
     isDisabled: false,
 }
 

@@ -78,7 +78,7 @@ function Search(props: SearchProps) {
                 <NavBar />
                 <div id="search-main">
                     <ActionBar
-                        isSrch={true}
+                        isHideButton={true}
                         isDisabled={
                             getSearchResults(tasks).length === 0 ? true : false
                         }
@@ -110,22 +110,7 @@ function Search(props: SearchProps) {
                         />
                         <div id="result-items">
                             {getSearchResults(tasks)!.map((task) => (
-                                <Card
-                                    key={task.id}
-                                    categories={task.categories}
-                                    title={task.title}
-                                    description={task.desc}
-                                    date={task.dueDate.toLocaleDateString(
-                                        'en-GB',
-                                        {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric',
-                                        }
-                                    )}
-                                    id={task.id}
-                                    priority={task.priority}
-                                />
+                                <Card task={task}/>
                             ))}
                         </div>
                     </div>

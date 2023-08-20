@@ -159,21 +159,7 @@ function Home(props: HomeProps) {
                                                 onDragEnd={handleDragEnd}
                                                 key={task.id}
                                             >
-                                                <Card
-                                                    id={`card-${index}`}
-                                                    categories={task.categories}
-                                                    title={task.title}
-                                                    description={task.desc}
-                                                    date={task.dueDate.toLocaleDateString(
-                                                        'en-GB',
-                                                        {
-                                                            day: 'numeric',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                        }
-                                                    )}
-                                                    priority={task.priority}
-                                                />
+                                                <Card task={task} />
                                             </div>
                                         )
                                 )}
@@ -209,21 +195,7 @@ function Home(props: HomeProps) {
                                                 onDragEnd={handleDragEnd}
                                                 key={task.id}
                                             >
-                                                <Card
-                                                    id={`card-${index}`}
-                                                    categories={task.categories}
-                                                    title={task.title}
-                                                    description={task.desc}
-                                                    date={task.dueDate.toLocaleDateString(
-                                                        'en-GB',
-                                                        {
-                                                            day: 'numeric',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                        }
-                                                    )}
-                                                    priority={task.priority}
-                                                />
+                                                <Card task={task}/>
                                             </div>
                                         )
                                 )}
@@ -259,21 +231,7 @@ function Home(props: HomeProps) {
                                                 onDragEnd={handleDragEnd}
                                                 key={task.id}
                                             >
-                                                <Card
-                                                    id={`card-${index}`}
-                                                    categories={task.categories}
-                                                    title={task.title}
-                                                    description={task.desc}
-                                                    date={task.dueDate.toLocaleDateString(
-                                                        'en-GB',
-                                                        {
-                                                            day: 'numeric',
-                                                            month: 'short',
-                                                            year: 'numeric',
-                                                        }
-                                                    )}
-                                                    priority={task.priority}
-                                                />
+                                                <Card task={task}/>
                                             </div>
                                         )
                                 )}

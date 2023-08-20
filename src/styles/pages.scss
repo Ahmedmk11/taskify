@@ -10,7 +10,8 @@
 #profile-settings-body,
 #login-body,
 #not-found-body,
-#register-body {
+#register-body,
+#task-body {
     width: 100%;
     height: 100%;
     display: flex;
@@ -23,7 +24,8 @@
     #profile-settings-content,
     #login-content,
     #not-found-content,
-    #register-content {
+    #register-content,
+    #task-content {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -402,10 +404,35 @@
 #profile-settings-main {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    padding-bottom: 52px;
     #profile-settings-main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 24px;
+        margin-top: 24px;
+        width: calc(100% - 24px);
+        margin-left: 24px;
+    }
+}
+
+// --------------------------------------------------------------
+// Task SCSS.
+// --------------------------------------------------------------
+
+#task-main {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 52px;
+    #task-main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 24px;
+        margin-top: 24px;
+        width: calc(100% - 24px);
+        margin-left: 24px;
     }
 }
