@@ -2,36 +2,97 @@
 // Tool Bar react component.
 // --------------------------------------------------------------
 
-import React from 'react'
+import React, { useState} from 'react'
 import PropTypes from 'prop-types'
 
 import notificationsIcn from '../../assets/icons/notifications.svg'
 import logoIcn from '../../assets/icons/logo.svg'
+import sunIcn from '../../assets/icons/sun.svg'
+import moonIcn from '../../assets/icons/moon.svg'
 import { User } from '../../app/User'
 import { UserOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
-import { Dropdown, Space, Avatar } from 'antd'
+import { Dropdown, Space, Avatar, Switch } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
 type ToolBarProps = {
-    user: User
+    user: User | null
 }
+
+const SunIcon = () => <img style={{width: 16, height: 16}} src={sunIcn} />
+const MoonIcon = () => <img style={{width: 16, height: 16}} src={moonIcn} />
 
 function ToolBar(props: ToolBarProps) {
     const { user } = props
+    const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark' ? true : false)
+    const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
+
+    const handleMenuClick = (ev: any) => {
+        setVisible(true);
+    }
+
+    const handleVisibleChange = (flag: boolean) => {
+        setVisible(flag);
+    };
 
     const items: MenuProps['items'] = [
         {
-            label: <a onClick={() => {navigate('/profile')}}>Profile Settings</a>,
+            label: (
+                <a style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '100%'
+                }}
+                    onClick={() => {
+                        navigate('/profile')
+                    }}
+                >
+                    Profile Settings
+                </a>
+            ),
             key: '0',
+        },
+        {
+            label: (
+                    <Space style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%'
+                    }} direction="vertical">
+                        <Switch
+                        checkedChildren={<SunIcon />}
+                        unCheckedChildren={<MoonIcon />}
+                        defaultChecked={isDarkMode ? false : true}
+                        onClick={handleMenuClick}
+                        onChange={(checked) => {
+                            setIsDarkMode(!checked)
+                            localStorage.setItem('theme', checked ? 'light' : 'dark')
+                            if (checked) {
+                                document.body.classList.add('light')
+                                document.body.classList.remove('dark')
+                            } else {
+                                document.body.classList.add('dark')
+                                document.body.classList.remove('light')
+                            }
+                        }} />
+                    </Space>
+            ),
+            key: '1',
         },
         {
             type: 'divider',
         },
         {
-            label: <a>Log Out</a>,
-            key: '1',
+            label: <a style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%'
+            }}>Log Out</a>,
+            key: '2',
             danger: true,
         },
     ]
@@ -54,6 +115,8 @@ function ToolBar(props: ToolBarProps) {
                         menu={{ items }}
                         trigger={['click']}
                         placement="bottom"
+                        onOpenChange={handleVisibleChange}
+                        open={visible}
                     >
                         <a onClick={(e) => e.preventDefault()}>
                             <Space>
@@ -63,7 +126,12 @@ function ToolBar(props: ToolBarProps) {
                             </Space>
                         </a>
                     </Dropdown>
-                    <p>Hello, {user.name.split(' ')[0]}</p>
+                    <p>
+                        Hello,{' '}
+                        {user?.name.split(' ')[0]
+                            ? user?.name.split(' ')[0]
+                            : 'Guest'}
+                    </p>
                 </div>
             </div>
         </div>
@@ -71,7 +139,7 @@ function ToolBar(props: ToolBarProps) {
 }
 
 ToolBar.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
 }
 
 ToolBar.defaultProps = {

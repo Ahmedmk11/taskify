@@ -10,10 +10,11 @@
     justify-content: space-between;
     align-items: center;
     min-width: 74px;
-    height: 880px;
+    width: 74px;
+    height: 880px; //change this
     background-color: #fff;
     padding: 24px 0px;
-    border-right: 1px solid $color-gray;
+    border-right: 1px solid var(--color-gray);
     z-index: 1000;
     box-sizing: border-box;
     #nav-bar-top {
@@ -65,7 +66,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid $color-gray;
+    border-bottom: 1px solid var(--color-gray);
     z-index: 1000;
     overflow-y: visible;
     #tool-bar-header {
@@ -106,6 +107,26 @@
     }
 }
 
+// .ant-switch-checked .anticon {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
+  
+//   .ant-switch .anticon {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//   }
+
+  .ant-switch-inner {
+    height: 16px !important;
+  }
+
+.ant-switch-inner-checked,
+.ant-switch-inner-unchecked {
+    height: 16px !important;
+}
 // --------------------------------------------------------------
 // Action Bar SCSS.
 // --------------------------------------------------------------
@@ -119,7 +140,7 @@
     height: 75px;
     h2 {
         margin-left: 24px;
-        color: $color-light-black-85;
+        color: var(--color-light-black-85);
         font-size: 30px;
         font-weight: 600;
     }
@@ -141,7 +162,7 @@
             width: 30px;
             height: 30px;
             background-color: #fff;
-            border: 1px solid $color-gray;
+            border: 1px solid var(--color-gray);
             border-radius: 6px;
             -webkit-border-radius: 6px;
             -moz-border-radius: 6px;
@@ -149,9 +170,9 @@
             -o-border-radius: 6px;
             cursor: pointer;
             &:hover {
-                border-color: $color-blue;
+                border-color: var(--color-blue);
                 outline: none;
-                box-shadow: 0 0 5px 1px rgba($color: $color-blue, $alpha: 0.4);
+                box-shadow: 0 0 5px 1px rgba($color: var(--color-blue), $alpha: 0.4);
             }
         }
     }
@@ -172,7 +193,7 @@
 #action-bar-hr {
     width: 96%;
     height: 1px;
-    background-color: $color-gray;
+    background-color: var(--color-gray);
     margin-top: 0px;
     margin-bottom: 0px;
     border: none;
@@ -189,7 +210,7 @@
     box-sizing: border-box;
     cursor: grab;
     .card-container {
-        box-shadow: 4px 4px 0px 1px $color-blue;
+        box-shadow: 4px 4px 0px 1px var(--color-blue);
         height: 100%;
         width: 260px;
         padding: 18px 24px;
@@ -199,7 +220,7 @@
         align-items: flex-start;
         gap: 18px;
         background-color: #fff;
-        border: 1px solid $color-light-gray;
+        border: 1px solid var(--color-light-gray);
         box-sizing: border-box;
         border-radius: 6px;
         -webkit-border-radius: 6px;
@@ -232,7 +253,7 @@
                     height: 26px;
                     padding: 3px 12px;
                     color: #000;
-                    background-color: $color-light-gray;
+                    background-color: var(--color-light-gray);
                     border-radius: 6px;
                     -webkit-border-radius: 6px;
                     -moz-border-radius: 6px;
@@ -315,19 +336,19 @@
     align-items: center;
     input,
     .ant-select-selection-item {
-        color: $color-light-black-45 !important;
+        color: var(--color-light-black-45) !important;
         &::placeholder {
-            color: $color-light-black-45 !important;
+            color: var(--color-light-black-45) !important;
         }
     }
 }
 
 .ant-select-selection-placeholder {
-    color: $color-light-black-45 !important;
+    color: var(--color-light-black-45) !important;
 }
 
 .border {
-    border: 1px solid $color-gray;
+    border: 1px solid var(--color-gray);
     border-radius: 6px;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -347,9 +368,9 @@
     user-select: text;
     p {
         margin: 0%;
-        color: $color-light-black-45;
+        color: var(--color-light-black-45);
         span {
-            color: $color-light-black-85;
+            color: var(--color-light-black-85);
         }
     }
 }
@@ -375,13 +396,13 @@
     resize: none;
     border: none;
     outline: none;
-    color: $color-light-black-85;
+    color: var(--color-light-black-85);
     line-height: 24px;
     text-align: start;
     border-bottom: 1px solid #000;
     width: fit-content;
     &::placeholder {
-        color: $color-light-black-25;
+        color: var(--color-light-black-25);
     }
 }
 
@@ -394,10 +415,10 @@
     resize: none;
     border: none;
     outline: none;
-    color: $color-light-black-85;
+    color: var(--color-light-black-85);
     line-height: 22px;
     &::placeholder {
-        color: $color-light-black-25;
+        color: var(--color-light-black-25);
     }
 }
 
@@ -421,50 +442,50 @@
 }
 
 .default-priority {
-    box-shadow: 4px 4px 0px 1px $color-blue !important;
+    box-shadow: 4px 4px 0px 1px var(--color-blue) !important;
 }
 .low-priority {
-    box-shadow: 4px 4px 0px 1px $color-green !important;
+    box-shadow: 4px 4px 0px 1px var(--color-green) !important;
 }
 .medium-priority {
-    box-shadow: 4px 4px 0px 1px $color-yellow !important;
+    box-shadow: 4px 4px 0px 1px var(--color-yellow) !important;
 }
 .high-priority {
-    box-shadow: 4px 4px 0px 1px $color-red !important;
+    box-shadow: 4px 4px 0px 1px var(--color-red) !important;
 }
 .default-priority-btn {
-    background-color: $color-blue !important;
+    background-color: var(--color-blue) !important;
     color: #fff !important;
-    border: 1px solid $color-blue !important;
+    border: 1px solid var(--color-blue) !important;
     &:hover {
-        border: 1px solid $color-blue !important;
+        border: 1px solid var(--color-blue) !important;
         color: white !important;
     }
 }
 .low-priority-btn {
-    background-color: $color-green !important;
+    background-color: var(--color-green) !important;
     color: #fff !important;
-    border: 1px solid $color-green !important;
+    border: 1px solid var(--color-green) !important;
     &:hover {
-        border: 1px solid $color-green !important;
+        border: 1px solid var(--color-green) !important;
         color: white !important;
     }
 }
 .medium-priority-btn {
-    background-color: $color-yellow !important;
+    background-color: var(--color-yellow) !important;
     color: #fff !important;
-    border: 1px solid $color-yellow !important;
+    border: 1px solid var(--color-yellow) !important;
     &:hover {
-        border: 1px solid $color-yellow !important;
+        border: 1px solid var(--color-yellow) !important;
         color: white !important;
     }
 }
 .high-priority-btn {
-    background-color: $color-red !important;
+    background-color: var(--color-red) !important;
     color: #fff !important;
-    border: 1px solid $color-red !important;
+    border: 1px solid var(--color-red) !important;
     &:hover {
-        border: 1px solid $color-red !important;
+        border: 1px solid var(--color-red) !important;
         color: white !important;
     }
 }
@@ -485,8 +506,8 @@
 
 @keyframes show-pop {
     0% {
-        max-height: 0px;
         opacity: 0;
+        max-height: 0px;
     }
     25% {
         max-height: 110px;
@@ -498,8 +519,8 @@
         max-height: 330px;
     }
     100% {
-        max-height: 440px;
         opacity: 1;
+        max-height: 440px;
     }
 }
 
@@ -532,7 +553,7 @@
     width: 220px;
     height: fit-content;
     min-height: 600px;
-    box-shadow: 0px 4px 4px 0px $color-light-black-25;
+    box-shadow: 0px 4px 4px 0px var(--color-light-black-25);
     padding: 8px 12px;
     background-color: #fff;
     display: flex;
@@ -547,13 +568,13 @@
     -o-border-radius: 6px;
     #filters-header {
         width: 100%;
-        border-bottom: 1px solid $color-gray;
+        border-bottom: 1px solid var(--color-gray);
         p {
             margin: 0%;
             font-size: 16px;
             line-height: 24px;
             font-weight: 500;
-            color: $color-light-black-85;
+            color: var(--color-light-black-85);
         }
     }
     #filters-content {
@@ -579,7 +600,7 @@
                     font-size: 16px;
                     line-height: 24px;
                     font-weight: 500;
-                    color: $color-blue;
+                    color: var(--color-blue);
                 }
                 &:hover {
                     cursor: pointer;
@@ -606,13 +627,13 @@
                     justify-content: flex-start;
                     align-items: center;
                     width: 100%;
-                    background-color: $color-background;
+                    background-color: var(--color-background);
                     font-size: 14px;
                     line-height: 22px;
                     font-weight: 400;
                     padding-left: 48px;
                     box-sizing: border-box;
-                    color: $color-light-black-85;
+                    color: var(--color-light-black-85);
                     height: 40px;
                     &:hover {
                         cursor: pointer;
@@ -642,9 +663,9 @@
 }
 
 .filter-selected {
-    color: $color-blue !important;
+    color: var(--color-blue) !important;
     background-color: #e6f7ff !important;
-    border-right: 3px solid $color-blue !important;
+    border-right: 3px solid var(--color-blue) !important;
 }
 
 .show-class {
@@ -672,7 +693,7 @@
     min-height: 84px;
     max-height: 84px;
     background-color: #fff;
-    border-top: 1px solid $color-gray;
+    border-top: 1px solid var(--color-gray);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -680,7 +701,8 @@
     padding: 0px 24px;
     box-sizing: border-box;
     #copyright {
-        font-size: 14px;
+        font-size: 12px;
+        line-height: 20px;
         font-weight: 400;
         text-align: center;
         color: black;

@@ -30,16 +30,11 @@
         align-items: flex-start;
         width: 100%;
         height: 100%;
-        #home-main,
-        #placeholder-main,
-        #search-main,
-        #profile-settings-main,
-        #login-main,
-        #register-main {
-            width: 100%;
-            height: 100%;
-            padding-bottom: 52px;
-        }
+    }
+    #placeholder-main {
+        width: 100%;
+        height: 100%;
+        padding-bottom: 52px;
     }
 }
 
@@ -67,82 +62,87 @@
 // Home SCSS.
 // --------------------------------------------------------------
 
-#home-main-content {
-    margin-top: 24px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 24px;
-    width: calc(100% - 24px);
-    margin-left: 24px;
-    transition: transform 0.3s ease-in-out;
-    -webkit-transition: -webkit-transform 0.3s ease-in-out;
-    -moz-transition: -moz-transform 0.3s ease-in-out;
-    -ms-transition: -ms-transform 0.3s ease-in-out;
-    -o-transition: -o-transform 0.3s ease-in-out;
-    transform-origin: left center;
-    -webkit-transform-origin: left center;
-    -moz-transform-origin: left center;
-    -ms-transform-origin: left center;
-    -o-transform-origin: left center;
-    .column {
+#home-main {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 52px;
+    #home-main-content {
+        margin-top: 24px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: flex-start;
-        align-items: center;
-        padding: 12px 16px;
-        width: 290px;
-        gap: 10px;
-        border-radius: 6px;
-        -webkit-border-radius: 6px;
-        -moz-border-radius: 6px;
-        -ms-border-radius: 6px;
-        -o-border-radius: 6px;
-        height: 700px;
-        max-height: 700px;
-        transition: height 0.3s ease-in-out;
-        -webkit-transition: height 0.3s ease-in-out;
-        -moz-transition: height 0.3s ease-in-out;
-        -ms-transition: height 0.3s ease-in-out;
-        -o-transition: height 0.3s ease-in-out;
-        background-color: $color-light-gray;
-        overflow-y: scroll;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        .cards-status {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            width: 260px;
-            .image-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                align-items: center;
-                img {
-                    cursor: pointer;
-                }
-            }
-            p {
-                margin: 0%;
-                font-size: 16px;
-                font-weight: 500;
-                color: #000;
-            }
-        }
-        .cards {
+        align-items: flex-start;
+        gap: 24px;
+        width: calc(100% - 24px);
+        margin-left: 24px;
+        transition: transform 0.3s ease-in-out;
+        -webkit-transition: -webkit-transform 0.3s ease-in-out;
+        -moz-transition: -moz-transform 0.3s ease-in-out;
+        -ms-transition: -ms-transform 0.3s ease-in-out;
+        -o-transition: -o-transform 0.3s ease-in-out;
+        transform-origin: left center;
+        -webkit-transform-origin: left center;
+        -moz-transform-origin: left center;
+        -ms-transform-origin: left center;
+        -o-transform-origin: left center;
+        .column {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
-            width: 100%;
-            height: 100%;
-            gap: 24px;
+            padding: 12px 16px;
+            width: 290px;
+            gap: 10px;
+            border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+            height: 700px;
+            max-height: 700px;
+            transition: height 0.3s ease-in-out;
+            -webkit-transition: height 0.3s ease-in-out;
+            -moz-transition: height 0.3s ease-in-out;
+            -ms-transition: height 0.3s ease-in-out;
+            -o-transition: height 0.3s ease-in-out;
+            background-color: var(--color-light-gray);
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            .cards-status {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                width: 260px;
+                .image-container {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    img {
+                        cursor: pointer;
+                    }
+                }
+                p {
+                    margin: 0%;
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #000;
+                }
+            }
+            .cards {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                gap: 24px;
+            }
         }
     }
 }
@@ -151,32 +151,37 @@
 // Search SCSS.
 // --------------------------------------------------------------
 
-#search-main-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 24px;
-    margin-top: 24px;
-    width: calc(100% - 24px);
-    margin-left: 24px;
-    transition: transform 0.3s ease-in-out;
-    -webkit-transition: -webkit-transform 0.3s ease-in-out;
-    -moz-transition: -moz-transform 0.3s ease-in-out;
-    -ms-transition: -ms-transform 0.3s ease-in-out;
-    -o-transition: -o-transform 0.3s ease-in-out;
-    transform-origin: left center;
-    -webkit-transform-origin: left center;
-    -moz-transform-origin: left center;
-    -ms-transform-origin: left center;
-    -o-transform-origin: left center;
-    #result-items {
-        width: 100%;
-        height: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, 260px);
-        grid-template-rows: repeat(auto-fill, 1fr);
-        grid-gap: 24px;
+#search-main {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 52px;
+    #search-main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 24px;
+        margin-top: 24px;
+        width: calc(100% - 24px);
+        margin-left: 24px;
+        transition: transform 0.3s ease-in-out;
+        -webkit-transition: -webkit-transform 0.3s ease-in-out;
+        -moz-transition: -moz-transform 0.3s ease-in-out;
+        -ms-transition: -ms-transform 0.3s ease-in-out;
+        -o-transition: -o-transform 0.3s ease-in-out;
+        transform-origin: left center;
+        -webkit-transform-origin: left center;
+        -moz-transform-origin: left center;
+        -ms-transform-origin: left center;
+        -o-transform-origin: left center;
+        #result-items {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 260px);
+            grid-template-rows: repeat(auto-fill, 1fr);
+            grid-gap: 24px;
+        }
     }
 }
 
@@ -218,14 +223,14 @@
         h2 {
             font-size: 24px;
             font-weight: 500;
-            color: $color-light-black-85;
+            color: var(--color-light-black-85);
             margin: 0%;
             margin-top: 52px;
         }
         p {
             font-size: 16px;
             font-weight: 400;
-            color: $color-light-black-45;
+            color: var(--color-light-black-45);
             margin: 0%;
             width: 300px;
             text-align: center;
@@ -233,21 +238,123 @@
     }
 }
 
-
 // --------------------------------------------------------------
 // Login SCSS.
 // --------------------------------------------------------------
 
-#login-main-content {}
+#login-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    #login-main-content {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        form {
+            box-shadow: 0 4px 12px var(--color-blue);
+            padding: 24px;
+            width: fit-content;
+            box-sizing: border-box;
+            min-width: 500px;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+        }
+        .ant-form-item-control-input input:-webkit-autofill,
+        .ant-form-item-control-input input:-webkit-autofill:hover,
+        .ant-form-item-control-input input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #000 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    }
+    .login-form-forgot {
+        float: right;
+    }
+    .ant-col-rtl .login-form-forgot {
+        float: left;
+    }
+    .login-form-button {
+        width: 100% !important;
+    }
+}
 
 // --------------------------------------------------------------
 // Register SCSS.
 // --------------------------------------------------------------
 
-#register-main-content {}
+#register-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    #register-main-content {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        form {
+            box-shadow: 0 4px 12px var(--color-blue);
+            padding: 24px;
+            width: fit-content;
+            box-sizing: border-box;
+            min-width: 500px;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+        }
+        .ant-form-item-control-input input:-webkit-autofill,
+        .ant-form-item-control-input input:-webkit-autofill:hover,
+        .ant-form-item-control-input input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #000 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+        .ant-form-item {
+            margin-bottom: 16px;
+        }
+
+        .ant-form-item-label {
+            text-align: left;
+        }
+
+        .ant-form-item-control-input {
+            width: 100% !important;
+        }
+
+        .ant-form-item-explain {
+            margin-top: 4px;
+        }
+    }
+}
 
 // --------------------------------------------------------------
 // Profile Settings SCSS.
 // --------------------------------------------------------------
 
-#profile-settings-main-content {}
+#profile-settings-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    #profile-settings-main-content {
+    }
+}

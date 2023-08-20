@@ -1,3 +1,29 @@
+body.light {
+  --color-blue: #1890ff;
+  --color-green: #a0d911;
+  --color-yellow: #fadb14;
+  --color-red: #f5222d;
+  --color-gray: #d9d9d9;
+  --color-light-gray: #f0f0f0;
+  --color-light-black-85: rgba(0, 0, 0, 0.85);
+  --color-light-black-45: rgba(0, 0, 0, 0.45);
+  --color-light-black-25: rgba(0, 0, 0, 0.25);
+  --color-background: #fafafa;
+}
+
+body.dark {
+  --color-blue: #1890ff;
+  --color-green: #6fcf97;
+  --color-yellow: #f0b429;
+  --color-red: #eb5757;
+  --color-gray: #8d8d8d;
+  --color-light-gray: #545454;
+  --color-light-black-85: rgba(255, 255, 255, 0.85);
+  --color-light-black-45: rgba(255, 255, 255, 0.45);
+  --color-light-black-25: rgba(255, 255, 255, 0.25);
+  --color-background: #1f1f1f;
+}
+
 #home-body,
 #placeholder-body,
 #search-body,
@@ -68,300 +94,13 @@
   width: 100%;
   height: 100%;
 }
-#home-body #home-content #home-main,
-#home-body #home-content #placeholder-main,
-#home-body #home-content #search-main,
-#home-body #home-content #profile-settings-main,
-#home-body #home-content #login-main,
-#home-body #home-content #register-main,
-#home-body #placeholder-content #home-main,
-#home-body #placeholder-content #placeholder-main,
-#home-body #placeholder-content #search-main,
-#home-body #placeholder-content #profile-settings-main,
-#home-body #placeholder-content #login-main,
-#home-body #placeholder-content #register-main,
-#home-body #search-content #home-main,
-#home-body #search-content #placeholder-main,
-#home-body #search-content #search-main,
-#home-body #search-content #profile-settings-main,
-#home-body #search-content #login-main,
-#home-body #search-content #register-main,
-#home-body #profile-settings-content #home-main,
-#home-body #profile-settings-content #placeholder-main,
-#home-body #profile-settings-content #search-main,
-#home-body #profile-settings-content #profile-settings-main,
-#home-body #profile-settings-content #login-main,
-#home-body #profile-settings-content #register-main,
-#home-body #login-content #home-main,
-#home-body #login-content #placeholder-main,
-#home-body #login-content #search-main,
-#home-body #login-content #profile-settings-main,
-#home-body #login-content #login-main,
-#home-body #login-content #register-main,
-#home-body #not-found-content #home-main,
-#home-body #not-found-content #placeholder-main,
-#home-body #not-found-content #search-main,
-#home-body #not-found-content #profile-settings-main,
-#home-body #not-found-content #login-main,
-#home-body #not-found-content #register-main,
-#home-body #register-content #home-main,
-#home-body #register-content #placeholder-main,
-#home-body #register-content #search-main,
-#home-body #register-content #profile-settings-main,
-#home-body #register-content #login-main,
-#home-body #register-content #register-main,
-#placeholder-body #home-content #home-main,
-#placeholder-body #home-content #placeholder-main,
-#placeholder-body #home-content #search-main,
-#placeholder-body #home-content #profile-settings-main,
-#placeholder-body #home-content #login-main,
-#placeholder-body #home-content #register-main,
-#placeholder-body #placeholder-content #home-main,
-#placeholder-body #placeholder-content #placeholder-main,
-#placeholder-body #placeholder-content #search-main,
-#placeholder-body #placeholder-content #profile-settings-main,
-#placeholder-body #placeholder-content #login-main,
-#placeholder-body #placeholder-content #register-main,
-#placeholder-body #search-content #home-main,
-#placeholder-body #search-content #placeholder-main,
-#placeholder-body #search-content #search-main,
-#placeholder-body #search-content #profile-settings-main,
-#placeholder-body #search-content #login-main,
-#placeholder-body #search-content #register-main,
-#placeholder-body #profile-settings-content #home-main,
-#placeholder-body #profile-settings-content #placeholder-main,
-#placeholder-body #profile-settings-content #search-main,
-#placeholder-body #profile-settings-content #profile-settings-main,
-#placeholder-body #profile-settings-content #login-main,
-#placeholder-body #profile-settings-content #register-main,
-#placeholder-body #login-content #home-main,
-#placeholder-body #login-content #placeholder-main,
-#placeholder-body #login-content #search-main,
-#placeholder-body #login-content #profile-settings-main,
-#placeholder-body #login-content #login-main,
-#placeholder-body #login-content #register-main,
-#placeholder-body #not-found-content #home-main,
-#placeholder-body #not-found-content #placeholder-main,
-#placeholder-body #not-found-content #search-main,
-#placeholder-body #not-found-content #profile-settings-main,
-#placeholder-body #not-found-content #login-main,
-#placeholder-body #not-found-content #register-main,
-#placeholder-body #register-content #home-main,
-#placeholder-body #register-content #placeholder-main,
-#placeholder-body #register-content #search-main,
-#placeholder-body #register-content #profile-settings-main,
-#placeholder-body #register-content #login-main,
-#placeholder-body #register-content #register-main,
-#search-body #home-content #home-main,
-#search-body #home-content #placeholder-main,
-#search-body #home-content #search-main,
-#search-body #home-content #profile-settings-main,
-#search-body #home-content #login-main,
-#search-body #home-content #register-main,
-#search-body #placeholder-content #home-main,
-#search-body #placeholder-content #placeholder-main,
-#search-body #placeholder-content #search-main,
-#search-body #placeholder-content #profile-settings-main,
-#search-body #placeholder-content #login-main,
-#search-body #placeholder-content #register-main,
-#search-body #search-content #home-main,
-#search-body #search-content #placeholder-main,
-#search-body #search-content #search-main,
-#search-body #search-content #profile-settings-main,
-#search-body #search-content #login-main,
-#search-body #search-content #register-main,
-#search-body #profile-settings-content #home-main,
-#search-body #profile-settings-content #placeholder-main,
-#search-body #profile-settings-content #search-main,
-#search-body #profile-settings-content #profile-settings-main,
-#search-body #profile-settings-content #login-main,
-#search-body #profile-settings-content #register-main,
-#search-body #login-content #home-main,
-#search-body #login-content #placeholder-main,
-#search-body #login-content #search-main,
-#search-body #login-content #profile-settings-main,
-#search-body #login-content #login-main,
-#search-body #login-content #register-main,
-#search-body #not-found-content #home-main,
-#search-body #not-found-content #placeholder-main,
-#search-body #not-found-content #search-main,
-#search-body #not-found-content #profile-settings-main,
-#search-body #not-found-content #login-main,
-#search-body #not-found-content #register-main,
-#search-body #register-content #home-main,
-#search-body #register-content #placeholder-main,
-#search-body #register-content #search-main,
-#search-body #register-content #profile-settings-main,
-#search-body #register-content #login-main,
-#search-body #register-content #register-main,
-#profile-settings-body #home-content #home-main,
-#profile-settings-body #home-content #placeholder-main,
-#profile-settings-body #home-content #search-main,
-#profile-settings-body #home-content #profile-settings-main,
-#profile-settings-body #home-content #login-main,
-#profile-settings-body #home-content #register-main,
-#profile-settings-body #placeholder-content #home-main,
-#profile-settings-body #placeholder-content #placeholder-main,
-#profile-settings-body #placeholder-content #search-main,
-#profile-settings-body #placeholder-content #profile-settings-main,
-#profile-settings-body #placeholder-content #login-main,
-#profile-settings-body #placeholder-content #register-main,
-#profile-settings-body #search-content #home-main,
-#profile-settings-body #search-content #placeholder-main,
-#profile-settings-body #search-content #search-main,
-#profile-settings-body #search-content #profile-settings-main,
-#profile-settings-body #search-content #login-main,
-#profile-settings-body #search-content #register-main,
-#profile-settings-body #profile-settings-content #home-main,
-#profile-settings-body #profile-settings-content #placeholder-main,
-#profile-settings-body #profile-settings-content #search-main,
-#profile-settings-body #profile-settings-content #profile-settings-main,
-#profile-settings-body #profile-settings-content #login-main,
-#profile-settings-body #profile-settings-content #register-main,
-#profile-settings-body #login-content #home-main,
-#profile-settings-body #login-content #placeholder-main,
-#profile-settings-body #login-content #search-main,
-#profile-settings-body #login-content #profile-settings-main,
-#profile-settings-body #login-content #login-main,
-#profile-settings-body #login-content #register-main,
-#profile-settings-body #not-found-content #home-main,
-#profile-settings-body #not-found-content #placeholder-main,
-#profile-settings-body #not-found-content #search-main,
-#profile-settings-body #not-found-content #profile-settings-main,
-#profile-settings-body #not-found-content #login-main,
-#profile-settings-body #not-found-content #register-main,
-#profile-settings-body #register-content #home-main,
-#profile-settings-body #register-content #placeholder-main,
-#profile-settings-body #register-content #search-main,
-#profile-settings-body #register-content #profile-settings-main,
-#profile-settings-body #register-content #login-main,
-#profile-settings-body #register-content #register-main,
-#login-body #home-content #home-main,
-#login-body #home-content #placeholder-main,
-#login-body #home-content #search-main,
-#login-body #home-content #profile-settings-main,
-#login-body #home-content #login-main,
-#login-body #home-content #register-main,
-#login-body #placeholder-content #home-main,
-#login-body #placeholder-content #placeholder-main,
-#login-body #placeholder-content #search-main,
-#login-body #placeholder-content #profile-settings-main,
-#login-body #placeholder-content #login-main,
-#login-body #placeholder-content #register-main,
-#login-body #search-content #home-main,
-#login-body #search-content #placeholder-main,
-#login-body #search-content #search-main,
-#login-body #search-content #profile-settings-main,
-#login-body #search-content #login-main,
-#login-body #search-content #register-main,
-#login-body #profile-settings-content #home-main,
-#login-body #profile-settings-content #placeholder-main,
-#login-body #profile-settings-content #search-main,
-#login-body #profile-settings-content #profile-settings-main,
-#login-body #profile-settings-content #login-main,
-#login-body #profile-settings-content #register-main,
-#login-body #login-content #home-main,
-#login-body #login-content #placeholder-main,
-#login-body #login-content #search-main,
-#login-body #login-content #profile-settings-main,
-#login-body #login-content #login-main,
-#login-body #login-content #register-main,
-#login-body #not-found-content #home-main,
-#login-body #not-found-content #placeholder-main,
-#login-body #not-found-content #search-main,
-#login-body #not-found-content #profile-settings-main,
-#login-body #not-found-content #login-main,
-#login-body #not-found-content #register-main,
-#login-body #register-content #home-main,
-#login-body #register-content #placeholder-main,
-#login-body #register-content #search-main,
-#login-body #register-content #profile-settings-main,
-#login-body #register-content #login-main,
-#login-body #register-content #register-main,
-#not-found-body #home-content #home-main,
-#not-found-body #home-content #placeholder-main,
-#not-found-body #home-content #search-main,
-#not-found-body #home-content #profile-settings-main,
-#not-found-body #home-content #login-main,
-#not-found-body #home-content #register-main,
-#not-found-body #placeholder-content #home-main,
-#not-found-body #placeholder-content #placeholder-main,
-#not-found-body #placeholder-content #search-main,
-#not-found-body #placeholder-content #profile-settings-main,
-#not-found-body #placeholder-content #login-main,
-#not-found-body #placeholder-content #register-main,
-#not-found-body #search-content #home-main,
-#not-found-body #search-content #placeholder-main,
-#not-found-body #search-content #search-main,
-#not-found-body #search-content #profile-settings-main,
-#not-found-body #search-content #login-main,
-#not-found-body #search-content #register-main,
-#not-found-body #profile-settings-content #home-main,
-#not-found-body #profile-settings-content #placeholder-main,
-#not-found-body #profile-settings-content #search-main,
-#not-found-body #profile-settings-content #profile-settings-main,
-#not-found-body #profile-settings-content #login-main,
-#not-found-body #profile-settings-content #register-main,
-#not-found-body #login-content #home-main,
-#not-found-body #login-content #placeholder-main,
-#not-found-body #login-content #search-main,
-#not-found-body #login-content #profile-settings-main,
-#not-found-body #login-content #login-main,
-#not-found-body #login-content #register-main,
-#not-found-body #not-found-content #home-main,
-#not-found-body #not-found-content #placeholder-main,
-#not-found-body #not-found-content #search-main,
-#not-found-body #not-found-content #profile-settings-main,
-#not-found-body #not-found-content #login-main,
-#not-found-body #not-found-content #register-main,
-#not-found-body #register-content #home-main,
-#not-found-body #register-content #placeholder-main,
-#not-found-body #register-content #search-main,
-#not-found-body #register-content #profile-settings-main,
-#not-found-body #register-content #login-main,
-#not-found-body #register-content #register-main,
-#register-body #home-content #home-main,
-#register-body #home-content #placeholder-main,
-#register-body #home-content #search-main,
-#register-body #home-content #profile-settings-main,
-#register-body #home-content #login-main,
-#register-body #home-content #register-main,
-#register-body #placeholder-content #home-main,
-#register-body #placeholder-content #placeholder-main,
-#register-body #placeholder-content #search-main,
-#register-body #placeholder-content #profile-settings-main,
-#register-body #placeholder-content #login-main,
-#register-body #placeholder-content #register-main,
-#register-body #search-content #home-main,
-#register-body #search-content #placeholder-main,
-#register-body #search-content #search-main,
-#register-body #search-content #profile-settings-main,
-#register-body #search-content #login-main,
-#register-body #search-content #register-main,
-#register-body #profile-settings-content #home-main,
-#register-body #profile-settings-content #placeholder-main,
-#register-body #profile-settings-content #search-main,
-#register-body #profile-settings-content #profile-settings-main,
-#register-body #profile-settings-content #login-main,
-#register-body #profile-settings-content #register-main,
-#register-body #login-content #home-main,
-#register-body #login-content #placeholder-main,
-#register-body #login-content #search-main,
-#register-body #login-content #profile-settings-main,
-#register-body #login-content #login-main,
-#register-body #login-content #register-main,
-#register-body #not-found-content #home-main,
-#register-body #not-found-content #placeholder-main,
-#register-body #not-found-content #search-main,
-#register-body #not-found-content #profile-settings-main,
-#register-body #not-found-content #login-main,
-#register-body #not-found-content #register-main,
-#register-body #register-content #home-main,
-#register-body #register-content #placeholder-main,
-#register-body #register-content #search-main,
-#register-body #register-content #profile-settings-main,
-#register-body #register-content #login-main,
-#register-body #register-content #register-main {
+#home-body #placeholder-main,
+#placeholder-body #placeholder-main,
+#search-body #placeholder-main,
+#profile-settings-body #placeholder-main,
+#login-body #placeholder-main,
+#not-found-body #placeholder-main,
+#register-body #placeholder-main {
   width: 100%;
   height: 100%;
   padding-bottom: 52px;
@@ -387,7 +126,12 @@
   -o-transform: translateX(-266px);
 }
 
-#home-main-content {
+#home-main {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 52px;
+}
+#home-main #home-main-content {
   margin-top: 24px;
   display: flex;
   flex-direction: row;
@@ -407,7 +151,7 @@
   -ms-transform-origin: left center;
   -o-transform-origin: left center;
 }
-#home-main-content .column {
+#home-main #home-main-content .column {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -427,37 +171,37 @@
   -moz-transition: height 0.3s ease-in-out;
   -ms-transition: height 0.3s ease-in-out;
   -o-transition: height 0.3s ease-in-out;
-  background-color: #f0f0f0;
+  background-color: var(--color-light-gray);
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-#home-main-content .column::-webkit-scrollbar {
+#home-main #home-main-content .column::-webkit-scrollbar {
   display: none;
 }
-#home-main-content .column .cards-status {
+#home-main #home-main-content .column .cards-status {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 260px;
 }
-#home-main-content .column .cards-status .image-container {
+#home-main #home-main-content .column .cards-status .image-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
 }
-#home-main-content .column .cards-status .image-container img {
+#home-main #home-main-content .column .cards-status .image-container img {
   cursor: pointer;
 }
-#home-main-content .column .cards-status p {
+#home-main #home-main-content .column .cards-status p {
   margin: 0%;
   font-size: 16px;
   font-weight: 500;
   color: #000;
 }
-#home-main-content .column .cards {
+#home-main #home-main-content .column .cards {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -467,7 +211,12 @@
   gap: 24px;
 }
 
-#search-main-content {
+#search-main {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 52px;
+}
+#search-main #search-main-content {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -487,7 +236,7 @@
   -ms-transform-origin: left center;
   -o-transform-origin: left center;
 }
-#search-main-content #result-items {
+#search-main #search-main-content #result-items {
   width: 100%;
   height: 100%;
   display: grid;
@@ -532,17 +281,121 @@
 #not-found-main #not-found-main-content h2 {
   font-size: 24px;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.85);
+  color: var(--color-light-black-85);
   margin: 0%;
   margin-top: 52px;
 }
 #not-found-main #not-found-main-content p {
   font-size: 16px;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--color-light-black-45);
   margin: 0%;
   width: 300px;
   text-align: center;
+}
+
+#login-main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#login-main #login-main-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#login-main #login-main-content form {
+  box-shadow: 0 4px 12px var(--color-blue);
+  padding: 24px;
+  width: fit-content;
+  box-sizing: border-box;
+  min-width: 500px;
+  margin-top: 50px;
+  background-color: white;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+#login-main #login-main-content .ant-form-item-control-input input:-webkit-autofill,
+#login-main #login-main-content .ant-form-item-control-input input:-webkit-autofill:hover,
+#login-main #login-main-content .ant-form-item-control-input input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+#login-main .login-form-forgot {
+  float: right;
+}
+#login-main .ant-col-rtl .login-form-forgot {
+  float: left;
+}
+#login-main .login-form-button {
+  width: 100% !important;
+}
+
+#register-main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#register-main #register-main-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#register-main #register-main-content form {
+  box-shadow: 0 4px 12px var(--color-blue);
+  padding: 24px;
+  width: fit-content;
+  box-sizing: border-box;
+  min-width: 500px;
+  margin-top: 50px;
+  background-color: white;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+#register-main #register-main-content .ant-form-item-control-input input:-webkit-autofill,
+#register-main #register-main-content .ant-form-item-control-input input:-webkit-autofill:hover,
+#register-main #register-main-content .ant-form-item-control-input input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+#register-main #register-main-content .ant-form-item {
+  margin-bottom: 16px;
+}
+#register-main #register-main-content .ant-form-item-label {
+  text-align: left;
+}
+#register-main #register-main-content .ant-form-item-control-input {
+  width: 100% !important;
+}
+#register-main #register-main-content .ant-form-item-explain {
+  margin-top: 4px;
+}
+
+#profile-settings-main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 /*# sourceMappingURL=pages.css.map */
