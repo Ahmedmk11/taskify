@@ -6,13 +6,19 @@ import React, { useState } from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Divider, Form, Input } from 'antd'
 import {
     UserOutlined,
     LockOutlined,
     EyeInvisibleOutlined,
     EyeTwoTone,
 } from '@ant-design/icons'
+import { AppleFilled } from '@ant-design/icons'
+import googleIcn from '../../assets/icons/google.svg'
+
+const GoogleIcon = () => (
+    <img style={{ width: 16, height: 16 }} src={googleIcn} />
+)
 
 function LoginPage() {
     const [visible, setVisible] = useState(false)
@@ -38,6 +44,7 @@ function LoginPage() {
                             initialValues={{ remember: true }}
                             onFinish={onFinish}
                         >
+                            <h2 style={{ textAlign: 'center' }}>Login</h2>
                             <Form.Item
                                 name="username"
                                 rules={[
@@ -102,13 +109,28 @@ function LoginPage() {
                                     htmlType="submit"
                                     className="login-form-button"
                                 >
-                                    Log in
+                                    Login
                                 </Button>
                                 <div style={{ textAlign: 'center' }}>
                                     Don't have an account?
                                     <a href="/register"> Register</a>
                                 </div>
                             </Form.Item>
+                            <Divider>Or</Divider>
+                            <div id="login-btn-container">
+                                <Button icon={<GoogleIcon />}>
+                                    Continue with Google
+                                </Button>
+                                <Button
+                                    style={{
+                                        backgroundColor: 'black',
+                                        color: 'white',
+                                    }}
+                                    icon={<AppleFilled />}
+                                >
+                                    Continue with Apple
+                                </Button>
+                            </div>
                         </Form>
                     </div>
                 </div>

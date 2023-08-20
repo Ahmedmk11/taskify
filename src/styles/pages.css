@@ -350,6 +350,35 @@ body.dark {
     width: 100% !important;
     margin-bottom: 14px;
 }
+#login-main
+    .ant-divider.css-dev-only-do-not-override-byeoj0.ant-divider-horizontal.ant-divider-with-text.ant-divider-with-text-center {
+    margin-top: 0% !important;
+}
+#login-main #login-btn-container {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+#login-main #login-btn-container button {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+#login-main #login-btn-container button:nth-child(1) svg {
+    width: 16px;
+    height: 16px;
+}
+#login-main #login-btn-container button:nth-child(2) svg {
+    width: 16px;
+    height: 16px;
+    color: white;
+}
 
 #register-main {
     width: 100%;

@@ -60,6 +60,7 @@ function Register() {
                             style={{ maxWidth: 600 }}
                             scrollToFirstError
                         >
+                            <h2 style={{ textAlign: 'center' }}>Register</h2>
                             <Form.Item
                                 name="fullname"
                                 label="Full Name"
