@@ -104,7 +104,10 @@ function LoginPage() {
                                 >
                                     Log in
                                 </Button>
-                                Or <a href="/register">register now!</a>
+                                <div style={{ textAlign: 'center' }}>
+                                    Don't have an account?
+                                    <a href="/register"> Register</a>
+                                </div>
                             </Form.Item>
                         </Form>
                     </div>

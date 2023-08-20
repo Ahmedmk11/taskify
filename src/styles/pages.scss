@@ -258,6 +258,7 @@
         align-items: center;
         form {
             box-shadow: 0 4px 12px var(--color-blue);
+            border: 1px solid var(--color-blue);
             padding: 24px;
             width: fit-content;
             box-sizing: border-box;
@@ -285,6 +286,7 @@
     }
     .login-form-button {
         width: 100% !important;
+        margin-bottom: 14px;
     }
 }
 
@@ -308,6 +310,7 @@
         align-items: center;
         form {
             box-shadow: 0 4px 12px var(--color-blue);
+            border: 1px solid var(--color-blue);
             padding: 24px;
             width: fit-content;
             box-sizing: border-box;
@@ -340,6 +343,22 @@
 
         .ant-form-item-explain {
             margin-top: 4px;
+        }
+
+        .ant-col
+            .ant-form-item-control
+            .ant-col-xs-24
+            .ant-col-xs-offset-0
+            .ant-col-sm-16
+            .ant-col-sm-offset-8,
+        .css-dev-only-do-not-override-byeoj0 {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            max-width: none !important;
+        }
+        .ant-form-item-control-input-content .ant-btn {
+            width: 100% !important;
+            max-width: none !important;
         }
     }
 }

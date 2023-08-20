@@ -2,7 +2,7 @@
 // Tool Bar react component.
 // --------------------------------------------------------------
 
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 import notificationsIcn from '../../assets/icons/notifications.svg'
@@ -19,32 +19,35 @@ type ToolBarProps = {
     user: User | null
 }
 
-const SunIcon = () => <img style={{width: 16, height: 16}} src={sunIcn} />
-const MoonIcon = () => <img style={{width: 16, height: 16}} src={moonIcn} />
+const SunIcon = () => <img style={{ width: 16, height: 16 }} src={sunIcn} />
+const MoonIcon = () => <img style={{ width: 16, height: 16 }} src={moonIcn} />
 
 function ToolBar(props: ToolBarProps) {
     const { user } = props
-    const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark' ? true : false)
+    const [isDarkMode, setIsDarkMode] = useState(
+        localStorage.getItem('theme') === 'dark' ? true : false
+    )
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
 
     const handleMenuClick = (ev: any) => {
-        setVisible(true);
+        setVisible(true)
     }
 
     const handleVisibleChange = (flag: boolean) => {
-        setVisible(flag);
-    };
+        setVisible(flag)
+    }
 
     const items: MenuProps['items'] = [
         {
             label: (
-                <a style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%'
-                }}
+                <a
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                    }}
                     onClick={() => {
                         navigate('/profile')
                     }}
@@ -56,20 +59,33 @@ function ToolBar(props: ToolBarProps) {
         },
         {
             label: (
-                    <Space style={{
+                <Space
+                    style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '100%'
-                    }} direction="vertical">
-                        <Switch
+                        width: '100%',
+                    }}
+                    direction="vertical"
+                    onMouseEnter={(ev: any) => {
+                        const closestLi = ev.target.closest('li')
+                        closestLi.setAttribute(
+                            'style',
+                            'cursor: default; background-color: #fff'
+                        )
+                    }}
+                >
+                    <Switch
                         checkedChildren={<SunIcon />}
                         unCheckedChildren={<MoonIcon />}
                         defaultChecked={isDarkMode ? false : true}
                         onClick={handleMenuClick}
                         onChange={(checked) => {
                             setIsDarkMode(!checked)
-                            localStorage.setItem('theme', checked ? 'light' : 'dark')
+                            localStorage.setItem(
+                                'theme',
+                                checked ? 'light' : 'dark'
+                            )
                             if (checked) {
                                 document.body.classList.add('light')
                                 document.body.classList.remove('dark')
@@ -77,8 +93,9 @@ function ToolBar(props: ToolBarProps) {
                                 document.body.classList.add('dark')
                                 document.body.classList.remove('light')
                             }
-                        }} />
-                    </Space>
+                        }}
+                    />
+                </Space>
             ),
             key: '1',
         },
@@ -86,12 +103,18 @@ function ToolBar(props: ToolBarProps) {
             type: 'divider',
         },
         {
-            label: <a style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '100%'
-            }}>Log Out</a>,
+            label: (
+                <a
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '100%',
+                    }}
+                >
+                    Log Out
+                </a>
+            ),
             key: '2',
             danger: true,
         },

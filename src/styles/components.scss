@@ -112,16 +112,16 @@
 //     justify-content: center;
 //     align-items: center;
 //   }
-  
+
 //   .ant-switch .anticon {
 //     display: flex;
 //     justify-content: center;
 //     align-items: center;
 //   }
 
-  .ant-switch-inner {
+.ant-switch-inner {
     height: 16px !important;
-  }
+}
 
 .ant-switch-inner-checked,
 .ant-switch-inner-unchecked {
@@ -172,7 +172,8 @@
             &:hover {
                 border-color: var(--color-blue);
                 outline: none;
-                box-shadow: 0 0 5px 1px rgba($color: var(--color-blue), $alpha: 0.4);
+                box-shadow: 0 0 5px 1px
+                    rgba($color: var(--color-blue), $alpha: 0.4);
             }
         }
     }

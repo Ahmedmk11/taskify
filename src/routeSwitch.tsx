@@ -9,6 +9,7 @@ import Placeholder from './views/pages/Placeholder'
 import NotFound from './views/pages/NotFound'
 import Search from './views/pages/Search'
 import ProfileSettings from './views/pages/ProfileSettings'
+import TermsAndConditions from './views/pages/TermsAndConditions'
 
 const RouteSwitch = () => {
     return (
@@ -21,6 +22,10 @@ const RouteSwitch = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<ProfileSettings />} />
             <Route path="/placeholder" element={<Placeholder />} />
+            <Route
+                path="/terms-and-conditions"
+                element={<TermsAndConditions />}
+            />
         </Routes>
     )
 }

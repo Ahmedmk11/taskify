@@ -6,29 +6,17 @@ import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import React, { useState } from 'react'
-import {
-    Button,
-    Checkbox,
-    Col,
-    Form,
-    Input,
-    Row,
-} from 'antd'
+import { Button, Checkbox, Col, Form, Input, Row } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
 
-const RECAPTCHA_SITE_KEY = '6LfXeb4nAAAAAFxeH46IPLGhwGEq3uw9M2h1IyxE';
-
-function onSubmit(token: any) {
-    const form = document.getElementById("demo-form")! as HTMLFormElement;
-    form.submit();
-}
+const RECAPTCHA_SITE_KEY = '6Le6Gr8nAAAAAGx8Htz6PZevCsT0p4nXcObacrEB'
 
 function Register() {
     const [form] = Form.useForm()
-    const [captchaValue, setCaptchaValue] = useState(null);
+    const [captchaValue, setCaptchaValue] = useState(null)
     const handleCaptchaChange = (value: any) => {
-        setCaptchaValue(value);
-    };
+        setCaptchaValue(value)
+    }
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
@@ -148,7 +136,6 @@ function Register() {
                             >
                                 <Input.Password />
                             </Form.Item>
-
                             <Form.Item
                                 name="agreement"
                                 valuePropName="checked"
@@ -167,13 +154,39 @@ function Register() {
                                 {...tailFormItemLayout}
                             >
                                 <Checkbox>
-                                    I have read the <a href="">agreement</a>
+                                    I have read and agree to the
+                                    <a href="/terms-and-conditions">
+                                        {' '}
+                                        terms and conditions
+                                    </a>
                                 </Checkbox>
                             </Form.Item>
+                            <ReCAPTCHA
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginBottom: '20px',
+                                    userSelect: 'none',
+                                }}
+                                sitekey={RECAPTCHA_SITE_KEY}
+                                onChange={handleCaptchaChange}
+                            />
+
                             <Form.Item {...tailFormItemLayout}>
                                 <Button type="primary" htmlType="submit">
                                     Register
                                 </Button>
+                                <div
+                                    style={{
+                                        marginTop: 16,
+                                        textAlign: 'center',
+                                    }}
+                                >
+                                    Already have an account?
+                                    <a href="/login"> Login</a>
+                                </div>
                             </Form.Item>
                         </Form>
                     </div>
