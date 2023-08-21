@@ -4,6 +4,7 @@
 
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
+import { updateEmail, updatePassword } from "firebase/auth"
 import {
     getFirestore,
     collection,
@@ -128,6 +129,102 @@ export async function readDataFromDbOnLogin(
         categoriesAtt = docSnap.data().categories
     } else {
         console.log('No such document!')
+    }
+}
+
+export async function updateUserName(newName: string): Promise<void> {
+    const auth = getAuth()
+    const user = auth.currentUser
+    if (user) {
+        await updateProfile(user, {
+            displayName: newName
+        })
+            .then(() => {
+                updateCurrentUserDocument('displayName', newName)
+                console.log('Name updated!')
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+}
+
+export async function updateUserPassword(newPassword: string): Promise<void> {
+    const auth = getAuth()
+    const user = auth.currentUser!;
+    updatePassword(user, newPassword).then(function() {
+        console.log('Password updated!');
+    }).catch(function(error: any) {
+        console.log('error updating password!: ', error);
+    });
+}
+
+export async function updateUserEmail(newEmail: string): Promise<void> {
+    const auth = getAuth()
+    const user = auth.currentUser!;
+    updateEmail(user, newEmail).then(function() {
+        updateCurrentUserDocument('email', newEmail)
+        console.log('Email updated!');
+    }).catch(function(error: any) {
+        console.log('error updating email!: ', error);
+    });
+}
+
+export function updateCurrentUserDocument(field: string, newValue: string): void {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        const userData = {
+            [field]: newValue,
+        }
+        setDoc(userDocRef, userData)
+            .then(() => {
+                console.log('updated current user in Firestore!')
+            })
+            .catch((error) => {
+                console.log('Error updating current user', error)
+            })
+    }
+}
+
+export function addNewTaskToCurrentUser(task: Task): void {
+    const user = getAuth().currentUser
+    if (user) {
+        const taskDocRef = doc(db, "users", user.uid, "taskArray", task.id);
+        const taskData = {
+            id: task.id,
+            title: task.title,
+            desc: task.desc,
+            priority: task.priority,
+            dueDate: task.dueDate,
+            creationDate: task.creationDate,
+            status: task.status,
+            categories: task.categories,
+        }
+        setDoc(taskDocRef, taskData)
+            .then(() => {
+                console.log('updated current user in Firestore!')
+            })
+            .catch((error) => {
+                console.log('Error updating current user', error)
+            })
+    }
+}
+
+export function updateCurrentUserTasksDocument(field: string, newValue: string, task: Task): void {
+    const user = getAuth().currentUser
+    if (user) {
+        const taskDocRef = doc(db, "users", user.uid, "taskArray", task.id);
+        const taskData = {
+            [field]: newValue,
+        }
+        setDoc(taskDocRef, taskData)
+            .then(() => {
+                console.log('updated current user in Firestore!')
+            })
+            .catch((error) => {
+                console.log('Error updating current user', error)
+            })
     }
 }
 
