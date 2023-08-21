@@ -23,7 +23,6 @@ type HomeProps = {
 
 function Home(props: HomeProps) {
     const { currentPage, tasks } = props
-    const [targetCardID, setTargetCardID] = useState<string>('')
     const [isVisible, setIsVisible] = useState(false)
     const location = useLocation()
 
@@ -44,9 +43,15 @@ function Home(props: HomeProps) {
     }
 
     function createCardPop(col = 'col-1') {
-        const chk = document.getElementById('create-new-task')
-        chk?.remove()
         const colEl = document.getElementById(col)
+        const chk = document.getElementById('create-new-task')
+        if (chk) {
+            if (chk.closest('#' + col)) {
+                return
+            } else {
+                chk?.remove()
+            }
+        }
         const container = document.createElement('div')
         container.id = 'create-new-task'
         ReactDOM.render(<Card type="create" />, container)
@@ -94,16 +99,32 @@ function Home(props: HomeProps) {
         } else {
             targetCardsContainer.appendChild(draggedElement)
         }
+        const targetColumnID = targetColumn.id
+        let status = ''
+        switch (targetColumnID) {
+            case 'col-1':
+                status = 'todo'
+                break
+            case 'col-2':
+                status = 'inprogress'
+                break
+            case 'col-3':
+                status = 'done'
+                break
+            default:
+                status = 'todo'
+        }
+        const taskID = (draggedElement?.childNodes[0] as HTMLElement).id
+        const task = tasks.find((task) => task.id == taskID)
+        if (task) {
+            task.status = status
+        }
+        console.log(tasks)
     }
 
     function drag(ev: any) {
         const target = ev.target.closest('[class^="draggable-card"]')
-        setTargetCardID(target.id)
         ev.dataTransfer.setData('text', target.id)
-    }
-
-    function handleDragEnd() {
-        setTargetCardID('')
     }
 
     return (
@@ -156,7 +177,6 @@ function Home(props: HomeProps) {
                                                 id={`card-container-${index}`}
                                                 draggable="true"
                                                 onDragStart={drag}
-                                                onDragEnd={handleDragEnd}
                                                 key={task.id}
                                             >
                                                 <Card task={task} />
@@ -192,7 +212,6 @@ function Home(props: HomeProps) {
                                                 id={`card-container-${index}`}
                                                 draggable="true"
                                                 onDragStart={drag}
-                                                onDragEnd={handleDragEnd}
                                                 key={task.id}
                                             >
                                                 <Card task={task}/>
@@ -228,7 +247,6 @@ function Home(props: HomeProps) {
                                                 id={`card-container-${index}`}
                                                 draggable="true"
                                                 onDragStart={drag}
-                                                onDragEnd={handleDragEnd}
                                                 key={task.id}
                                             >
                                                 <Card task={task}/>

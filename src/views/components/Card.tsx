@@ -21,29 +21,21 @@ type CardProps = {
 
 function Card(props: CardProps) {
     const { type, task } = props
+    const { id, title, desc, categories, dueDate, priority, status } = task;
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(categories)
+    const [inputValue, setInputValue] = useState('')
+    const [isExpanded, setIsExpanded] = useState(false)
+
+    const onDateInput: DatePickerProps['onChange'] = () => {}
 
     function formatDate(date: Date) {
         const options: Intl.DateTimeFormatOptions = {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
-          };
+        }
         return new Intl.DateTimeFormat('en-GB', options).format(date);
     }
-
-    const categories = task.categories
-    const title = task.title
-    const description = task.desc
-    const date = formatDate(task.dueDate)
-    const id = task.id
-    const priority = task.priority
-
-    const [selectedCategories, setSelectedCategories] =
-        useState<string[]>(categories)
-    const [inputValue, setInputValue] = useState('')
-    const [isExpanded, setIsExpanded] = useState(false)
-
-    const onDateInput: DatePickerProps['onChange'] = () => {}
 
     function cancelCard(ev: any) {
         const container = ev.target.closest('#create-new-task')
@@ -190,7 +182,7 @@ function Card(props: CardProps) {
                                         }
                                     }}
                                 >
-                                    {selectedCategories.map((category) => (
+                                    {selectedCategories?.map((category) => (
                                         <Option key={category} value={category}>
                                             {category}
                                         </Option>
@@ -199,7 +191,7 @@ function Card(props: CardProps) {
                             ) : (
                                 categories
                                     .slice(1, categories.length)
-                                    .map((category) => (
+                                    .map((category: any) => (
                                         <div
                                             className="category no-pointer"
                                             key={category}
@@ -255,7 +247,7 @@ function Card(props: CardProps) {
                             />
                         </div>
                     ) : (
-                        <div className="card-description">{description}</div>
+                        <div className="card-description">{desc}</div>
                     )}
                 </div>
                 <div className="card-bottom">
@@ -283,7 +275,7 @@ function Card(props: CardProps) {
                         <div className="border">
                             <img src={dateIcn} alt="date icon" />
                             <p>
-                                Due to: <span>{date}</span>
+                                Due to: <span>{formatDate(dueDate)}</span>
                             </p>
                         </div>
                     )}
@@ -332,7 +324,14 @@ Card.propTypes = {
 
 Card.defaultProps = {
     type: 'task',
-    task: {},
+    task: {
+        id: '1',
+        title: 'Title',
+        desc: 'Description',
+        dueDate: new Date(),
+        priority: 'default',
+        categories: ['Category'],
+    },
 }
 
 export default Card
