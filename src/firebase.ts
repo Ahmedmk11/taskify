@@ -20,6 +20,15 @@ import {
 } from 'firebase/auth'
 
 import { firebaseConfig } from '../firebase-config-data'
+import { User } from './app/User'
+import { useNavigate } from 'react-router-dom'
+import { Task } from './app/Task'
+const navigate = useNavigate()
+
+let nameAtt: any = 'User Default'
+let emailAtt: string = 'defaultemail@email.com'
+let taskArrayAtt: Task[] = []
+let categoriesAtt: string[] = []
 
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
@@ -29,13 +38,15 @@ export async function registerUser(
     e: Event,
     emailInput: string,
     passwordInput: string,
-    fullNameInput: string
+    nameInput: string
 ): Promise<void> {
     e.preventDefault()
     try {
-        await writeToDB(emailInput, passwordInput, fullNameInput)
-        console.log('User registered and data saved to Firestore successfully')
-        // navigate('/') // Navigate to the home page
+        await writeNewUserToFirestore(emailInput, passwordInput, nameInput)
+        console.log('User registered!')
+        emailAtt = emailInput
+        nameAtt = nameInput
+        navigate('/home')
     } catch (error) {
         console.error('Error registering user:', error)
     }
@@ -52,7 +63,8 @@ export function signInHandler(
         .then((userCredential) => {
             const user = userCredential.user
             console.log(user)
-            // navigate('/') // Navigate to the home page
+            readDataFromDbOnLogin('users', user.uid)
+            navigate('/home')
         })
         .catch((error) => {
             const errorCode = error.code
@@ -66,14 +78,14 @@ export function signOutHandler(): void {
     signOut(auth)
         .then(() => {
             console.log('User signed out!')
-            // navigate('/') // Navigate to the sign in page
+            navigate('/login')
         })
         .catch((error) => {
             console.log(error)
         })
 }
 
-export async function writeToDB(
+export async function writeNewUserToFirestore(
     email: string,
     password: string,
     name: string
@@ -84,36 +96,41 @@ export async function writeToDB(
             const user = userCredential.user
             const userDocRef = doc(db, 'users', user.uid)
             const userData = {
-                uid: user.uid,
+                id: user.uid,
                 email: user.email,
                 displayName: name,
-                inProgressTasks: [],
-                completedTasks: [],
-                inOrderTasks: [],
+                tasksArray: [],
                 categories: [],
             }
             return setDoc(userDocRef, userData)
         })
         .then(() => {
-            console.log('User data saved to Firestore')
+            console.log('User data saved to Firestore!')
         })
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
-            console.log(errorCode, errorMessage)
+            console.log('Error saving user to firestore', errorCode+': '+errorMessage)
         })
 }
 
-export async function readDataFromDB(
+export async function readDataFromDbOnLogin(
     collID: string,
     docID: string
 ): Promise<void> {
-    // check if this works
     const docRef = doc(db, collID, docID)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
-        console.log('Document data:', docSnap.data())
+        console.log('user fetched from firestore')
+        nameAtt = docSnap.data().displayName
+        emailAtt = docSnap.data().email
+        taskArrayAtt = docSnap.data().tasksArray
+        categoriesAtt = docSnap.data().categories
     } else {
         console.log('No such document!')
     }
+}
+
+export const getUserData = () => {
+    return new User(nameAtt, emailAtt, taskArrayAtt, categoriesAtt)
 }

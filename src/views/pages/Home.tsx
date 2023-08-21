@@ -15,14 +15,16 @@ import ReactDOM from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import { Task } from '../../app/Task'
 import Footer from '../components/Footer'
+import { User } from '../../app/User'
 
 type HomeProps = {
     currentPage: string
-    tasks: Task[]
+    user: User
 }
 
 function Home(props: HomeProps) {
-    const { currentPage, tasks } = props
+    const { currentPage, user } = props
+    const tasks = user.taskArray
     const [isVisible, setIsVisible] = useState(false)
     const location = useLocation()
 
@@ -54,7 +56,7 @@ function Home(props: HomeProps) {
         }
         const container = document.createElement('div')
         container.id = 'create-new-task'
-        ReactDOM.render(<Card type="create" />, container)
+        ReactDOM.render(<Card user={user} type="create" />, container)
         const cards = colEl!.querySelector('.cards')
         cards!.insertBefore(container, cards!.childNodes[0])
         setTimeout(() => {
@@ -266,6 +268,7 @@ function Home(props: HomeProps) {
 Home.propTypes = {
     currentPage: PropTypes.string,
     tasks: PropTypes.array.isRequired,
+    user: PropTypes.object.isRequired,
 }
 
 Home.defaultProps = {
@@ -312,6 +315,33 @@ Home.defaultProps = {
             categories: ['Main', 'Test', 'Work'],
         },
     ],
+    user: {
+        name: 'User Default',
+        email: 'defaultemail@email.com',
+        taskArray: [
+            {
+                id: 1,
+                title: 'Task 1',
+                desc: 'Task 1 Description',
+                categories: ['Main', 'Work'],
+                dueDate: new Date('2023-08-22'),
+                priority: 'medium',
+                status: 'todo',
+            }
+        ],
+        inOrderTasks: [
+            {
+                id: 1,
+                title: 'Task 1',
+                desc: 'Task 1 Description',
+                categories: ['Main', 'Work'],
+                dueDate: new Date('2023-08-22'),
+                priority: 'medium',
+                status: 'todo',
+            }
+        ],
+        categories: ['Main', 'Work', 'Personal'],
+    },
 }
 
 export default Home

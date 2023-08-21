@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { getUserData } from './firebase'
 
 import Home from './views/pages/Home'
 import Login from './views/pages/Login'
@@ -13,6 +14,7 @@ import TermsAndConditions from './views/pages/TermsAndConditions'
 import Task from './views/pages/Task'
 
 const RouteSwitch = () => {
+
     return (
         <Routes>
             <Route path="/" element={<Login />} />

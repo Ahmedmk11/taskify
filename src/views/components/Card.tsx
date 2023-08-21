@@ -13,16 +13,18 @@ const { Option } = Select
 import settingsIcn from '../../assets/icons/settings.svg'
 import dateIcn from '../../assets/icons/date.svg'
 import { Task } from '../../app/Task'
+import { User } from '../../app/User'
 
 type CardProps = {
     type: string
     task: Task
+    user: User
 }
 
 function Card(props: CardProps) {
-    const { type, task } = props
+    const { type, task, user } = props
     const { id, title, desc, categories, dueDate, priority, status } = task;
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(categories)
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(user.categories)
     const [inputValue, setInputValue] = useState('')
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -320,6 +322,7 @@ function Card(props: CardProps) {
 Card.propTypes = {
     type: PropTypes.string,
     task: PropTypes.object,
+    user: PropTypes.object,
 }
 
 Card.defaultProps = {
@@ -331,6 +334,33 @@ Card.defaultProps = {
         dueDate: new Date(),
         priority: 'default',
         categories: ['Category'],
+    },
+    user: {
+        name: 'User Default',
+        email: 'defaultemail@email.com',
+        taskArray: [
+            {
+                id: 1,
+                title: 'Task 1',
+                desc: 'Task 1 Description',
+                categories: ['Main', 'Work'],
+                dueDate: new Date('2023-08-22'),
+                priority: 'medium',
+                status: 'todo',
+            }
+        ],
+        inOrderTasks: [
+            {
+                id: 1,
+                title: 'Task 1',
+                desc: 'Task 1 Description',
+                categories: ['Main', 'Work'],
+                dueDate: new Date('2023-08-22'),
+                priority: 'medium',
+                status: 'todo',
+            }
+        ],
+        categories: ['Main', 'Work', 'Personal'],
     },
 }
 
