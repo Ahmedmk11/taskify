@@ -11,6 +11,7 @@
 #login-body,
 #not-found-body,
 #register-body,
+#forgot-password-body,
 #task-body {
     width: 100%;
     height: 100%;
@@ -25,6 +26,7 @@
     #login-content,
     #not-found-content,
     #register-content,
+    #forgot-password-content,
     #task-content {
         display: flex;
         flex-direction: row;
@@ -287,6 +289,76 @@
         float: left;
     }
     .login-form-button {
+        width: 100% !important;
+        margin-bottom: 14px;
+    }
+    .ant-divider.css-dev-only-do-not-override-byeoj0.ant-divider-horizontal.ant-divider-with-text.ant-divider-with-text-center {
+        margin-top: 0% !important;
+    }
+}
+
+// --------------------------------------------------------------
+// Forgot Password SCSS.
+// --------------------------------------------------------------
+
+#forgot-password-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    #forgot-password-main-content {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        form {
+            box-shadow: 0 4px 12px var(--color-blue);
+            border: 1px solid var(--color-blue);
+            padding: 24px;
+            width: fit-content;
+            box-sizing: border-box;
+            min-width: 500px;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+            #forgot-back-login-container {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                #forgot-back-login {
+                    cursor: pointer;
+                    width: fit-content;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-evenly;
+                    align-items: center;
+                    p {
+                        margin-left: 8px;
+                    }
+                }
+            }
+        }
+        .ant-form-item-control-input input:-webkit-autofill,
+        .ant-form-item-control-input input:-webkit-autofill:hover,
+        .ant-form-item-control-input input:-webkit-autofill:focus {
+            -webkit-text-fill-color: #000 !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
+    }
+    .ant-col-rtl .login-form-forgot {
+        float: left;
+    }
+    .forgot-password-form-button {
         width: 100% !important;
         margin-bottom: 14px;
     }

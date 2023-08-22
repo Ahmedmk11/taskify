@@ -18,13 +18,14 @@ import { signInHandler, signInWithGoogle } from '../../firebase'
 
 function LoginPage() {
     const [visible, setVisible] = useState(false)
+    const [isValid, setIsValid] = useState(true)
 
     const GoogleIcon = () => (
         <img style={{ width: 16, height: 16 }} src={googleIcn} />
     )
 
-    const onFinish = (values: any) => {
-        signInHandler(values.email, values.password)
+    const onFinish = async (values: any) => {
+        setIsValid(await signInHandler(values.email, values.password))
     }
 
     const handleToggleVisibility = () => {
@@ -89,6 +90,11 @@ function LoginPage() {
                                     }
                                 />
                             </Form.Item>
+                            {!isValid && (
+                                <p style={{ color: 'red' }}>
+                                    Invalid email or password
+                                </p>
+                            )}
                             <Form.Item>
                                 <Form.Item
                                     name="remember"
@@ -98,7 +104,7 @@ function LoginPage() {
                                     <Checkbox>Remember me</Checkbox>
                                 </Form.Item>
 
-                                <a className="login-form-forgot" href="">
+                                <a className="login-form-forgot" href='/reset-password'>
                                     Forgot password
                                 </a>
                             </Form.Item>

@@ -31,6 +31,7 @@ body.dark {
 #login-body,
 #not-found-body,
 #register-body,
+#forgot-password-body,
 #task-body {
   width: 100%;
   height: 100%;
@@ -46,6 +47,7 @@ body.dark {
 #home-body #login-content,
 #home-body #not-found-content,
 #home-body #register-content,
+#home-body #forgot-password-content,
 #home-body #task-content,
 #placeholder-body #home-content,
 #placeholder-body #placeholder-content,
@@ -54,6 +56,7 @@ body.dark {
 #placeholder-body #login-content,
 #placeholder-body #not-found-content,
 #placeholder-body #register-content,
+#placeholder-body #forgot-password-content,
 #placeholder-body #task-content,
 #search-body #home-content,
 #search-body #placeholder-content,
@@ -62,6 +65,7 @@ body.dark {
 #search-body #login-content,
 #search-body #not-found-content,
 #search-body #register-content,
+#search-body #forgot-password-content,
 #search-body #task-content,
 #profile-settings-body #home-content,
 #profile-settings-body #placeholder-content,
@@ -70,6 +74,7 @@ body.dark {
 #profile-settings-body #login-content,
 #profile-settings-body #not-found-content,
 #profile-settings-body #register-content,
+#profile-settings-body #forgot-password-content,
 #profile-settings-body #task-content,
 #login-body #home-content,
 #login-body #placeholder-content,
@@ -78,6 +83,7 @@ body.dark {
 #login-body #login-content,
 #login-body #not-found-content,
 #login-body #register-content,
+#login-body #forgot-password-content,
 #login-body #task-content,
 #not-found-body #home-content,
 #not-found-body #placeholder-content,
@@ -86,6 +92,7 @@ body.dark {
 #not-found-body #login-content,
 #not-found-body #not-found-content,
 #not-found-body #register-content,
+#not-found-body #forgot-password-content,
 #not-found-body #task-content,
 #register-body #home-content,
 #register-body #placeholder-content,
@@ -94,7 +101,17 @@ body.dark {
 #register-body #login-content,
 #register-body #not-found-content,
 #register-body #register-content,
+#register-body #forgot-password-content,
 #register-body #task-content,
+#forgot-password-body #home-content,
+#forgot-password-body #placeholder-content,
+#forgot-password-body #search-content,
+#forgot-password-body #profile-settings-content,
+#forgot-password-body #login-content,
+#forgot-password-body #not-found-content,
+#forgot-password-body #register-content,
+#forgot-password-body #forgot-password-content,
+#forgot-password-body #task-content,
 #task-body #home-content,
 #task-body #placeholder-content,
 #task-body #search-content,
@@ -102,6 +119,7 @@ body.dark {
 #task-body #login-content,
 #task-body #not-found-content,
 #task-body #register-content,
+#task-body #forgot-password-content,
 #task-body #task-content {
   display: flex;
   flex-direction: row;
@@ -117,6 +135,7 @@ body.dark {
 #login-body #placeholder-main,
 #not-found-body #placeholder-main,
 #register-body #placeholder-main,
+#forgot-password-body #placeholder-main,
 #task-body #placeholder-main {
   width: 100%;
   height: 100%;
@@ -359,6 +378,72 @@ body.dark {
   margin-bottom: 14px;
 }
 #login-main .ant-divider.css-dev-only-do-not-override-byeoj0.ant-divider-horizontal.ant-divider-with-text.ant-divider-with-text-center {
+  margin-top: 0% !important;
+}
+
+#forgot-password-main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#forgot-password-main #forgot-password-main-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#forgot-password-main #forgot-password-main-content form {
+  box-shadow: 0 4px 12px var(--color-blue);
+  border: 1px solid var(--color-blue);
+  padding: 24px;
+  width: fit-content;
+  box-sizing: border-box;
+  min-width: 500px;
+  margin-top: 50px;
+  background-color: white;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+#forgot-password-main #forgot-password-main-content form #forgot-back-login-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+#forgot-password-main #forgot-password-main-content form #forgot-back-login-container #forgot-back-login {
+  cursor: pointer;
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+#forgot-password-main #forgot-password-main-content form #forgot-back-login-container #forgot-back-login p {
+  margin-left: 8px;
+}
+#forgot-password-main #forgot-password-main-content .ant-form-item-control-input input:-webkit-autofill,
+#forgot-password-main #forgot-password-main-content .ant-form-item-control-input input:-webkit-autofill:hover,
+#forgot-password-main #forgot-password-main-content .ant-form-item-control-input input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #000 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+#forgot-password-main .ant-col-rtl .login-form-forgot {
+  float: left;
+}
+#forgot-password-main .forgot-password-form-button {
+  width: 100% !important;
+  margin-bottom: 14px;
+}
+#forgot-password-main .ant-divider.css-dev-only-do-not-override-byeoj0.ant-divider-horizontal.ant-divider-with-text.ant-divider-with-text-center {
   margin-top: 0% !important;
 }
 

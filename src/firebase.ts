@@ -21,6 +21,7 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     GoogleAuthProvider,
+    sendPasswordResetEmail,
 } from 'firebase/auth'
 import { firebaseConfig } from '../firebase-config-data'
 import { User } from './app/User'
@@ -61,7 +62,7 @@ export async function registerUser(
 export function signInHandler(
     emailInput: string,
     passwordInput: string
-): void {
+): any {
     const auth = getAuth()
     signInWithEmailAndPassword(auth, emailInput, passwordInput)
         .then((userCredential) => {
@@ -69,11 +70,13 @@ export function signInHandler(
             console.log(user)
             readUserDataFromDb('users', user.uid)
             window.location.href = '/home'
+            return true
         })
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
             console.log(errorCode, errorMessage)
+            return false
         })
 }
 
@@ -133,6 +136,19 @@ export async function writeNewUserToFirestore(
                 errorCode + ': ' + errorMessage
             )
         })
+}
+
+export async function sendPasswordResetEmailHandler(
+    email: string
+): Promise<void> {
+    const auth = getAuth()
+    sendPasswordResetEmail(auth, email)
+    .then(() => {
+        console.log('Password reset email sent!')
+    })
+    .catch((error) => {
+        console.log(error, error.message)
+    })
 }
 
 export async function readUserDataFromDb(

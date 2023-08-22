@@ -14,6 +14,7 @@ import { readUserDataFromDb } from './firebase'
 import { getAuth } from 'firebase/auth'
 import { User } from './app/User'
 import PrivateRoute from './PrivateRoute'
+import ForgotPassword from './views/pages/ForgotPassword'
 
 const RouteSwitch = () => {
     const auth = getAuth()
@@ -31,8 +32,9 @@ const RouteSwitch = () => {
             <Route path="/" element={<PrivateRoute><Home user={user} /></PrivateRoute>} />
             <Route path="/home" element={<PrivateRoute><Home user={user} /></PrivateRoute>} />
             <Route path="/login" element={<Login />} />
-            <Route path="/search" element={<PrivateRoute><Search user={user} /></PrivateRoute>} />
+            <Route path="/reset-password" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/search" element={<PrivateRoute><Search user={user} /></PrivateRoute>} />
             <Route path="/profile" element={<PrivateRoute><ProfileSettings user={user} /></PrivateRoute>} />
             <Route path="/placeholder" element={<PrivateRoute><Placeholder user={user} /></PrivateRoute>} />
             <Route path="/task/:id" element={<PrivateRoute><Task user={user} /></PrivateRoute>} />
