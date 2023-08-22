@@ -103,7 +103,7 @@ function LoginPage() {
                                 </a>
                             </Form.Item>
 
-                            <Form.Item>
+                            <Form.Item style={{marginBottom: '5px'}}>
                                 <Button
                                     type="primary"
                                     htmlType="submit"
@@ -116,7 +116,7 @@ function LoginPage() {
                                     <a href="/register"> Register</a>
                                 </div>
                             </Form.Item>
-                            <Divider>Or</Divider>
+                            <Divider style={{marginTop: '0px'}}>Or</Divider>
                             <div id="login-btn-container">
                                 <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
                                     Continue with Google

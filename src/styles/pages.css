@@ -442,6 +442,10 @@ body.dark {
   margin-left: 0%;
 }
 
+#register > div:nth-child(7) > div > div {
+  margin-left: 0%;
+}
+
 #register > div:nth-child(6) > div > div {
   margin-left: 0%;
 }

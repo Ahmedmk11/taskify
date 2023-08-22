@@ -25,6 +25,7 @@ import {
 import { firebaseConfig } from '../firebase-config-data'
 import { User } from './app/User'
 import { Task } from './app/Task'
+import { AppCheck, initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 let nameAtt: any = 'User Default'
 let emailAtt: string = 'defaultemail@email.com'
@@ -35,6 +36,11 @@ const provider = new GoogleAuthProvider();
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const db = getFirestore(app)
+
+initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider('6LfXeb4nAAAAAFxeH46IPLGhwGEq3uw9M2h1IyxE'),
+    isTokenAutoRefreshEnabled: true
+});
 
 export async function registerUser(
     emailInput: string,
@@ -270,3 +276,7 @@ export async function readAllTasksFromDb(): Promise<Task[]> {
     })
     return tasks
 }
+function activateAppCheck(appCheck: AppCheck) {
+    throw new Error('Function not implemented.')
+}
+

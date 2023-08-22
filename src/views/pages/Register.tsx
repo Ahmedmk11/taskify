@@ -11,19 +11,8 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import { registerUser, signInWithGoogle  } from '../../firebase'
 import googleIcn from '../../assets/icons/google.svg'
 
-
 function Register() {
     const [form] = Form.useForm()
-    const [isCaptchaPassed, setIsCaptchaPassed] = useState(false);
-    const RECAPTCHA_SITE_KEY = '6Le6Gr8nAAAAAGx8Htz6PZevCsT0p4nXcObacrEB'
-
-    const handleCaptchaChange = (value: boolean) => {
-        if (value) {
-          setIsCaptchaPassed(true);
-        } else {
-          setIsCaptchaPassed(false);
-        }
-    };
 
     const GoogleIcon = () => (
         <img style={{ width: 16, height: 16 }} src={googleIcn} />
@@ -53,11 +42,7 @@ function Register() {
     }
 
     const onFinish = (values: any) => {
-        if (isCaptchaPassed) {
-            registerUser(values.email, values.password, values.fullname)
-        } else {
-            alert('nice try bot')
-        }
+        registerUser(values.email, values.password, values.fullname)
     }
 
     return (
@@ -177,18 +162,7 @@ function Register() {
                                     </a>
                                 </Checkbox>
                             </Form.Item>
-                            <ReCAPTCHA
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    marginBottom: '20px',
-                                    userSelect: 'none',
-                                }}
-                                sitekey={RECAPTCHA_SITE_KEY}
-                            />
-
-                            <Form.Item {...tailFormItemLayout} id='reg-button-item'>
+                            <Form.Item style={{marginBottom: '5px'}} {...tailFormItemLayout} id='reg-button-item'>
                                 <Button type="primary" htmlType="submit">
                                     Register
                                 </Button>
@@ -202,7 +176,7 @@ function Register() {
                                     <a href="/login"> Login</a>
                                 </div>
                             </Form.Item>
-                            <Divider>Or</Divider>
+                            <Divider style={{marginTop: '0px'}}>Or</Divider>
                             <div id="login-btn-container">
                                 <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
                                     Continue with Google
