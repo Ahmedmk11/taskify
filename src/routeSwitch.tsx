@@ -13,7 +13,7 @@ import Task from './views/pages/Task'
 import { readUserDataFromDb } from './firebase'
 import { getAuth } from 'firebase/auth'
 import { User } from './app/User'
-
+import PrivateRoute from './PrivateRoute'
 
 const RouteSwitch = () => {
     const auth = getAuth()
@@ -28,17 +28,18 @@ const RouteSwitch = () => {
     
     return (
         <Routes>
-            <Route path="/" element={user ? <Home user={user} /> : <Login />} />
-            <Route path="/home" element={user ? <Home user={user} /> : <Login />} />
+            <Route path="/" element={<PrivateRoute><Home user={user} /></PrivateRoute>} />
+            <Route path="/home" element={<PrivateRoute><Home user={user} /></PrivateRoute>} />
             <Route path="/login" element={<Login />} />
-            <Route path="/search" element={user ? <Search user={user} /> : <Login />} />
+            <Route path="/search" element={<PrivateRoute><Search user={user} /></PrivateRoute>} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={user ? <ProfileSettings user={user} /> : <Login />} />
-            <Route path="/placeholder" element={user ? <Placeholder user={user} /> : <Login />} />
-            <Route path="/task/:id" element={user ? <Task user={user} /> : <Login />} />
-            <Route path="/terms-and-conditions" element={user ? <TermsAndConditions user={user} /> : <Login />} />
+            <Route path="/profile" element={<PrivateRoute><ProfileSettings user={user} /></PrivateRoute>} />
+            <Route path="/placeholder" element={<PrivateRoute><Placeholder user={user} /></PrivateRoute>} />
+            <Route path="/task/:id" element={<PrivateRoute><Task user={user} /></PrivateRoute>} />
+            <Route path="/terms-and-conditions" element={<PrivateRoute><TermsAndConditions user={user} /></PrivateRoute>} />
             <Route path="*" element={<NotFound />} />
         </Routes>
+
     )
 }
 
