@@ -1,42 +1,51 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "hosting": {
-        "public": "dist",
-        "ignore": [
+    "database": {
+      "rules": "database.rules.json"
+    },
+    "firestore": {
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
+    },
+    "hosting": {
+      "public": "dist",
+      "ignore": [
         "firebase.json",
         "**/.*",
         "**/node_modules/**"
-        ],
-        "rewrites": [
+      ],
+      "rewrites": [
         {
-            "source": "**",
-            "destination": "/index.html"
+          "source": "**",
+          "destination": "/index.html"
         }
-        ],
-        "headers": [
+      ],
+      "headers": [
+        {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+          "headers": [
             {
-                "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
-                "headers": [
-                    {
-                        "key": "Access-Control-Allow-Origin",
-                        "value": "*"
-                    },
-                    {
-                        "key": "Cross-Origin-Opener-Policy",
-                        "value": "same-origin"
-                    },
-                    {
-                        "key": "Cross-Origin-Opener-Policy",
-                        "value": "same-origin-allow-popups"
-                    }
-                ]
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
             }
-        ]
+          ]
+        },
+        {
+          "source": "/",
+          "headers": [
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "Cross-Origin-Opener-Policy",
+              "value": "same-origin-allow-popups"
+            },
+            {
+              "key": "Permissions-Policy",
+              "value": "interest-cohort=()"
+            }
+          ]
+        }
+      ]
     }
-}
+  }

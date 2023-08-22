@@ -50,3 +50,33 @@ body {
     -ms-transform: rotate(180deg);
     -o-transform: rotate(180deg);
 }
+
+#login-btn-container {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    button {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        &:nth-child(1) {
+            svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+        &:nth-child(2) {
+            svg {
+                width: 16px;
+                height: 16px;
+                color: white;
+            }
+        }
+    }
+}

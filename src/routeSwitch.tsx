@@ -29,18 +29,15 @@ const RouteSwitch = () => {
     return (
         <Routes>
             <Route path="/" element={user ? <Home user={user} /> : <Login />} />
-            <Route path="/home" element={<Home user={user} />} />
+            <Route path="/home" element={user ? <Home user={user} /> : <Login />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/search" element={<Search user={user} />} />
+            <Route path="/search" element={user ? <Search user={user} /> : <Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<ProfileSettings user={user} />} />
-            <Route path="/placeholder" element={<Placeholder user={user} />} />
-            <Route path="/task/:id" element={<Task user={user} />} />
-            <Route
-                path="/terms-and-conditions"
-                element={<TermsAndConditions user={user} />}
-            />
-            <Route path="*" element={<NotFound user={user} />} />
+            <Route path="/profile" element={user ? <ProfileSettings user={user} /> : <Login />} />
+            <Route path="/placeholder" element={user ? <Placeholder user={user} /> : <Login />} />
+            <Route path="/task/:id" element={user ? <Task user={user} /> : <Login />} />
+            <Route path="/terms-and-conditions" element={user ? <TermsAndConditions user={user} /> : <Login />} />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

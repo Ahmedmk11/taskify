@@ -6,13 +6,18 @@ import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import React from 'react'
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Divider, Form, Input } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { registerUser  } from '../../firebase'
+import { registerUser, signInWithGoogle  } from '../../firebase'
+import googleIcn from '../../assets/icons/google.svg'
+
 
 function Register() {
     const [form] = Form.useForm()
     const RECAPTCHA_SITE_KEY = '6Le6Gr8nAAAAAGx8Htz6PZevCsT0p4nXcObacrEB'
+    const GoogleIcon = () => (
+        <img style={{ width: 16, height: 16 }} src={googleIcn} />
+    )
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
@@ -184,6 +189,12 @@ function Register() {
                                     <a href="/login"> Login</a>
                                 </div>
                             </Form.Item>
+                            <Divider>Or</Divider>
+                            <div id="login-btn-container">
+                                <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
+                                    Continue with Google
+                                </Button>
+                            </div>
                         </Form>
                     </div>
                 </div>

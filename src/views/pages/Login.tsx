@@ -13,7 +13,6 @@ import {
     EyeInvisibleOutlined,
     EyeTwoTone,
 } from '@ant-design/icons'
-import { AppleFilled } from '@ant-design/icons'
 import googleIcn from '../../assets/icons/google.svg'
 import { signInHandler, signInWithGoogle } from '../../firebase' 
 
@@ -121,15 +120,6 @@ function LoginPage() {
                             <div id="login-btn-container">
                                 <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
                                     Continue with Google
-                                </Button>
-                                <Button
-                                    style={{
-                                        backgroundColor: 'black',
-                                        color: 'white',
-                                    }}
-                                    icon={<AppleFilled />}
-                                >
-                                    Continue with Apple
                                 </Button>
                             </div>
                         </Form>

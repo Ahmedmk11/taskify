@@ -21,7 +21,6 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     GoogleAuthProvider,
-    signInWithRedirect
 } from 'firebase/auth'
 import { firebaseConfig } from '../firebase-config-data'
 import { User } from './app/User'
@@ -80,6 +79,7 @@ export function signInWithGoogle(): void {
         const token = credential!.accessToken;
         const user = result.user;
         const displayName = user?.displayName
+        window.location.href = '/home'
       }).catch((error) => {
         console.log(error.code, error.message)
       });
