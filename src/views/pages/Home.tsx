@@ -13,18 +13,16 @@ import plusIcn from '../../assets/icons/plus.svg'
 import Card from '../components/Card'
 import ReactDOM from 'react-dom'
 import { useLocation } from 'react-router-dom'
-import { Task } from '../../app/Task'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
 
 type HomeProps = {
-    currentPage: string
-    user: User
+    user: User | null
 }
 
 function Home(props: HomeProps) {
-    const { currentPage, user } = props
-    const tasks = user.taskArray
+    const { user } = props
+    const tasks = user ? user.taskArray : []
     const [isVisible, setIsVisible] = useState(false)
     const location = useLocation()
 
@@ -131,9 +129,9 @@ function Home(props: HomeProps) {
 
     return (
         <div id="home-body">
-            <ToolBar />
+            <ToolBar user={user} />
             <div id="home-content">
-                <NavBar currentPage={currentPage} />
+                <NavBar currentPage={'home'} />
                 <div id="home-main">
                     <ActionBar
                         handleCreate={createCardPop}
@@ -216,7 +214,7 @@ function Home(props: HomeProps) {
                                                 onDragStart={drag}
                                                 key={task.id}
                                             >
-                                                <Card task={task}/>
+                                                <Card task={task} />
                                             </div>
                                         )
                                 )}
@@ -251,7 +249,7 @@ function Home(props: HomeProps) {
                                                 onDragStart={drag}
                                                 key={task.id}
                                             >
-                                                <Card task={task}/>
+                                                <Card task={task} />
                                             </div>
                                         )
                                 )}
@@ -266,82 +264,7 @@ function Home(props: HomeProps) {
 }
 
 Home.propTypes = {
-    currentPage: PropTypes.string,
-    tasks: PropTypes.array.isRequired,
     user: PropTypes.object.isRequired,
-}
-
-Home.defaultProps = {
-    currentPage: 'home',
-    tasks: [
-        {
-            id: '1',
-            title: 'Task 1 lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            desc: 'This is a description for task 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl.',
-            priority: 'low',
-            dueDate: new Date(2023, 4, 16),
-            creationDate: new Date(2023, 3, 1),
-            status: 'todo',
-            categories: ['Main', 'Work'],
-        },
-        {
-            id: '2',
-            title: 'Task 2',
-            desc: 'This is a description for task 2.',
-            priority: 'medium',
-            dueDate: new Date(2023, 5, 20),
-            creationDate: new Date(2023, 4, 5),
-            status: 'inprogress',
-            categories: ['Main', 'Personal'],
-        },
-        {
-            id: '3',
-            title: 'Task 3',
-            desc: 'This is a description for task 3.',
-            priority: 'high',
-            dueDate: new Date(2023, 6, 25),
-            creationDate: new Date(2023, 5, 10),
-            status: 'done',
-            categories: ['Main', 'Work'],
-        },
-        {
-            id: '4',
-            title: 'Task 4',
-            desc: 'This is a description for task 4.',
-            priority: 'default',
-            dueDate: new Date(2025, 6, 30),
-            creationDate: new Date(2023, 5, 10),
-            status: 'done',
-            categories: ['Main', 'Test', 'Work'],
-        },
-    ],
-    user: {
-        name: 'User Default',
-        email: 'defaultemail@email.com',
-        taskArray: [
-            {
-                id: 1,
-                title: 'Task 1',
-                desc: 'Task 1 Description',
-                categories: ['Main', 'Work'],
-                dueDate: new Date('2023-08-22'),
-                priority: 'medium',
-                status: 'todo',
-            }
-        ],
-        inOrderTasks: [
-            {
-                id: 1,
-                title: 'Task 1',
-                desc: 'Task 1 Description',
-                categories: ['Main', 'Work'],
-                dueDate: new Date('2023-08-22'),
-                priority: 'medium',
-                status: 'todo',
-            }
-        ],
-        categories: ['Main', 'Work', 'Personal'],
-    },
 }
 
 export default Home

@@ -18,13 +18,15 @@ import { User } from '../../app/User'
 type CardProps = {
     type: string
     task: Task
-    user: User
+    user: User | null
 }
 
 function Card(props: CardProps) {
     const { type, task, user } = props
-    const { id, title, desc, categories, dueDate, priority, status } = task;
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(user.categories)
+    const { id, title, desc, categories, dueDate, priority, status } = task
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(
+        user ? user.categories : []
+    )
     const [inputValue, setInputValue] = useState('')
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -36,7 +38,7 @@ function Card(props: CardProps) {
             month: 'short',
             year: 'numeric',
         }
-        return new Intl.DateTimeFormat('en-GB', options).format(date);
+        return new Intl.DateTimeFormat('en-GB', options).format(date)
     }
 
     function cancelCard(ev: any) {
@@ -347,7 +349,7 @@ Card.defaultProps = {
                 dueDate: new Date('2023-08-22'),
                 priority: 'medium',
                 status: 'todo',
-            }
+            },
         ],
         inOrderTasks: [
             {
@@ -358,7 +360,7 @@ Card.defaultProps = {
                 dueDate: new Date('2023-08-22'),
                 priority: 'medium',
                 status: 'todo',
-            }
+            },
         ],
         categories: ['Main', 'Work', 'Personal'],
     },

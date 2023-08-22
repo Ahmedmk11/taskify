@@ -10,7 +10,12 @@ export class User {
     taskArray: Task[]
     categories: string[]
 
-    constructor(name: string, email: string, taskArray: Task[], categories: string[]) {
+    constructor(
+        name: string,
+        email: string,
+        taskArray: Task[],
+        categories: string[]
+    ) {
         this.name = name
         this.email = email
         this.taskArray = taskArray
@@ -19,6 +24,7 @@ export class User {
 
     createTask(
         title: string,
+        id?: string,
         desc?: string,
         priority?: string,
         dueDate?: Date
@@ -26,6 +32,7 @@ export class User {
     createTask(task: Task): void
     createTask(
         titleOrTask: string | Task,
+        id?: string,
         desc?: string,
         priority?: string,
         dueDate?: Date
@@ -33,7 +40,13 @@ export class User {
         if (titleOrTask instanceof Task) {
             this.taskArray.push(titleOrTask)
         } else {
-            const newTask = new Task(titleOrTask, desc!, priority!, dueDate!)
+            const newTask = new Task(
+                titleOrTask,
+                id!,
+                desc!,
+                priority!,
+                dueDate!
+            )
             this.taskArray.push(newTask)
         }
     }

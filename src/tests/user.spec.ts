@@ -6,18 +6,31 @@ describe('User', () => {
     let task: Task
 
     beforeEach(() => {
-        task = new Task('Task 1', 'Description', 'high', new Date('2023-08-08'))
+        task = new Task(
+            '0',
+            'Task 1',
+            'Description',
+            'high',
+            new Date('2023-08-08')
+        )
         user = new User('Ahmed', 'ahmed@gmail.com', [], [])
         user.createTask(task)
     })
 
     it('should create a new task for the user', () => {
-        user.createTask('Task 2', 'Description', 'low', new Date('2023-08-08'))
+        user.createTask(
+            'Task 2',
+            '0',
+            'Description',
+            'low',
+            new Date('2023-08-08')
+        )
         expect(user.taskArray.length).toBe(2)
     })
 
     it('should create a new task for the user using a defined task', () => {
         const newTask = new Task(
+            '1',
             'Task 2',
             'Description',
             'high',
@@ -43,8 +56,20 @@ describe('User', () => {
     })
 
     it('should show low priority tasks only', () => {
-        user.createTask('Task 2', 'Description', 'low', new Date('2023-08-08'))
-        user.createTask('Task 3', 'Description', 'low', new Date('2023-08-08'))
+        user.createTask(
+            'Task 2',
+            '1',
+            'Description',
+            'low',
+            new Date('2023-08-08')
+        )
+        user.createTask(
+            'Task 3',
+            '2',
+            'Description',
+            'low',
+            new Date('2023-08-08')
+        )
         const res = user.filterTasksByPriority(user.taskArray, 'low')
         expect(res.length).toBe(2)
         expect(user.taskArray.length).toBe(3)
@@ -53,12 +78,14 @@ describe('User', () => {
     it('should show medium priority tasks only', () => {
         user.createTask(
             'Task 2',
+            '1',
             'Description',
             'medium',
             new Date('2023-08-08')
         )
         user.createTask(
             'Task 3',
+            '2',
             'Description',
             'medium',
             new Date('2023-08-08')
@@ -69,16 +96,40 @@ describe('User', () => {
     })
 
     it('should show high priority tasks only', () => {
-        user.createTask('Task 2', 'Description', 'high', new Date('2023-08-08'))
-        user.createTask('Task 3', 'Description', 'low', new Date('2023-08-08'))
+        user.createTask(
+            'Task 2',
+            '1',
+            'Description',
+            'high',
+            new Date('2023-08-08')
+        )
+        user.createTask(
+            'Task 3',
+            '2',
+            'Description',
+            'low',
+            new Date('2023-08-08')
+        )
         const res = user.filterTasksByPriority(user.taskArray, 'high')
         expect(res.length).toBe(2)
         expect(user.taskArray.length).toBe(3)
     })
 
     it('should show tasks due on a certain day only', () => {
-        user.createTask('Task 2', 'Description', 'low', new Date('2023-08-10'))
-        user.createTask('Task 3', 'Description', 'low', new Date('2023-08-09'))
+        user.createTask(
+            'Task 2',
+            '1',
+            'Description',
+            'low',
+            new Date('2023-08-10')
+        )
+        user.createTask(
+            'Task 3',
+            '2',
+            'Description',
+            'low',
+            new Date('2023-08-09')
+        )
         const res = user.filterTasksByDate(
             user.taskArray,
             new Date('2023-08-08')

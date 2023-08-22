@@ -4,7 +4,13 @@ describe('Task', () => {
     let task: Task
 
     beforeEach(() => {
-        task = new Task('Task 1', 'Description', 'low', new Date('2023-08-08'))
+        task = new Task(
+            '0',
+            'Task 1',
+            'Description',
+            'low',
+            new Date('2023-08-08')
+        )
     })
 
     it('should update task title', () => {

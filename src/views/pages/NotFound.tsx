@@ -8,12 +8,19 @@ import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import { Button, Space } from 'antd'
 import { useNavigate } from 'react-router-dom'
+import { User } from '../../app/User'
 
-function NotFound() {
+type NotFoundProps = {
+    user: User | null
+}
+
+function NotFound(props: NotFoundProps) {
     const navigate = useNavigate()
+    const { user } = props
+
     return (
         <div id="not-found-body">
-            <ToolBar />
+            <ToolBar user={user} />
             <div id="not-found-content">
                 <NavBar />
                 <div id="not-found-main">

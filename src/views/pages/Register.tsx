@@ -5,18 +5,14 @@
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
-import React, { useState } from 'react'
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd'
+import React from 'react'
+import { Button, Checkbox, Form, Input } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
-
-const RECAPTCHA_SITE_KEY = '6Le6Gr8nAAAAAGx8Htz6PZevCsT0p4nXcObacrEB'
+import { registerUser  } from '../../firebase'
 
 function Register() {
     const [form] = Form.useForm()
-    const [captchaValue, setCaptchaValue] = useState(null)
-    const handleCaptchaChange = (value: any) => {
-        setCaptchaValue(value)
-    }
+    const RECAPTCHA_SITE_KEY = '6Le6Gr8nAAAAAGx8Htz6PZevCsT0p4nXcObacrEB'
     const formItemLayout = {
         labelCol: {
             xs: { span: 24 },
@@ -27,7 +23,7 @@ function Register() {
             sm: { span: 16 },
         },
     }
-
+    
     const tailFormItemLayout = {
         wrapperCol: {
             xs: {
@@ -42,12 +38,12 @@ function Register() {
     }
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
+        registerUser(values.email, values.password, values.fullname)
     }
 
     return (
         <div id="register-body">
-            <ToolBar />
+            <ToolBar user={null} />
             <div id="register-content">
                 <NavBar />
                 <div id="register-main">
@@ -172,7 +168,6 @@ function Register() {
                                     userSelect: 'none',
                                 }}
                                 sitekey={RECAPTCHA_SITE_KEY}
-                                onChange={handleCaptchaChange}
                             />
 
                             <Form.Item {...tailFormItemLayout}>

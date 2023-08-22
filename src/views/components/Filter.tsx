@@ -5,7 +5,6 @@
 import React, { useState } from 'react'
 import { Button, Space, DatePicker } from 'antd'
 import PropTypes from 'prop-types'
-import type { DatePickerProps } from 'antd'
 const { RangePicker } = DatePicker
 
 import shownIcn from '../../assets/icons/shown.svg'
@@ -19,15 +18,15 @@ type FiltersProps = {
 
 function Filter(props: FiltersProps) {
     const { categories, hideFilters, className } = props
-    const [isStatusVisible, setIsStatusVisible] = useState(false)
+    const [isPriorityVisible, setIsPriorityVisible] = useState(false)
     const [isCategoriesVisible, setIsCategoriesVisible] = useState(false)
     const [isDueDateVisible, setIsDueDateVisible] = useState(false)
 
     const [dateRange, setDateRange] = useState(null)
     const [isDueCleared, setIsDueCleared] = useState(false)
 
-    const expandStatus = () => {
-        setIsStatusVisible(!isStatusVisible)
+    const expandPriority = () => {
+        setIsPriorityVisible(!isPriorityVisible)
     }
 
     const expandCategory = () => {
@@ -54,7 +53,7 @@ function Filter(props: FiltersProps) {
         })
         setIsDueCleared(true)
         setDateRange(null)
-        setIsStatusVisible(false)
+        setIsPriorityVisible(false)
         setIsDueDateVisible(false)
         setIsCategoriesVisible(false)
     }
@@ -122,44 +121,53 @@ function Filter(props: FiltersProps) {
                     </div>
                 </div>
                 <div className="filter-item-container">
-                    <div className="filter-item-header" onClick={expandStatus}>
-                        <p>Status</p>
+                    <div className="filter-item-header" onClick={expandPriority}>
+                        <p>Priority</p>
                         <img
                             id="hide-show"
-                            src={isStatusVisible ? shownIcn : hiddenIcn}
-                            alt="Icon for hiding/showing the status filter."
+                            src={isPriorityVisible ? shownIcn : hiddenIcn}
+                            alt="Icon for hiding/showing the priority filter."
                         />
                     </div>
                     <div
-                        id="status-sub"
-                        className={isStatusVisible ? 'show-class' : ''}
+                        id="priority-sub"
+                        className={isPriorityVisible ? 'show-class' : ''}
                     >
                         <div
                             className="filter-item"
-                            id="stat-1"
+                            id="priority-1"
                             onClick={(e) => {
                                 handleFilter(e)
                             }}
                         >
-                            <p>Todo</p>
+                            <p>Default</p>
                         </div>
                         <div
                             className="filter-item"
-                            id="stat-2"
+                            id="priority-2"
                             onClick={(e) => {
                                 handleFilter(e)
                             }}
                         >
-                            <p>In Progress</p>
+                            <p>Low</p>
                         </div>
                         <div
                             className="filter-item"
-                            id="stat-3"
+                            id="priority-3"
                             onClick={(e) => {
                                 handleFilter(e)
                             }}
                         >
-                            <p>Done</p>
+                            <p>Medium</p>
+                        </div>
+                        <div
+                            className="filter-item"
+                            id="priority-4"
+                            onClick={(e) => {
+                                handleFilter(e)
+                            }}
+                        >
+                            <p>High</p>
                         </div>
                     </div>
                 </div>

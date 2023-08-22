@@ -625,7 +625,7 @@ body.dark {
 #filters-container #filters-content .filter-item-container .filter-item-header:hover {
   cursor: pointer;
 }
-#filters-container #filters-content .filter-item-container #status-sub,
+#filters-container #filters-content .filter-item-container #priority-sub,
 #filters-container #filters-content .filter-item-container #categories-sub,
 #filters-container #filters-content .filter-item-container #due-sub {
   display: flex;
@@ -641,7 +641,7 @@ body.dark {
   -ms-transition: max-height 0.2s ease-in-out;
   -o-transition: max-height 0.2s ease-in-out;
 }
-#filters-container #filters-content .filter-item-container #status-sub .filter-item,
+#filters-container #filters-content .filter-item-container #priority-sub .filter-item,
 #filters-container #filters-content .filter-item-container #categories-sub .filter-item,
 #filters-container #filters-content .filter-item-container #due-sub .filter-item {
   display: flex;
@@ -658,12 +658,12 @@ body.dark {
   color: var(--color-light-black-85);
   height: 40px;
 }
-#filters-container #filters-content .filter-item-container #status-sub .filter-item:hover,
+#filters-container #filters-content .filter-item-container #priority-sub .filter-item:hover,
 #filters-container #filters-content .filter-item-container #categories-sub .filter-item:hover,
 #filters-container #filters-content .filter-item-container #due-sub .filter-item:hover {
   cursor: pointer;
 }
-#filters-container #filters-content .filter-item-container #status-sub .filter-item p,
+#filters-container #filters-content .filter-item-container #priority-sub .filter-item p,
 #filters-container #filters-content .filter-item-container #categories-sub .filter-item p,
 #filters-container #filters-content .filter-item-container #due-sub .filter-item p {
   margin: 0%;

@@ -15,16 +15,17 @@ import {
 } from '@ant-design/icons'
 import { AppleFilled } from '@ant-design/icons'
 import googleIcn from '../../assets/icons/google.svg'
-
-const GoogleIcon = () => (
-    <img style={{ width: 16, height: 16 }} src={googleIcn} />
-)
+import { signInHandler, signInWithGoogle } from '../../firebase' 
 
 function LoginPage() {
     const [visible, setVisible] = useState(false)
 
+    const GoogleIcon = () => (
+        <img style={{ width: 16, height: 16 }} src={googleIcn} />
+    )
+
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values)
+        signInHandler(values.email, values.password)
     }
 
     const handleToggleVisibility = () => {
@@ -46,11 +47,11 @@ function LoginPage() {
                         >
                             <h2 style={{ textAlign: 'center' }}>Login</h2>
                             <Form.Item
-                                name="username"
+                                name="email"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your Username!',
+                                        message: 'Please input your email!',
                                     },
                                 ]}
                             >
@@ -58,7 +59,7 @@ function LoginPage() {
                                     prefix={
                                         <UserOutlined className="site-form-item-icon" />
                                     }
-                                    placeholder="Username"
+                                    placeholder="Email"
                                 />
                             </Form.Item>
                             <Form.Item
@@ -109,7 +110,7 @@ function LoginPage() {
                                     htmlType="submit"
                                     className="login-form-button"
                                 >
-                                    Login
+                                    LoginsTest
                                 </Button>
                                 <div style={{ textAlign: 'center' }}>
                                     Don't have an account?
@@ -118,7 +119,7 @@ function LoginPage() {
                             </Form.Item>
                             <Divider>Or</Divider>
                             <div id="login-btn-container">
-                                <Button icon={<GoogleIcon />}>
+                                <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
                                     Continue with Google
                                 </Button>
                                 <Button

@@ -19,7 +19,8 @@ type ActionBarProps = {
 }
 
 function ActionBar(props: ActionBarProps) {
-    const { handleCreate, handleFilters, title, isHideButton, isDisabled } = props
+    const { handleCreate, handleFilters, title, isHideButton, isDisabled } =
+        props
     const navigate = useNavigate()
 
     return (

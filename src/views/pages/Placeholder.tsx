@@ -7,11 +7,17 @@ import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import ActionBar from '../components/ActionBar'
 import Footer from '../components/Footer'
+import { User } from '../../app/User'
 
-function Placeholder() {
+type PlaceholderProps = {
+    user: User | null
+}
+
+function Placeholder(props: PlaceholderProps) {
+    const { user } = props
     return (
         <div id="placeholder-body">
-            <ToolBar />
+            <ToolBar user={user} />
             <div id="placeholder-content">
                 <NavBar currentPage={'placeholder'} />
                 <div id="placeholder-main">

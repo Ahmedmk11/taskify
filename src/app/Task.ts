@@ -12,14 +12,20 @@ export class Task {
     status: string
     categories: string[]
 
-    constructor(title: string, desc: string, priority: string, dueDate: Date) {
-        this.id = Math.random().toString(36).substring(2, 9)
+    constructor(
+        id: string,
+        title: string,
+        desc: string,
+        priority: string,
+        dueDate: Date
+    ) {
+        this.id = id
         this.title = title
         this.desc = desc
         this.priority = priority
         this.dueDate = dueDate
         this.creationDate = new Date()
-        this.status = 'open'
+        this.status = 'todo'
         this.categories = ['Main']
     }
 

@@ -11,14 +11,15 @@ import { useSearchParams } from 'react-router-dom'
 import Card from '../components/Card'
 import { Task } from '../../app/Task'
 import Filter from '../components/Filter'
-import ReactDOM from 'react-dom'
+import { User } from '../../app/User'
 
 type SearchProps = {
-    tasks: Task[]
+    user: User | null
 }
 
 function Search(props: SearchProps) {
-    const { tasks } = props
+    const { user } = props
+    const tasks = user!.taskArray
     const [isVisible, setIsVisible] = useState(false)
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
@@ -60,20 +61,9 @@ function Search(props: SearchProps) {
         }, 300)
     }
 
-    const createCardPop = (col = 'col-1') => {
-        const chk = document.getElementById('create-new-task')
-        chk?.remove()
-        const colEl = document.getElementById(col)
-        const container = document.createElement('div')
-        container.id = 'create-new-task'
-        ReactDOM.render(<Card type="create" />, container)
-        const cards = colEl!.querySelector('.cards')
-        cards!.insertBefore(container, cards!.childNodes[0])
-    }
-
     return (
         <div id="search-body">
-            <ToolBar />
+            <ToolBar user={user} />
             <div id="search-content">
                 <NavBar />
                 <div id="search-main">
@@ -106,11 +96,11 @@ function Search(props: SearchProps) {
                         <Filter
                             className={isVisible ? '' : 'hide-filters'}
                             hideFilters={hideFilters}
-                            categories={['Main', 'Work', 'UI Design']}
+                            categories={user!.categories}
                         />
                         <div id="result-items">
                             {getSearchResults(tasks)!.map((task) => (
-                                <Card task={task}/>
+                                <Card task={task} />
                             ))}
                         </div>
                     </div>
@@ -121,52 +111,7 @@ function Search(props: SearchProps) {
 }
 
 Search.propTypes = {
-    tasks: PropTypes.array.isRequired,
-}
-
-Search.defaultProps = {
-    tasks: [
-        {
-            id: '1',
-            title: 'Task 1 lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-            desc: 'This is a description for task 1. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl. Donec euismod, nisl eget aliquam ultricies, nunc nisl aliquet nunc, quis aliquam nisl nunc eu nisl.',
-            priority: 'low',
-            dueDate: new Date(2023, 4, 16),
-            creationDate: new Date(2023, 3, 1),
-            status: 'todo',
-            categories: ['Main', 'Work'],
-        },
-        {
-            id: '2',
-            title: 'Task 2',
-            desc: 'This is a description for task 2.',
-            priority: 'medium',
-            dueDate: new Date(2023, 5, 20),
-            creationDate: new Date(2023, 4, 5),
-            status: 'inprogress',
-            categories: ['Main', 'Personal'],
-        },
-        {
-            id: '3',
-            title: 'Task 3',
-            desc: 'This is a description for task 3.',
-            priority: 'high',
-            dueDate: new Date(2023, 6, 25),
-            creationDate: new Date(2023, 5, 10),
-            status: 'done',
-            categories: ['Main', 'Work'],
-        },
-        {
-            id: '4',
-            title: 'Task 4',
-            desc: 'This is a description for task 4.',
-            priority: 'default',
-            dueDate: new Date(2025, 6, 30),
-            creationDate: new Date(2023, 5, 10),
-            status: 'done',
-            categories: ['Main', 'Test', 'Work'],
-        },
-    ],
+    user: PropTypes.object.isRequired,
 }
 
 export default Search

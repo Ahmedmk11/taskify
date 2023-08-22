@@ -6,11 +6,17 @@ import React from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
+import { User } from '../../app/User'
 
-function TermsAndConditions() {
+type TermsAndConditionsProps = {
+    user: User | null
+}
+
+function TermsAndConditions(props: TermsAndConditionsProps) {
+    const { user } = props
     return (
         <div id="terms-body">
-            <ToolBar />
+            <ToolBar user={user} />
             <div id="terms-content">
                 <NavBar currentPage={'placeholder'} />
                 <div id="terms-main">
