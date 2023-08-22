@@ -109,7 +109,7 @@ function LoginPage() {
                                     htmlType="submit"
                                     className="login-form-button"
                                 >
-                                    LoginsTest
+                                    Login
                                 </Button>
                                 <div style={{ textAlign: 'center' }}>
                                     Don't have an account?

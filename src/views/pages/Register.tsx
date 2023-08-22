@@ -5,7 +5,7 @@
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { registerUser, signInWithGoogle  } from '../../firebase'
@@ -14,7 +14,17 @@ import googleIcn from '../../assets/icons/google.svg'
 
 function Register() {
     const [form] = Form.useForm()
+    const [isCaptchaPassed, setIsCaptchaPassed] = useState(false);
     const RECAPTCHA_SITE_KEY = '6Le6Gr8nAAAAAGx8Htz6PZevCsT0p4nXcObacrEB'
+
+    const handleCaptchaChange = (value: boolean) => {
+        if (value) {
+          setIsCaptchaPassed(true);
+        } else {
+          setIsCaptchaPassed(false);
+        }
+    };
+
     const GoogleIcon = () => (
         <img style={{ width: 16, height: 16 }} src={googleIcn} />
     )
@@ -43,7 +53,11 @@ function Register() {
     }
 
     const onFinish = (values: any) => {
-        registerUser(values.email, values.password, values.fullname)
+        if (isCaptchaPassed) {
+            registerUser(values.email, values.password, values.fullname)
+        } else {
+            alert('nice try bot')
+        }
     }
 
     return (
@@ -165,7 +179,6 @@ function Register() {
                             </Form.Item>
                             <ReCAPTCHA
                                 style={{
-                                    width: '100%',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
@@ -175,7 +188,7 @@ function Register() {
                                 sitekey={RECAPTCHA_SITE_KEY}
                             />
 
-                            <Form.Item {...tailFormItemLayout}>
+                            <Form.Item {...tailFormItemLayout} id='reg-button-item'>
                                 <Button type="primary" htmlType="submit">
                                     Register
                                 </Button>

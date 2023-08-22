@@ -392,6 +392,14 @@ body.dark {
   -moz-border-radius: 6px;
   -ms-border-radius: 6px;
   -o-border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+#register-main #register-main-content form h2 {
+  width: 100%;
+  text-align: center;
 }
 #register-main #register-main-content .ant-form-item-control-input input:-webkit-autofill,
 #register-main #register-main-content .ant-form-item-control-input input:-webkit-autofill:hover,
@@ -401,6 +409,7 @@ body.dark {
 }
 #register-main #register-main-content .ant-form-item {
   margin-bottom: 16px;
+  width: 100% !important;
 }
 #register-main #register-main-content .ant-form-item-label {
   text-align: left;
@@ -420,6 +429,21 @@ body.dark {
 #register-main #register-main-content .ant-form-item-control-input-content .ant-btn {
   width: 100% !important;
   max-width: none !important;
+}
+#register-main #register-main-content .ant-form-item .css-byeoj0 {
+  width: 100% !important;
+  max-width: none !important;
+}
+#register-main #register-main-content .ant-form-item .css-byeoj0 span.ant-checkbox {
+  width: fit-content !important;
+}
+
+#register > div:nth-child(8) > div > div {
+  margin-left: 0%;
+}
+
+#register > div:nth-child(6) > div > div {
+  margin-left: 0%;
 }
 
 #profile-settings-main {

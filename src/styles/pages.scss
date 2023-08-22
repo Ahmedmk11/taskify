@@ -327,6 +327,14 @@
             -moz-border-radius: 6px;
             -ms-border-radius: 6px;
             -o-border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            h2 {
+                width: 100%;
+                text-align: center;
+            }
         }
         .ant-form-item-control-input input:-webkit-autofill,
         .ant-form-item-control-input input:-webkit-autofill:hover,
@@ -336,6 +344,7 @@
         }
         .ant-form-item {
             margin-bottom: 16px;
+            width: 100% !important;
         }
 
         .ant-form-item-label {
@@ -365,8 +374,24 @@
             width: 100% !important;
             max-width: none !important;
         }
+        .ant-form-item .css-byeoj0 {
+            width: 100% !important;
+            max-width: none !important;
+        }
+        .ant-form-item .css-byeoj0 span.ant-checkbox {
+            width: fit-content !important;
+        }
     }
 }
+
+#register > div:nth-child(8) > div > div {
+    margin-left: 0%;
+}
+
+#register > div:nth-child(6) > div > div {
+    margin-left: 0%;
+}
+
 
 // --------------------------------------------------------------
 // Profile Settings SCSS.
