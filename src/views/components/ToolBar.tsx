@@ -73,37 +73,40 @@ function ToolBar(props: ToolBarProps) {
         return new Intl.DateTimeFormat('en-GB', options).format(date)
     }
 
-    const notifs = (
-        <Menu id="notifs-menu">
-            <p>
-                You have {getTasksDueInDays(user!)?.length} tasks due within
-                less than 3 days
-            </p>
-            <Menu.Divider />
-            {getTasksDueInDays(user!)?.map((task, index) => (
-                <Menu.Item
-                    key={index + 1}
+    const notifs: MenuProps['items'] = [
+        {
+            label: (
+                <p id="notifs-p">
+                    You have {getTasksDueInDays(user!)?.length ?? 0} tasks due
+                    within the next 3 days
+                </p>
+            ),
+            key: '0',
+        },
+        ...(getTasksDueInDays(user!)?.map((task, index) => ({
+            label: (
+                <div
+                    className="notif-item"
                     onClick={() => {
                         navigate('/task/' + task.id)
                     }}
                 >
-                    <div className="notif-item">
+                    <div>
+                        <h3>{task.title}</h3>
                         <div>
-                            <h3>{task.title}</h3>
-                            <div>
-                                Due: <span>{formatDate(task.dueDate)}</span>
-                            </div>
-                        </div>
-                        <div>
-                            Priority:{' '}
-                            {task.priority.split('')[0].toUpperCase() +
-                                task.priority.slice(1)}
+                            Due: <span>{formatDate(task.dueDate)}</span>
                         </div>
                     </div>
-                </Menu.Item>
-            ))}
-        </Menu>
-    )
+                    <div>
+                        Priority:{' '}
+                        {task.priority.split('')[0].toUpperCase() +
+                            task.priority.slice(1)}
+                    </div>
+                </div>
+            ),
+            key: (index + 1).toString(),
+        })) ?? []),
+    ]
 
     const items: MenuProps['items'] = [
         {
@@ -119,7 +122,7 @@ function ToolBar(props: ToolBarProps) {
                         navigate('/profile')
                     }}
                 >
-                    <UserOutlined style={{marginRight: '8px'}}/>
+                    <UserOutlined style={{ marginRight: '8px' }} />
                     Profile
                 </a>
             ),
@@ -181,7 +184,7 @@ function ToolBar(props: ToolBarProps) {
                         width: '100%',
                     }}
                 >
-                    <LogoutOutlined style={{ marginRight: '8px'}} />
+                    <LogoutOutlined style={{ marginRight: '8px' }} />
                     Log Out
                 </a>
             ),
@@ -197,7 +200,7 @@ function ToolBar(props: ToolBarProps) {
                     src={logoIcn}
                     alt="logo"
                     onClick={() => {
-                        signOutHandler()
+                        navigate('/home')
                     }}
                 />
             </div>
@@ -205,7 +208,7 @@ function ToolBar(props: ToolBarProps) {
                 <div id="tool-bar-item">
                     <div>
                         <Dropdown
-                            overlay={notifs}
+                            menu={{ items: notifs }}
                             trigger={['click']}
                             placement="bottom"
                         >

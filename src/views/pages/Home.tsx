@@ -30,7 +30,9 @@ function Home() {
         const auth = getAuth()
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                const userData = await readUserDataFromDb(getAuth().currentUser!.uid)
+                const userData = await readUserDataFromDb(
+                    getAuth().currentUser!.uid
+                )
                 console.log(userData)
                 setUser(userData!)
                 setIsLoading(false)
@@ -62,12 +64,12 @@ function Home() {
         }
     }, [location])
 
-    function allowDrop(ev: any) {
-        ev.preventDefault()
-    }
-
     if (isLoading) {
         return <div>Loading...</div>
+    }
+
+    function allowDrop(ev: any) {
+        ev.preventDefault()
     }
 
     function createCardPop(col = 'col-1') {

@@ -12,7 +12,7 @@ import Card from '../components/Card'
 import { Task } from '../../app/Task'
 import Filter from '../components/Filter'
 import { User } from '../../app/User'
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
 
 function Search() {
@@ -23,27 +23,41 @@ function Search() {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
     const tasks = user ? user.taskArray : []
-    const currentUser = getAuth().currentUser
 
     async function fetchUserData() {
-        const userData = await readUserDataFromDb(currentUser!.uid)
-        setUser(userData!)
-        setIsLoading(false)
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await readUserDataFromDb(
+                    getAuth().currentUser!.uid
+                )
+                setUser(userData!)
+                setIsLoading(false)
+            }
+        })
     }
 
     useEffect(() => {
-        fetchUserData()
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
     }, [])
+
+    useEffect(() => {
+        const hideFiltersContainer = () => {
+            const filtersContainer =
+                document.getElementById('filters-container')
+            if (filtersContainer) {
+                filtersContainer.classList.add('visibility-hidden')
+            }
+        }
+        hideFiltersContainer()
+    }, [user])
 
     if (isLoading) {
         return <div>Loading...</div>
     }
-
-    useEffect(() => {
-        document
-            .getElementById('filters-container')
-            ?.classList.add('visibility-hidden')
-    }, [])
 
     const getSearchResults = (tasks: Task[]) => {
         return tasks.filter((task) => {

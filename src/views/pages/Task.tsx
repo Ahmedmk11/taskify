@@ -11,7 +11,7 @@ import ActionBar from '../components/ActionBar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
 import { User } from '../../app/User'
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
 
 function Task() {
@@ -20,18 +20,38 @@ function Task() {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
     const tasks = user ? user.taskArray : []
-    const currentUser = getAuth().currentUser
     const task = tasks.find((task) => task.id == id)
 
     async function fetchUserData() {
-        const userData = await readUserDataFromDb('users', currentUser!.uid)
-        setUser(userData!)
-        setIsLoading(false)
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await readUserDataFromDb(
+                    getAuth().currentUser!.uid
+                )
+                setUser(userData!)
+                setIsLoading(false)
+            }
+        })
     }
 
     useEffect(() => {
-        fetchUserData()
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
     }, [])
+
+    useEffect(() => {
+        const hideFiltersContainer = () => {
+            const filtersContainer =
+                document.getElementById('filters-container')
+            if (filtersContainer) {
+                filtersContainer.classList.add('visibility-hidden')
+            }
+        }
+        hideFiltersContainer()
+    }, [user])
 
     if (isLoading) {
         return <div>Loading...</div>

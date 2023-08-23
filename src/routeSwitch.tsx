@@ -16,19 +16,67 @@ import ForgotPassword from './views/pages/ForgotPassword'
 const RouteSwitch = () => {
     return (
         <Routes>
-            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-            <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
+            <Route
+                path="/"
+                element={
+                    <PrivateRoute>
+                        <Home />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/home"
+                element={
+                    <PrivateRoute>
+                        <Home />
+                    </PrivateRoute>
+                }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/search" element={<PrivateRoute><Search /></PrivateRoute>} />
-            <Route path="/profile" element={<PrivateRoute><ProfileSettings /></PrivateRoute>} />
-            {/* <Route path="/placeholder" element={<PrivateRoute><Placeholder user={user} /></PrivateRoute>} /> */}
-            <Route path="/task/:id" element={<PrivateRoute><Task /></PrivateRoute>} />
-            <Route path="/terms-and-conditions" element={<PrivateRoute><TermsAndConditions /></PrivateRoute>} />
+            <Route
+                path="/search"
+                element={
+                    <PrivateRoute>
+                        <Search />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/profile"
+                element={
+                    <PrivateRoute>
+                        <ProfileSettings />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/placeholder"
+                element={
+                    <PrivateRoute>
+                        <Placeholder />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/task/:id"
+                element={
+                    <PrivateRoute>
+                        <Task />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/terms-and-conditions"
+                element={
+                    <PrivateRoute>
+                        <TermsAndConditions />
+                    </PrivateRoute>
+                }
+            />
             <Route path="*" element={<NotFound />} />
         </Routes>
-
     )
 }
 

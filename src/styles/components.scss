@@ -110,24 +110,22 @@
     }
 }
 
-#notifs-menu {
-    p {
-        margin: 6px;
-        color: var(--color-light-black-45);
+#notifs-p {
+    margin: 6px;
+    color: var(--color-light-black-45);
+}
+.notif-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    h3 {
+        margin: 0%;
     }
-    .notif-item {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        h3 {
-            margin: 0%;
-        }
-        div {
-            font-size: 12px;
-            span {
-                color: var(--color-red);
-            }
+    div {
+        font-size: 12px;
+        span {
+            color: var(--color-red);
         }
     }
 }

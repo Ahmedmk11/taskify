@@ -124,23 +124,24 @@ body.dark {
     cursor: pointer;
 }
 
-#notifs-menu p {
+#notifs-p {
     margin: 6px;
     color: var(--color-light-black-45);
 }
-#notifs-menu .notif-item {
+
+.notif-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
-#notifs-menu .notif-item h3 {
+.notif-item h3 {
     margin: 0%;
 }
-#notifs-menu .notif-item div {
+.notif-item div {
     font-size: 12px;
 }
-#notifs-menu .notif-item div span {
+.notif-item div span {
     color: var(--color-red);
 }
 

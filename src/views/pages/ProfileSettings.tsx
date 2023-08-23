@@ -7,23 +7,47 @@ import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
 
 function ProfileSettings() {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
-    const currentUser = getAuth().currentUser
 
     async function fetchUserData() {
-        const userData = await readUserDataFromDb('users', currentUser!.uid)
-        setUser(userData!)
-        setIsLoading(false)
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await readUserDataFromDb(
+                    getAuth().currentUser!.uid
+                )
+                setUser(userData!)
+                setIsLoading(false)
+            }
+        })
     }
 
     useEffect(() => {
-        fetchUserData()
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
     }, [])
+
+    useEffect(() => {
+        const hideFiltersContainer = () => {
+            const filtersContainer =
+                document.getElementById('filters-container')
+            if (filtersContainer) {
+                filtersContainer.classList.add('visibility-hidden')
+            }
+        }
+        hideFiltersContainer()
+    }, [user])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     if (isLoading) {
         return <div>Loading...</div>
