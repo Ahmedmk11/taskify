@@ -4,7 +4,6 @@
 
 'use client'
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import ActionBar from '../components/ActionBar'
@@ -16,14 +15,16 @@ import { useLocation } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { readUserDataFromDb } from '../../firebase'
+import { readUserDataFromDb, db } from '../../firebase'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { Task } from '../../app/Task'
 
 function Home() {
     const [isVisible, setIsVisible] = useState(false)
     const [user, setUser] = useState(null as unknown as User)
+    const [userUID, setUserUID] = useState('')
     const [isLoading, setIsLoading] = useState(true)
-
-    const tasks = user ? user.taskArray : []
+    const [tasks, setTasks] = useState(user ? user.taskArray : [])
     const location = useLocation()
 
     async function fetchUserData() {
@@ -33,12 +34,37 @@ function Home() {
                 const userData = await readUserDataFromDb(
                     getAuth().currentUser!.uid
                 )
+                setUserUID(getAuth().currentUser!.uid)
                 console.log(userData)
                 setUser(userData!)
                 setIsLoading(false)
+                setTasks(userData!.taskArray)
             }
         })
     }
+
+    useEffect(() => {
+        try {
+            onSnapshot(doc(db, 'users', userUID), (doc) => {
+                console.log('Current data: ', doc.data())
+                let t = [] as Task[]
+                doc.data()!.tasksArray.forEach((task: any) => {
+                    let tmp = new Task(
+                        task.id,
+                        task.title,
+                        task.description,
+                        task.priority,
+                        task.dueDate
+                    )
+                    tmp.updateCategories(task.categories)
+                    t.push(tmp)
+                })
+                setTasks(t)
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }, [userUID])
 
     useEffect(() => {
         async function fetchData() {
@@ -159,7 +185,7 @@ function Home() {
 
     return (
         <div id="home-body">
-            <ToolBar user={user} />
+            <ToolBar />
             <div id="home-content">
                 <NavBar currentPage={'home'} />
                 <div id="home-main">
@@ -180,109 +206,111 @@ function Home() {
                             hideFilters={hideFilters}
                             categories={['Main', 'Work', 'UI Design']}
                         />
-                        <div
-                            id="col-1"
-                            onDrop={drop}
-                            className="column"
-                            onDragOver={allowDrop}
-                        >
-                            <div className="cards-status">
-                                <p>Todo</p>
-                                <div className="image-container">
-                                    <img
-                                        onClick={() => {
-                                            createCardPop('col-1')
-                                        }}
-                                        src={plusIcn}
-                                        alt="plus icon"
-                                    />
+                        <div id="columns-container">
+                            <div
+                                id="col-1"
+                                onDrop={drop}
+                                className="column"
+                                onDragOver={allowDrop}
+                            >
+                                <div className="cards-status">
+                                    <p>Todo</p>
+                                    <div className="image-container">
+                                        <img
+                                            onClick={() => {
+                                                createCardPop('col-1')
+                                            }}
+                                            src={plusIcn}
+                                            alt="plus icon"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="cards">
+                                    {tasks.map(
+                                        (task, index) =>
+                                            task.status === 'todo' && (
+                                                <div
+                                                    className="draggable-card"
+                                                    id={`card-container-${index}`}
+                                                    draggable="true"
+                                                    onDragStart={drag}
+                                                    key={task.id}
+                                                >
+                                                    <Card task={task} />
+                                                </div>
+                                            )
+                                    )}
                                 </div>
                             </div>
-                            <div className="cards">
-                                {tasks.map(
-                                    (task, index) =>
-                                        task.status === 'todo' && (
-                                            <div
-                                                className="draggable-card"
-                                                id={`card-container-${index}`}
-                                                draggable="true"
-                                                onDragStart={drag}
-                                                key={task.id}
-                                            >
-                                                <Card task={task} />
-                                            </div>
-                                        )
-                                )}
-                            </div>
-                        </div>
-                        <div
-                            id="col-2"
-                            onDrop={drop}
-                            className="column"
-                            onDragOver={allowDrop}
-                        >
-                            <div className="cards-status">
-                                <p>In Progress</p>
-                                <div className="image-container">
-                                    <img
-                                        onClick={() => {
-                                            createCardPop('col-2')
-                                        }}
-                                        src={plusIcn}
-                                        alt="plus icon"
-                                    />
+                            <div
+                                id="col-2"
+                                onDrop={drop}
+                                className="column"
+                                onDragOver={allowDrop}
+                            >
+                                <div className="cards-status">
+                                    <p>In Progress</p>
+                                    <div className="image-container">
+                                        <img
+                                            onClick={() => {
+                                                createCardPop('col-2')
+                                            }}
+                                            src={plusIcn}
+                                            alt="plus icon"
+                                        />
+                                    </div>
+                                </div>
+                                <div className="cards">
+                                    {tasks.map(
+                                        (task, index) =>
+                                            task.status === 'inprogress' && (
+                                                <div
+                                                    className="draggable-card"
+                                                    id={`card-container-${index}`}
+                                                    draggable="true"
+                                                    onDragStart={drag}
+                                                    key={task.id}
+                                                >
+                                                    <Card task={task} />
+                                                </div>
+                                            )
+                                    )}
                                 </div>
                             </div>
-                            <div className="cards">
-                                {tasks.map(
-                                    (task, index) =>
-                                        task.status === 'inprogress' && (
-                                            <div
-                                                className="draggable-card"
-                                                id={`card-container-${index}`}
-                                                draggable="true"
-                                                onDragStart={drag}
-                                                key={task.id}
-                                            >
-                                                <Card task={task} />
-                                            </div>
-                                        )
-                                )}
-                            </div>
-                        </div>
-                        <div
-                            id="col-3"
-                            onDrop={drop}
-                            className="column"
-                            onDragOver={allowDrop}
-                        >
-                            <div className="cards-status">
-                                <p>Done</p>
-                                <div className="image-container">
-                                    <img
-                                        onClick={() => {
-                                            createCardPop('col-3')
-                                        }}
-                                        src={plusIcn}
-                                        alt="plus icon"
-                                    />
+                            <div
+                                id="col-3"
+                                onDrop={drop}
+                                className="column"
+                                onDragOver={allowDrop}
+                            >
+                                <div className="cards-status">
+                                    <p>Done</p>
+                                    <div className="image-container">
+                                        <img
+                                            onClick={() => {
+                                                createCardPop('col-3')
+                                            }}
+                                            src={plusIcn}
+                                            alt="plus icon"
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="cards">
-                                {tasks.map(
-                                    (task, index) =>
-                                        task.status === 'done' && (
-                                            <div
-                                                className="draggable-card"
-                                                id={`card-container-${index}`}
-                                                draggable="true"
-                                                onDragStart={drag}
-                                                key={task.id}
-                                            >
-                                                <Card task={task} />
-                                            </div>
-                                        )
-                                )}
+                                <div className="cards">
+                                    {tasks.map(
+                                        (task, index) =>
+                                            task.status === 'done' && (
+                                                <div
+                                                    className="draggable-card"
+                                                    id={`card-container-${index}`}
+                                                    draggable="true"
+                                                    onDragStart={drag}
+                                                    key={task.id}
+                                                >
+                                                    <Card task={task} />
+                                                </div>
+                                            )
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>

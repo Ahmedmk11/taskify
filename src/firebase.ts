@@ -12,6 +12,9 @@ import {
     setDoc,
     doc,
     getDocs,
+    arrayUnion,
+    updateDoc,
+    onSnapshot,
 } from 'firebase/firestore'
 import {
     getAuth,
@@ -35,7 +38,7 @@ import {
 const provider = new GoogleAuthProvider()
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
-const db = getFirestore(app)
+export const db = getFirestore(app)
 
 initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(
@@ -229,18 +232,20 @@ export function updateCurrentUserDocument(
 export function addNewTaskToCurrentUser(task: Task): void {
     const user = getAuth().currentUser
     if (user) {
-        const taskDocRef = doc(db, 'users', user.uid, 'taskArray', task.id)
-        const taskData = {
-            id: task.id,
-            title: task.title,
-            desc: task.desc,
-            priority: task.priority,
-            dueDate: task.dueDate,
-            creationDate: task.creationDate,
-            status: task.status,
-            categories: task.categories,
+        const userDocRef = doc(db, 'users', user.uid)
+        const userData = {
+            tasksArray: arrayUnion({
+                id: task.id,
+                title: task.title,
+                desc: task.desc,
+                priority: task.priority,
+                dueDate: task.dueDate,
+                creationDate: task.creationDate,
+                status: task.status,
+                categories: task.categories,
+            }),
         }
-        setDoc(taskDocRef, taskData)
+        updateDoc(userDocRef, userData)
             .then(() => {
                 console.log('updated current user in Firestore!')
             })
@@ -289,8 +294,4 @@ export async function readAllTasksFromDb(): Promise<Task[]> {
         tasks.push(task)
     })
     return tasks
-}
-
-function activateAppCheck(appCheck: AppCheck) {
-    throw new Error('Function not implemented.')
 }

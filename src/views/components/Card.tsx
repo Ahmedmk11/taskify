@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import { Button, Space, Input, DatePicker, Select } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import type { DatePickerProps } from 'antd'
+import { format } from 'date-fns'
 
 const { Option } = Select
 
@@ -14,31 +15,114 @@ import settingsIcn from '../../assets/icons/settings.svg'
 import dateIcn from '../../assets/icons/date.svg'
 import { Task } from '../../app/Task'
 import { User } from '../../app/User'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { addNewTaskToCurrentUser, readUserDataFromDb } from '../../firebase'
 
 type CardProps = {
     type: string
     task: Task
-    user: User | null
 }
 
 function Card(props: CardProps) {
-    const { type, task, user } = props
+    const { type, task } = props
     const { id, title, desc, categories, dueDate, priority, status } = task
+    const [user, setUser] = useState(null as unknown as User)
+    const [isLoading, setIsLoading] = useState(true)
+    const tasks = user ? user.taskArray : []
     const [selectedCategories, setSelectedCategories] = useState<string[]>(
         user ? user.categories : []
     )
+    const [priorityInput, setPriorityInput] = useState('default')
+    const [dateInput, setDateInput] = useState(null as any)
     const [inputValue, setInputValue] = useState('')
     const [isExpanded, setIsExpanded] = useState(false)
 
-    const onDateInput: DatePickerProps['onChange'] = () => {}
+    async function fetchUserData() {
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await readUserDataFromDb(
+                    getAuth().currentUser!.uid
+                )
+                setUser(userData!)
+                setIsLoading(false)
+            }
+        })
+    }
 
-    function formatDate(date: Date) {
+    useEffect(() => {
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        let a = document.getElementsByTagName('textarea')
+        for (var i = 0, inb = a.length; i < inb; i++) {
+            if (a[i].getAttribute('data-resizable') == 'true')
+                resizeTextarea(a[i].id)
+        }
+    }, [user])
+
+    const onDateInput: DatePickerProps['onChange'] = (value) => {
+        setDateInput(value)
+    }
+
+    function formatDate(date: any) {
         const options: Intl.DateTimeFormatOptions = {
             day: 'numeric',
             month: 'short',
             year: 'numeric',
         }
         return new Intl.DateTimeFormat('en-GB', options).format(date)
+    }
+
+    // if (isLoading) {
+    //     return <div>Loading...</div>
+    // }
+
+    function saveCard(ev: any) {
+        const title = document.getElementById(
+            'text-area-title'
+        ) as HTMLTextAreaElement
+        const desc = document.getElementById(
+            'text-area-desc'
+        ) as HTMLTextAreaElement
+        const date = new Date(dateInput)
+        const formattedDate = format(date, 'dd MMMM yyyy')
+        let flag = false
+        if (title.value === '') {
+            title.classList.add('error')
+            flag = true
+        }
+        if (desc.value === '') {
+            desc.classList.add('error')
+            flag = true
+        }
+        if (formattedDate === null) {
+            const date = document.getElementById('date-picker-ad')
+            date!.classList.add('error')
+            flag = true
+        }
+        if (priorityInput === null) {
+            setPriorityInput('default')
+        }
+        if (flag) {
+            return
+        }
+        console.log('date', date)
+        console.log('priority', priorityInput)
+        const newTask = new Task(
+            `${tasks.length}`,
+            title.value,
+            desc.value,
+            priorityInput,
+            date
+        )
+        newTask.updateCategories(selectedCategories)
+        addNewTaskToCurrentUser(newTask)
+        cancelCard(ev)
     }
 
     function cancelCard(ev: any) {
@@ -65,16 +149,8 @@ function Card(props: CardProps) {
         a!.style.height = a!.scrollHeight + 'px'
     }
 
-    useEffect(() => {
-        let a = document.getElementsByTagName('textarea')
-        for (var i = 0, inb = a.length; i < inb; i++) {
-            if (a[i].getAttribute('data-resizable') == 'true')
-                resizeTextarea(a[i].id)
-        }
-    }, [])
-
     function handleSelectChange(value: any, option: any): void {
-        throw new Error('Function not implemented.')
+        setSelectedCategories(value)
     }
 
     const handlePriorityChange = (value: any) => {
@@ -113,6 +189,8 @@ function Card(props: CardProps) {
                 console.log('default')
                 break
         }
+
+        setPriorityInput(value)
     }
 
     function handleCreateOption(value: string) {
@@ -259,12 +337,14 @@ function Card(props: CardProps) {
                         <Space className="card-bottom-space">
                             <Space direction="vertical">
                                 <DatePicker
+                                    id="date-picker-ad"
                                     onChange={onDateInput}
                                     placeholder="Due date"
                                     style={{ width: 140 }}
                                 />
                             </Space>
                             <Select
+                                id="select-ad"
                                 placeholder="Priority"
                                 onChange={handlePriorityChange}
                                 style={{ width: 140 }}
@@ -296,6 +376,9 @@ function Card(props: CardProps) {
                                 Cancel
                             </Button>
                             <Button
+                                onClick={(e) => {
+                                    saveCard(e)
+                                }}
                                 className="default-priority-btn"
                                 id="save-input-btn"
                             >
@@ -336,33 +419,6 @@ Card.defaultProps = {
         dueDate: new Date(),
         priority: 'default',
         categories: ['Category'],
-    },
-    user: {
-        name: 'User Default',
-        email: 'defaultemail@email.com',
-        taskArray: [
-            {
-                id: 1,
-                title: 'Task 1',
-                desc: 'Task 1 Description',
-                categories: ['Main', 'Work'],
-                dueDate: new Date('2023-08-22'),
-                priority: 'medium',
-                status: 'todo',
-            },
-        ],
-        inOrderTasks: [
-            {
-                id: 1,
-                title: 'Task 1',
-                desc: 'Task 1 Description',
-                categories: ['Main', 'Work'],
-                dueDate: new Date('2023-08-22'),
-                priority: 'medium',
-                status: 'todo',
-            },
-        ],
-        categories: ['Main', 'Work', 'Personal'],
     },
 }
 

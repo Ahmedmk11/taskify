@@ -11,7 +11,7 @@ import { User } from '../../app/User'
 function TermsAndConditions() {
     return (
         <div id="terms-body">
-            <ToolBar user={null} />
+            <ToolBar />
             <div id="terms-content">
                 <NavBar currentPage={'placeholder'} />
                 <div id="terms-main">

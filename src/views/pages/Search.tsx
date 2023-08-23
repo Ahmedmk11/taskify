@@ -92,7 +92,7 @@ function Search() {
 
     return (
         <div id="search-body">
-            <ToolBar user={user} />
+            <ToolBar />
             <div id="search-content">
                 <NavBar />
                 <div id="search-main">

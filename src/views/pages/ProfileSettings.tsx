@@ -54,7 +54,7 @@ function ProfileSettings() {
     }
     return (
         <div id="profile-settings-body">
-            <ToolBar user={user} />
+            <ToolBar />
             <div id="profile-settings-content">
                 <NavBar />
                 <div id="profile-settings-main">

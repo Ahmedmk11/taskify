@@ -23,7 +23,7 @@ function ForgotPassword() {
 
     return (
         <div id="forgot-password-body">
-            <ToolBar user={null} />
+            <ToolBar />
             <div id="forgot-password-content">
                 <NavBar />
                 <div id="forgot-password-main">

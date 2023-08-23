@@ -53,7 +53,7 @@ function Placeholder() {
 
     return (
         <div id="placeholder-body">
-            <ToolBar user={user} />
+            <ToolBar />
             <div id="placeholder-content">
                 <NavBar currentPage={'placeholder'} />
                 <div id="placeholder-main">

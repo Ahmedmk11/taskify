@@ -2,8 +2,7 @@
 // Tool Bar react component.
 // --------------------------------------------------------------
 
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useEffect, useState } from 'react'
 
 import notificationsIcn from '../../assets/icons/notifications.svg'
 import logoIcn from '../../assets/icons/logo.svg'
@@ -14,19 +13,55 @@ import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Dropdown, Space, Avatar, Switch, Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { signOutHandler } from '../../firebase'
+import { readUserDataFromDb, signOutHandler } from '../../firebase'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-type ToolBarProps = {
-    user: User | null
-}
-
-function ToolBar(props: ToolBarProps) {
-    const { user } = props
+function ToolBar() {
     const [isDarkMode, setIsDarkMode] = useState(
         localStorage.getItem('theme') === 'dark' ? true : false
     )
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
+
+    const [user, setUser] = useState(null as unknown as User)
+    const [isLoading, setIsLoading] = useState(true)
+
+    const tasks = user?.taskArray ?? []
+
+    async function fetchUserData() {
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await readUserDataFromDb(
+                    getAuth().currentUser!.uid
+                )
+                setUser(userData!)
+                setIsLoading(false)
+            }
+        })
+    }
+
+    useEffect(() => {
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        const hideFiltersContainer = () => {
+            const filtersContainer =
+                document.getElementById('filters-container')
+            if (filtersContainer) {
+                filtersContainer.classList.add('visibility-hidden')
+            }
+        }
+        hideFiltersContainer()
+    }, [user])
+
+    // if (isLoading) {
+    //     return <div>Loading...</div>
+    // }
 
     const handleMenuClick = () => {
         setVisible(true)
@@ -46,7 +81,7 @@ function ToolBar(props: ToolBarProps) {
         const dueDate = new Date(currentDate)
         dueDate.setDate(dueDate.getDate() + days)
         const priorityOrder = { high: 1, medium: 2, low: 3, default: 4 }
-        return user?.taskArray
+        return tasks
             .filter((task) => task.dueDate < dueDate)
             .sort((a, b) => {
                 if (a.dueDate < b.dueDate) {
@@ -98,9 +133,10 @@ function ToolBar(props: ToolBarProps) {
                         </div>
                     </div>
                     <div>
-                        Priority:{' '}
-                        {task.priority.split('')[0].toUpperCase() +
+                        `Priority: $
+                        {task.priority[0].toUpperCase() +
                             task.priority.slice(1)}
+                        `
                     </div>
                 </div>
             ),
@@ -246,10 +282,6 @@ function ToolBar(props: ToolBarProps) {
             )}
         </div>
     )
-}
-
-ToolBar.propTypes = {
-    user: PropTypes.object,
 }
 
 export default ToolBar

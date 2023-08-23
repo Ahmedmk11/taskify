@@ -528,6 +528,10 @@
     }
 }
 
+.error::placeholder {
+    color: #ff4d4e !important;
+}
+
 @keyframes show-pop {
     0% {
         opacity: 0;

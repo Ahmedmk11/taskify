@@ -59,7 +59,7 @@ function Task() {
 
     return (
         <div id="task-body">
-            <ToolBar user={user} />
+            <ToolBar />
             <div id="task-content">
                 <NavBar />
                 <div id="task-main">
