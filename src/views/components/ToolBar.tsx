@@ -10,7 +10,7 @@ import logoIcn from '../../assets/icons/logo.svg'
 import sunIcn from '../../assets/icons/sun.svg'
 import moonIcn from '../../assets/icons/moon.svg'
 import { User } from '../../app/User'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Dropdown, Space, Avatar, Switch, Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
@@ -22,16 +22,20 @@ type ToolBarProps = {
 
 function ToolBar(props: ToolBarProps) {
     const { user } = props
-    const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('theme') === 'dark' ? true : false)
+    const [isDarkMode, setIsDarkMode] = useState(
+        localStorage.getItem('theme') === 'dark' ? true : false
+    )
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
-    
+
     const handleMenuClick = () => {
         setVisible(true)
     }
-        
+
     const SunIcon = () => <img style={{ width: 16, height: 16 }} src={sunIcn} />
-    const MoonIcon = () => <img style={{ width: 16, height: 16 }} src={moonIcn} />
+    const MoonIcon = () => (
+        <img style={{ width: 16, height: 16 }} src={moonIcn} />
+    )
 
     const handleVisibleChange = (flag: boolean) => {
         setVisible(flag)
@@ -72,8 +76,8 @@ function ToolBar(props: ToolBarProps) {
     const notifs = (
         <Menu id="notifs-menu">
             <p>
-                You have {getTasksDueInDays(user!)?.length} tasks due within less
-                than 3 days
+                You have {getTasksDueInDays(user!)?.length} tasks due within
+                less than 3 days
             </p>
             <Menu.Divider />
             {getTasksDueInDays(user!)?.map((task, index) => (
@@ -115,7 +119,8 @@ function ToolBar(props: ToolBarProps) {
                         navigate('/profile')
                     }}
                 >
-                    Profile Settings
+                    <UserOutlined style={{marginRight: '8px'}}/>
+                    Profile
                 </a>
             ),
             key: '0',
@@ -167,7 +172,7 @@ function ToolBar(props: ToolBarProps) {
         },
         {
             label: (
-                <a  
+                <a
                     onClick={signOutHandler}
                     style={{
                         display: 'flex',
@@ -176,6 +181,7 @@ function ToolBar(props: ToolBarProps) {
                         width: '100%',
                     }}
                 >
+                    <LogoutOutlined style={{ marginRight: '8px'}} />
                     Log Out
                 </a>
             ),
@@ -191,54 +197,56 @@ function ToolBar(props: ToolBarProps) {
                     src={logoIcn}
                     alt="logo"
                     onClick={() => {
-                        navigate('/home')
+                        signOutHandler()
                     }}
                 />
             </div>
             {user && (
-    <div id="tool-bar-item">
-        <div>
-            <Dropdown
-                overlay={notifs}
-                trigger={['click']}
-                placement="bottom"
-            >
-                <a onClick={(e) => e.preventDefault()}>
-                    <img
-                        id="notification-img"
-                        src={notificationsIcn}
-                        alt="Icon for notificatons"
-                    />
-                </a>
-            </Dropdown>
-        </div>
-        <div id="tool-bar-profile">
-            <Dropdown
-                menu={{ items }}
-                trigger={['click']}
-                placement="bottom"
-                onOpenChange={handleVisibleChange}
-                open={visible}
-            >
-                <a onClick={(e) => e.preventDefault()}>
-                    <Space>
-                        <Space wrap size={32} id="profile-avi">
-                            <Avatar size={32} icon={<UserOutlined />} />
-                        </Space>
-                    </Space>
-                </a>
-            </Dropdown>
-            <p>Hello, {user?.name.split(' ')[0]}</p>
-        </div>
-    </div>
-)}
-
+                <div id="tool-bar-item">
+                    <div>
+                        <Dropdown
+                            overlay={notifs}
+                            trigger={['click']}
+                            placement="bottom"
+                        >
+                            <a onClick={(e) => e.preventDefault()}>
+                                <img
+                                    id="notification-img"
+                                    src={notificationsIcn}
+                                    alt="Icon for notificatons"
+                                />
+                            </a>
+                        </Dropdown>
+                    </div>
+                    <div id="tool-bar-profile">
+                        <Dropdown
+                            menu={{ items }}
+                            trigger={['click']}
+                            placement="bottom"
+                            onOpenChange={handleVisibleChange}
+                            open={visible}
+                        >
+                            <a onClick={(e) => e.preventDefault()}>
+                                <Space>
+                                    <Space wrap size={32} id="profile-avi">
+                                        <Avatar
+                                            size={32}
+                                            icon={<UserOutlined />}
+                                        />
+                                    </Space>
+                                </Space>
+                            </a>
+                        </Dropdown>
+                        <p>Hello, {user?.name.split(' ')[0]}</p>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
 
 ToolBar.propTypes = {
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
 }
 
 export default ToolBar

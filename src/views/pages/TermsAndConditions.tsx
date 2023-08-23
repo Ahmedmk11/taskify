@@ -8,15 +8,10 @@ import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
 
-type TermsAndConditionsProps = {
-    user: User | null
-}
-
-function TermsAndConditions(props: TermsAndConditionsProps) {
-    const { user } = props
+function TermsAndConditions() {
     return (
         <div id="terms-body">
-            <ToolBar user={user} />
+            <ToolBar user={null} />
             <div id="terms-content">
                 <NavBar currentPage={'placeholder'} />
                 <div id="terms-main">

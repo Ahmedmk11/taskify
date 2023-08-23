@@ -14,7 +14,7 @@ import {
     EyeTwoTone,
 } from '@ant-design/icons'
 import googleIcn from '../../assets/icons/google.svg'
-import { signInHandler, signInWithGoogle } from '../../firebase' 
+import { signInHandler, signInWithGoogle } from '../../firebase'
 
 function LoginPage() {
     const [visible, setVisible] = useState(false)
@@ -104,12 +104,15 @@ function LoginPage() {
                                     <Checkbox>Remember me</Checkbox>
                                 </Form.Item>
 
-                                <a className="login-form-forgot" href='/reset-password'>
+                                <a
+                                    className="login-form-forgot"
+                                    href="/reset-password"
+                                >
                                     Forgot password
                                 </a>
                             </Form.Item>
 
-                            <Form.Item style={{marginBottom: '5px'}}>
+                            <Form.Item style={{ marginBottom: '5px' }}>
                                 <Button
                                     type="primary"
                                     htmlType="submit"
@@ -122,9 +125,12 @@ function LoginPage() {
                                     <a href="/register"> Register</a>
                                 </div>
                             </Form.Item>
-                            <Divider style={{marginTop: '0px'}}>Or</Divider>
+                            <Divider style={{ marginTop: '0px' }}>Or</Divider>
                             <div id="login-btn-container">
-                                <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
+                                <Button
+                                    icon={<GoogleIcon />}
+                                    onClick={signInWithGoogle}
+                                >
                                     Continue with Google
                                 </Button>
                             </div>

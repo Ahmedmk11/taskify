@@ -8,7 +8,7 @@ import Footer from '../components/Footer'
 import React, { useState } from 'react'
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { registerUser, signInWithGoogle  } from '../../firebase'
+import { registerUser, signInWithGoogle } from '../../firebase'
 import googleIcn from '../../assets/icons/google.svg'
 
 function Register() {
@@ -27,7 +27,7 @@ function Register() {
             sm: { span: 16 },
         },
     }
-    
+
     const tailFormItemLayout = {
         wrapperCol: {
             xs: {
@@ -162,7 +162,11 @@ function Register() {
                                     </a>
                                 </Checkbox>
                             </Form.Item>
-                            <Form.Item style={{marginBottom: '5px'}} {...tailFormItemLayout} id='reg-button-item'>
+                            <Form.Item
+                                style={{ marginBottom: '5px' }}
+                                {...tailFormItemLayout}
+                                id="reg-button-item"
+                            >
                                 <Button type="primary" htmlType="submit">
                                     Register
                                 </Button>
@@ -176,9 +180,12 @@ function Register() {
                                     <a href="/login"> Login</a>
                                 </div>
                             </Form.Item>
-                            <Divider style={{marginTop: '0px'}}>Or</Divider>
+                            <Divider style={{ marginTop: '0px' }}>Or</Divider>
                             <div id="login-btn-container">
-                                <Button icon={<GoogleIcon />} onClick={signInWithGoogle}>
+                                <Button
+                                    icon={<GoogleIcon />}
+                                    onClick={signInWithGoogle}
+                                >
                                     Continue with Google
                                 </Button>
                             </div>

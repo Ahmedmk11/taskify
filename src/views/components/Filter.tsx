@@ -121,7 +121,10 @@ function Filter(props: FiltersProps) {
                     </div>
                 </div>
                 <div className="filter-item-container">
-                    <div className="filter-item-header" onClick={expandPriority}>
+                    <div
+                        className="filter-item-header"
+                        onClick={expandPriority}
+                    >
                         <p>Priority</p>
                         <img
                             id="hide-show"

@@ -2,7 +2,7 @@
 // Task page frontend code.
 // --------------------------------------------------------------
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import NavBar from '../components/NavBar'
@@ -11,15 +11,31 @@ import ActionBar from '../components/ActionBar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
 import { User } from '../../app/User'
+import { getAuth } from 'firebase/auth'
+import { readUserDataFromDb } from '../../firebase'
 
-type TaskProps = {
-    user: User | null
-}
-
-function Task(props: TaskProps) {
+function Task() {
     const { id } = useParams()
-    const { user } = props
-    const task = user!.taskArray.find((task) => task.id == id)
+
+    const [user, setUser] = useState(null as unknown as User)
+    const [isLoading, setIsLoading] = useState(true)
+    const tasks = user ? user.taskArray : []
+    const currentUser = getAuth().currentUser
+    const task = tasks.find((task) => task.id == id)
+
+    async function fetchUserData() {
+        const userData = await readUserDataFromDb('users', currentUser!.uid)
+        setUser(userData!)
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
+        fetchUserData()
+    }, [])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     return (
         <div id="task-body">

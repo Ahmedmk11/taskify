@@ -2,19 +2,32 @@
 // ProfileSettings page frontend code.
 // --------------------------------------------------------------
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
+import { getAuth } from 'firebase/auth'
+import { readUserDataFromDb } from '../../firebase'
 
-type ProfileSettingsProps = {
-    user: User | null
-}
+function ProfileSettings() {
+    const [user, setUser] = useState(null as unknown as User)
+    const [isLoading, setIsLoading] = useState(true)
+    const currentUser = getAuth().currentUser
 
-function ProfileSettings(props: ProfileSettingsProps) {
-    const { user } = props
+    async function fetchUserData() {
+        const userData = await readUserDataFromDb('users', currentUser!.uid)
+        setUser(userData!)
+        setIsLoading(false)
+    }
 
+    useEffect(() => {
+        fetchUserData()
+    }, [])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
     return (
         <div id="profile-settings-body">
             <ToolBar user={user} />

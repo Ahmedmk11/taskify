@@ -26,22 +26,23 @@ import {
 import { firebaseConfig } from '../firebase-config-data'
 import { User } from './app/User'
 import { Task } from './app/Task'
-import { AppCheck, initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
+import {
+    AppCheck,
+    initializeAppCheck,
+    ReCaptchaV3Provider,
+} from 'firebase/app-check'
 
-let nameAtt: any = 'User Default'
-let emailAtt: string = 'defaultemail@email.com'
-let taskArrayAtt: Task[] = []
-let categoriesAtt: string[] = []
-
-const provider = new GoogleAuthProvider();
+const provider = new GoogleAuthProvider()
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const db = getFirestore(app)
 
 initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider('6LfXeb4nAAAAAFxeH46IPLGhwGEq3uw9M2h1IyxE'),
-    isTokenAutoRefreshEnabled: true
-});
+    provider: new ReCaptchaV3Provider(
+        '6LfXeb4nAAAAAFxeH46IPLGhwGEq3uw9M2h1IyxE'
+    ),
+    isTokenAutoRefreshEnabled: true,
+})
 
 export async function registerUser(
     emailInput: string,
@@ -51,24 +52,18 @@ export async function registerUser(
     try {
         await writeNewUserToFirestore(emailInput, passwordInput, nameInput)
         console.log('User registered!')
-        emailAtt = emailInput
-        nameAtt = nameInput
-        window.location.href = '/home'
     } catch (error) {
         console.error('Error registering user:', error)
     }
 }
 
-export function signInHandler(
-    emailInput: string,
-    passwordInput: string
-): any {
+export function signInHandler(emailInput: string, passwordInput: string): any {
     const auth = getAuth()
     signInWithEmailAndPassword(auth, emailInput, passwordInput)
         .then((userCredential) => {
             const user = userCredential.user
             console.log(user)
-            readUserDataFromDb('users', user.uid)
+            readUserDataFromDb(user.uid)
             window.location.href = '/home'
             return true
         })
@@ -81,17 +76,18 @@ export function signInHandler(
 }
 
 export function signInWithGoogle(): void {
-    const auth = getAuth();
+    const auth = getAuth()
     signInWithPopup(auth, provider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential!.accessToken;
-        const user = result.user;
-        const displayName = user?.displayName
-        window.location.href = '/home'
-      }).catch((error) => {
-        console.log(error.code, error.message)
-      });
+        .then((result) => {
+            const credential = GoogleAuthProvider.credentialFromResult(result)
+            const token = credential!.accessToken
+            const user = result.user
+            const displayName = user?.displayName
+            window.location.href = '/home'
+        })
+        .catch((error) => {
+            console.log(error.code, error.message)
+        })
 }
 
 export function signOutHandler(): void {
@@ -143,27 +139,29 @@ export async function sendPasswordResetEmailHandler(
 ): Promise<void> {
     const auth = getAuth()
     sendPasswordResetEmail(auth, email)
-    .then(() => {
-        console.log('Password reset email sent!')
-    })
-    .catch((error) => {
-        console.log(error, error.message)
-    })
+        .then(() => {
+            console.log('Password reset email sent!')
+        })
+        .catch((error) => {
+            console.log(error, error.message)
+        })
 }
 
-export async function readUserDataFromDb(
-    collID: string,
-    docID: string
-): Promise<User | null> {
-    const docRef = doc(db, collID, docID)
+export async function readUserDataFromDb(docID: string): Promise<User | null> {
+    const docRef = doc(db, 'users', docID)
     const docSnap = await getDoc(docRef)
     if (docSnap.exists()) {
         console.log('user fetched from firestore')
-        return new User(docSnap.data().displayName ,docSnap.data().email, docSnap.data().tasksArray, docSnap.data().categories)
+        return new User(
+            docSnap.data().displayName,
+            docSnap.data().email,
+            docSnap.data().tasksArray,
+            docSnap.data().categories
+        )
     } else {
         console.log('No such document!')
+        return null
     }
-    return null
 }
 
 export async function updateUserName(newName: string): Promise<void> {
@@ -292,7 +290,7 @@ export async function readAllTasksFromDb(): Promise<Task[]> {
     })
     return tasks
 }
+
 function activateAppCheck(appCheck: AppCheck) {
     throw new Error('Function not implemented.')
 }
-

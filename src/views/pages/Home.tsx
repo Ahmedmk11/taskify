@@ -15,22 +15,46 @@ import ReactDOM from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { readUserDataFromDb } from '../../firebase'
 
-type HomeProps = {
-    user: User | null
-}
-
-function Home(props: HomeProps) {
-    const { user } = props
-    const tasks = user ? user.taskArray : []
+function Home() {
     const [isVisible, setIsVisible] = useState(false)
+    const [user, setUser] = useState(null as unknown as User)
+    const [isLoading, setIsLoading] = useState(true)
+
+    const tasks = user ? user.taskArray : []
     const location = useLocation()
 
+    async function fetchUserData() {
+        const auth = getAuth()
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const userData = await readUserDataFromDb(getAuth().currentUser!.uid)
+                console.log(userData)
+                setUser(userData!)
+                setIsLoading(false)
+            }
+        })
+    }
+
     useEffect(() => {
-        document
-            .getElementById('filters-container')
-            ?.classList.add('visibility-hidden')
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
     }, [])
+
+    useEffect(() => {
+        const hideFiltersContainer = () => {
+            const filtersContainer =
+                document.getElementById('filters-container')
+            if (filtersContainer) {
+                filtersContainer.classList.add('visibility-hidden')
+            }
+        }
+        hideFiltersContainer()
+    }, [user])
 
     useEffect(() => {
         if (location.state?.createCardPop) {
@@ -40,6 +64,10 @@ function Home(props: HomeProps) {
 
     function allowDrop(ev: any) {
         ev.preventDefault()
+    }
+
+    if (isLoading) {
+        return <div>Loading...</div>
     }
 
     function createCardPop(col = 'col-1') {
@@ -261,10 +289,6 @@ function Home(props: HomeProps) {
             <Footer />
         </div>
     )
-}
-
-Home.propTypes = {
-    user: PropTypes.object.isRequired,
 }
 
 export default Home

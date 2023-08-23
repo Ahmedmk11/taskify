@@ -12,17 +12,32 @@ import Card from '../components/Card'
 import { Task } from '../../app/Task'
 import Filter from '../components/Filter'
 import { User } from '../../app/User'
+import { getAuth } from 'firebase/auth'
+import { readUserDataFromDb } from '../../firebase'
 
-type SearchProps = {
-    user: User | null
-}
-
-function Search(props: SearchProps) {
-    const { user } = props
-    const tasks = user!.taskArray
+function Search() {
     const [isVisible, setIsVisible] = useState(false)
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
+
+    const [user, setUser] = useState(null as unknown as User)
+    const [isLoading, setIsLoading] = useState(true)
+    const tasks = user ? user.taskArray : []
+    const currentUser = getAuth().currentUser
+
+    async function fetchUserData() {
+        const userData = await readUserDataFromDb(currentUser!.uid)
+        setUser(userData!)
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
+        fetchUserData()
+    }, [])
+
+    if (isLoading) {
+        return <div>Loading...</div>
+    }
 
     useEffect(() => {
         document
@@ -108,10 +123,6 @@ function Search(props: SearchProps) {
             </div>
         </div>
     )
-}
-
-Search.propTypes = {
-    user: PropTypes.object.isRequired,
 }
 
 export default Search
