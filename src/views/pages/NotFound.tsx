@@ -14,7 +14,7 @@ function NotFound() {
 
     return (
         <div id="not-found-body">
-            <ToolBar user={null} />
+            <ToolBar />
             <div id="not-found-content">
                 <NavBar />
                 <div id="not-found-main">

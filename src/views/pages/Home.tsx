@@ -18,6 +18,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb, db } from '../../firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
+import { hydrateRoot } from 'react-dom/client'
 
 function Home() {
     const [isVisible, setIsVisible] = useState(false)
@@ -52,7 +53,7 @@ function Home() {
                     let tmp = new Task(
                         task.id,
                         task.title,
-                        task.description,
+                        task.desc,
                         task.priority,
                         task.dueDate
                     )
@@ -110,7 +111,7 @@ function Home() {
         }
         const container = document.createElement('div')
         container.id = 'create-new-task'
-        ReactDOM.render(<Card user={user} type="create" />, container)
+        hydrateRoot(container, <Card type="create" />)
         const cards = colEl!.querySelector('.cards')
         cards!.insertBefore(container, cards!.childNodes[0])
         setTimeout(() => {

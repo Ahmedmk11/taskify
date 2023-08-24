@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import { Button, Space, Input, DatePicker, Select } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import type { DatePickerProps } from 'antd'
-import { format } from 'date-fns'
+import { format, set } from 'date-fns'
 
 const { Option } = Select
 
@@ -16,26 +16,68 @@ import dateIcn from '../../assets/icons/date.svg'
 import { Task } from '../../app/Task'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { addNewTaskToCurrentUser, readUserDataFromDb } from '../../firebase'
+import {
+    addNewTaskToCurrentUser,
+    readUserDataFromDb,
+    updateCurrentUserDocument,
+    updateTaskCategories,
+} from '../../firebase'
+
+import todoIcn from '../../assets/icons/todo.svg'
+import inprogressIcn from '../../assets/icons/inprogress.svg'
+import doneIcn from '../../assets/icons/done.svg'
 
 type CardProps = {
     type: string
-    task: Task
+    task: Task | any
 }
 
 function Card(props: CardProps) {
     const { type, task } = props
-    const { id, title, desc, categories, dueDate, priority, status } = task
+    let id, title, desc, categories, dueDate, priority, status
+    if (task) {
+        ;({ id, title, desc, categories, dueDate, priority, status } = task)
+    } else {
+        id = ''
+        title = ''
+        desc = ''
+        categories = []
+        dueDate = ''
+        priority = ''
+        status = ''
+    }
+
     const [user, setUser] = useState(null as unknown as User)
-    const [isLoading, setIsLoading] = useState(true)
     const tasks = user ? user.taskArray : []
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(
-        user ? user.categories : []
-    )
+    const [userCategories, setUserCategories] = useState<string[]>([])
+    const [userUID, setUserUID] = useState('')
+
+    const [idState, setIdState] = useState<string>(id)
+    const [titleState, setTitleState] = useState<string>(title)
+    const [descState, setDescState] = useState<string>(desc)
+    const [selectedCategories, setSelectedCategories] =
+        useState<string[]>(categories)
+    const [dueDateState, setDueDateState] = useState<any>(dueDate)
+    const [priorityState, setPriorityState] = useState<string>(priority)
+    const [statusState, setStatusState] = useState<string>(status)
+
     const [priorityInput, setPriorityInput] = useState('default')
     const [dateInput, setDateInput] = useState(null as any)
     const [inputValue, setInputValue] = useState('')
+
     const [isExpanded, setIsExpanded] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [isEdit, setIsEdit] = useState(false)
+
+    const TodoIcon = () => (
+        <img style={{ width: 24, height: 24 }} src={todoIcn} />
+    )
+    const InprogressIcon = () => (
+        <img style={{ width: 24, height: 24 }} src={inprogressIcn} />
+    )
+    const DoneIcon = () => (
+        <img style={{ width: 24, height: 24 }} src={doneIcn} />
+    )
 
     async function fetchUserData() {
         const auth = getAuth()
@@ -44,11 +86,30 @@ function Card(props: CardProps) {
                 const userData = await readUserDataFromDb(
                     getAuth().currentUser!.uid
                 )
+                setUserUID(getAuth().currentUser!.uid)
                 setUser(userData!)
                 setIsLoading(false)
             }
         })
     }
+
+    useEffect(() => {
+        try {
+            console.log('userCategories before update', userCategories)
+            updateCurrentUserDocument('categories', userCategories)
+        } catch (error) {
+            console.log(error)
+        }
+    }, [userCategories])
+
+    useEffect(() => {
+        try {
+            updateTaskCategories(idState, selectedCategories)
+        } catch (error) {
+            console.log(error)
+        }
+        console.log('selectedCategories', selectedCategories)
+    }, [selectedCategories])
 
     useEffect(() => {
         async function fetchData() {
@@ -58,6 +119,9 @@ function Card(props: CardProps) {
     }, [])
 
     useEffect(() => {
+        if (user) {
+            setUserCategories(user?.categories)
+        }
         let a = document.getElementsByTagName('textarea')
         for (var i = 0, inb = a.length; i < inb; i++) {
             if (a[i].getAttribute('data-resizable') == 'true')
@@ -122,6 +186,7 @@ function Card(props: CardProps) {
         )
         newTask.updateCategories(selectedCategories)
         addNewTaskToCurrentUser(newTask)
+        Array.prototype.push.apply(userCategories, selectedCategories)
         cancelCard(ev)
     }
 
@@ -132,6 +197,10 @@ function Card(props: CardProps) {
         setTimeout(() => {
             container!.remove()
         }, 300)
+    }
+
+    function editCard(ev: any) {
+        setIsEdit(true)
     }
 
     const expand = () => {
@@ -195,8 +264,9 @@ function Card(props: CardProps) {
 
     function handleCreateOption(value: string) {
         if (typeof value === 'string') {
-            console.log('Created:', value)
+            console.log('Created new user category:', value)
             setSelectedCategories([...selectedCategories, value])
+            setUserCategories([...userCategories, value])
         }
     }
 
@@ -255,7 +325,7 @@ function Card(props: CardProps) {
                                 <Select
                                     className="category-input"
                                     mode="multiple"
-                                    placeholder="Select options"
+                                    placeholder="Select categories"
                                     onChange={handleSelectChange}
                                     dropdownRender={handleDropdownRender}
                                     onKeyDown={(e) => {
@@ -264,23 +334,28 @@ function Card(props: CardProps) {
                                         }
                                     }}
                                 >
-                                    {selectedCategories?.map((category) => (
-                                        <Option key={category} value={category}>
-                                            {category}
-                                        </Option>
-                                    ))}
+                                    {userCategories.map(
+                                        (
+                                            category // here
+                                        ) => (
+                                            <Option
+                                                key={category}
+                                                value={category}
+                                            >
+                                                {category}
+                                            </Option>
+                                        )
+                                    )}
                                 </Select>
                             ) : (
-                                categories
-                                    .slice(1, categories.length)
-                                    .map((category: any) => (
-                                        <div
-                                            className="category no-pointer"
-                                            key={category}
-                                        >
-                                            {category}
-                                        </div>
-                                    ))
+                                categories.map((category: any) => (
+                                    <div
+                                        className="category no-pointer"
+                                        key={category}
+                                    >
+                                        {category}
+                                    </div>
+                                ))
                             )}
                         </div>
                     }
@@ -393,6 +468,13 @@ function Card(props: CardProps) {
                             }}
                             wrap
                         >
+                            {status === 'todo' ? (
+                                <TodoIcon />
+                            ) : status === 'inprogress' ? (
+                                <InprogressIcon />
+                            ) : (
+                                <DoneIcon />
+                            )}
                             <Button type="link">
                                 {isExpanded ? 'Read less' : 'Read more'}
                             </Button>
@@ -406,20 +488,11 @@ function Card(props: CardProps) {
 
 Card.propTypes = {
     type: PropTypes.string,
-    task: PropTypes.object,
-    user: PropTypes.object,
+    task: PropTypes.object as any,
 }
 
 Card.defaultProps = {
     type: 'task',
-    task: {
-        id: '1',
-        title: 'Title',
-        desc: 'Description',
-        dueDate: new Date(),
-        priority: 'default',
-        categories: ['Category'],
-    },
 }
 
 export default Card

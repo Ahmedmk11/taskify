@@ -8,11 +8,13 @@ import Footer from '../components/Footer'
 import React, { useState } from 'react'
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { registerUser, signInWithGoogle } from '../../firebase'
+import { registerUser, signInHandler, signInWithGoogle } from '../../firebase'
 import googleIcn from '../../assets/icons/google.svg'
+import { useNavigate } from 'react-router-dom'
 
 function Register() {
     const [form] = Form.useForm()
+    const navigate = useNavigate()
 
     const GoogleIcon = () => (
         <img style={{ width: 16, height: 16 }} src={googleIcn} />
@@ -41,13 +43,22 @@ function Register() {
         },
     }
 
-    const onFinish = (values: any) => {
-        registerUser(values.email, values.password, values.fullname)
+    const onFinish = async (values: any) => {
+        registerUser(values.email, values.password, values.fullname).then(
+            () => {
+                navigate('/home')
+            },
+            (error) => {
+                var errorCode = error.code
+                var errorMessage = error.message
+                console.log(errorCode, errorMessage)
+            }
+        )
     }
 
     return (
         <div id="register-body">
-            <ToolBar user={null} />
+            <ToolBar />
             <div id="register-content">
                 <NavBar />
                 <div id="register-main">

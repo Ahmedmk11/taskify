@@ -452,7 +452,11 @@ body.dark {
 }
 
 .read-more {
-    width: fit-content;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 .read-more div button span {
     color: #909090 !important;

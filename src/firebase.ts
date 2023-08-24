@@ -211,21 +211,89 @@ export async function updateUserEmail(newEmail: string): Promise<void> {
 
 export function updateCurrentUserDocument(
     field: string,
-    newValue: string
+    newValue: string[] | string,
+    overwrite: boolean = false
 ): void {
     const user = getAuth().currentUser
     if (user) {
         const userDocRef = doc(db, 'users', user.uid)
-        const userData = {
-            [field]: newValue,
+        let updateData = {}
+        if (overwrite) {
+            updateData = {
+                [field]: newValue,
+            }
+        } else {
+            if (typeof newValue === 'string') {
+                updateData = {
+                    [field]: newValue,
+                }
+            } else if (Array.isArray(newValue)) {
+                updateData = {
+                    [field]: arrayUnion(...newValue),
+                }
+            }
         }
-        setDoc(userDocRef, userData)
+
+        updateDoc(userDocRef, updateData)
             .then(() => {
-                console.log('updated current user in Firestore!')
+                console.log('Updated current user in Firestore!')
             })
             .catch((error) => {
                 console.log('Error updating current user', error)
             })
+    }
+}
+
+export function updateTaskCategories(
+    taskId: string,
+    newCategories: string[],
+    overwrite: boolean = false
+): void {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        getDoc(userDocRef).then((docSnapshot) => {
+            if (docSnapshot.exists()) {
+                const userData = docSnapshot.data()
+                if (userData) {
+                    const tasksArray = userData.tasksArray
+                    const taskIndex = tasksArray.findIndex(
+                        (task: any) => task.id === taskId
+                    )
+                    if (taskIndex !== -1) {
+                        const updatedTask = { ...tasksArray[taskIndex] }
+                        if (overwrite) {
+                            updatedTask.categories = newCategories
+                        } else {
+                            const existingCategories =
+                                updatedTask.categories || []
+                            updatedTask.categories = [
+                                ...new Set([
+                                    ...existingCategories,
+                                    ...newCategories,
+                                ]),
+                            ]
+                        }
+                        tasksArray[taskIndex] = updatedTask
+                        const updateData = {
+                            tasksArray: tasksArray,
+                        }
+                        updateDoc(userDocRef, updateData)
+                            .then(() => {
+                                console.log(
+                                    'Updated task categories in Firestore!'
+                                )
+                            })
+                            .catch((error) => {
+                                console.log(
+                                    'Error updating task categories',
+                                    error
+                                )
+                            })
+                    }
+                }
+            }
+        })
     }
 }
 

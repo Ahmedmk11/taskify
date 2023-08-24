@@ -34,7 +34,7 @@ function LoginPage() {
 
     return (
         <div id="login-body">
-            <ToolBar user={null} />
+            <ToolBar />
             <div id="login-content">
                 <NavBar />
                 <div id="login-main">
