@@ -329,12 +329,13 @@ export function updateCurrentUserTasksDocument(
     task: Task
 ): void {
     const user = getAuth().currentUser
+    console.log('hellooooo', newValue)
     if (user) {
-        const taskDocRef = doc(db, 'users', user.uid, 'taskArray', task.id)
+        const userDocRef = doc(db, 'users', user.uid)
         const taskData = {
-            [field]: newValue,
+            [`tasksArray.${task.id}.${field}`]: newValue,
         }
-        setDoc(taskDocRef, taskData)
+        updateDoc(userDocRef, taskData)
             .then(() => {
                 console.log('updated current user in Firestore!')
             })
@@ -362,4 +363,76 @@ export async function readAllTasksFromDb(): Promise<Task[]> {
         tasks.push(task)
     })
     return tasks
+}
+
+export async function updateTaskStatus(
+    taskId: string,
+    newStatus: string
+): Promise<void> {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        const docSnapshot = await getDoc(userDocRef)
+
+        if (docSnapshot.exists()) {
+            const userData = docSnapshot.data()
+            if (userData) {
+                const tasksArray = userData.tasksArray
+                const taskIndex = tasksArray.findIndex(
+                    (task: any) => task.id === taskId
+                )
+
+                if (taskIndex !== -1) {
+                    const updatedTasksArray = [...tasksArray]
+                    const updatedTask = { ...updatedTasksArray[taskIndex] }
+                    updatedTask.status = newStatus
+                    updatedTasksArray[taskIndex] = updatedTask
+
+                    const updateData = {
+                        tasksArray: updatedTasksArray,
+                    }
+
+                    try {
+                        await updateDoc(userDocRef, updateData)
+                        console.log('Updated task status in Firestore!')
+                    } catch (error) {
+                        console.log('Error updating task status', error)
+                    }
+                }
+            }
+        }
+    }
+}
+
+export async function deleteTaskFromUser(taskId: string) {
+    try {
+        // Get a reference to the user document
+        const user = getAuth().currentUser
+        const userRef = doc(db, 'users', user!.uid);
+
+        // Get the user document data
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+
+        if (userData) {
+            // Find the index of the task based on taskId
+            const taskIndex = userData.tasksArray.findIndex((task: Task) => task.id === taskId);
+
+            if (taskIndex !== -1) {
+                // Modify the tasksArray using splice to remove the task
+                userData.tasksArray.splice(taskIndex, 1);
+
+                // Update the user document with the modified tasksArray
+                await updateDoc(userRef, { tasksArray: userData.tasksArray });
+
+                console.log('Task deleted successfully');
+            } else {
+                console.log('Task not found');
+            }
+        } else {
+            console.log('User not found');
+        }
+    } catch (error) {
+        console.error('Error deleting task:', error);
+    }
 }

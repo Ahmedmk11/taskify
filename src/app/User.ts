@@ -58,14 +58,6 @@ export class User {
         }
     }
 
-    startTask(task: Task): void {
-        task.startTask()
-    }
-
-    closeTask(task: Task): void {
-        task.closeTask()
-    }
-
     addCategory(category: string): void {
         this.categories.push(category)
     }

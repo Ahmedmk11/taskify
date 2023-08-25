@@ -5,19 +5,19 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Button, Space, Input, DatePicker, Select } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import type { DatePickerProps } from 'antd'
 import { format, set } from 'date-fns'
 
 const { Option } = Select
 
-import settingsIcn from '../../assets/icons/settings.svg'
 import dateIcn from '../../assets/icons/date.svg'
 import { Task } from '../../app/Task'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import {
     addNewTaskToCurrentUser,
+    deleteTaskFromUser,
     readUserDataFromDb,
     updateCurrentUserDocument,
     updateTaskCategories,
@@ -34,17 +34,36 @@ type CardProps = {
 
 function Card(props: CardProps) {
     const { type, task } = props
-    let id, title, desc, categories, dueDate, priority, status
+    let id = ''
+    let title = ''
+    let desc = ''
+    let categories = []
+    let dueDate = ''
+    let priority = ''
+    let status = ''
+
     if (task) {
-        ;({ id, title, desc, categories, dueDate, priority, status } = task)
-    } else {
-        id = ''
-        title = ''
-        desc = ''
-        categories = []
-        dueDate = ''
-        priority = ''
-        status = ''
+        if ('id' in task && 'title' in task && 'desc' in task) {
+            id = task.id
+            title = task.title
+            desc = task.desc
+        }
+
+        if ('categories' in task) {
+            categories = task.categories
+        }
+
+        if ('dueDate' in task) {
+            dueDate = task.dueDate
+        }
+
+        if ('priority' in task) {
+            priority = task.priority
+        }
+
+        if ('status' in task) {
+            status = task.status
+        }
     }
 
     const [user, setUser] = useState(null as unknown as User)
@@ -186,6 +205,7 @@ function Card(props: CardProps) {
         )
         newTask.updateCategories(selectedCategories)
         addNewTaskToCurrentUser(newTask)
+        window.location.reload()
         Array.prototype.push.apply(userCategories, selectedCategories)
         cancelCard(ev)
     }
@@ -199,8 +219,14 @@ function Card(props: CardProps) {
         }, 300)
     }
 
-    function editCard(ev: any) {
-        setIsEdit(true)
+    function deleteCard(ev: any) {
+        const container = document.getElementById(id)
+        container!.classList.remove('show-pop')
+        container!.classList.add('hide-pop')
+        setTimeout(() => {
+            container!.remove()
+        }, 300)
+        deleteTaskFromUser(id)
     }
 
     const expand = () => {
@@ -361,7 +387,7 @@ function Card(props: CardProps) {
                     }
                     <div className="card-settings">
                         {type !== 'task' ? null : (
-                            <img src={settingsIcn} alt="Icon for settings" />
+                            <CloseOutlined onClick={deleteCard} />
                         )}
                     </div>
                 </div>

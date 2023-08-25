@@ -40,18 +40,8 @@ describe('Task', () => {
         expect(task.categories).toEqual(newCategories)
     })
 
-    it('should unstart task', () => {
-        task.unStartTask()
-        expect(task.status).toBe('open')
-    })
-
-    it('should start task', () => {
-        task.startTask()
-        expect(task.status).toBe('inprogress')
-    })
-
-    it('should close task', () => {
-        task.closeTask()
+    it('should update task status', () => {
+        task.updateStatus('done')
         expect(task.status).toBe('done')
     })
 })

@@ -518,6 +518,17 @@
     }
 }
 
+.card {
+    &.show-pop {
+        animation: show-pop 300ms forwards;
+        -webkit-animation: show-pop 300ms forwards;
+    }
+    &.hide-pop {
+        animation: hide-pop 300ms forwards;
+        -webkit-animation: hide-pop 300ms forwards;
+    }
+}
+
 #create-new-task {
     max-height: 0px;
     opacity: 0;

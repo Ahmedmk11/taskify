@@ -15,7 +15,12 @@ import { useLocation } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { readUserDataFromDb, db } from '../../firebase'
+import {
+    readUserDataFromDb,
+    db,
+    updateCurrentUserTasksDocument,
+    updateTaskStatus,
+} from '../../firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
 import { hydrateRoot } from 'react-dom/client'
@@ -24,8 +29,10 @@ function Home() {
     const [isVisible, setIsVisible] = useState(false)
     const [user, setUser] = useState(null as unknown as User)
     const [userUID, setUserUID] = useState('')
+    const [oldColumn, setOldColumn] = useState('')
     const [isLoading, setIsLoading] = useState(true)
     const [tasks, setTasks] = useState(user ? user.taskArray : [])
+    const [firstReload, setFirstReload] = useState(true)
     const location = useLocation()
 
     async function fetchUserData() {
@@ -44,28 +51,30 @@ function Home() {
         })
     }
 
-    useEffect(() => {
-        try {
-            onSnapshot(doc(db, 'users', userUID), (doc) => {
-                console.log('Current data: ', doc.data())
-                let t = [] as Task[]
-                doc.data()!.tasksArray.forEach((task: any) => {
-                    let tmp = new Task(
-                        task.id,
-                        task.title,
-                        task.desc,
-                        task.priority,
-                        task.dueDate
-                    )
-                    tmp.updateCategories(task.categories)
-                    t.push(tmp)
-                })
-                setTasks(t)
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }, [userUID])
+    // useEffect(() => {
+    //     try {
+    //         onSnapshot(doc(db, 'users', userUID), (doc) => {
+    //             if (tasks.length == 0) {
+    //                 console.log('reload: ', doc.data())
+    //             let t = [] as Task[]
+    //             doc.data()!.tasksArray.forEach((task: any) => {
+    //                 let tmp = new Task(
+    //                     task.id,
+    //                     task.title,
+    //                     task.desc,
+    //                     task.priority,
+    //                     task.dueDate
+    //                 )
+    //                 tmp.updateCategories(task.categories)
+    //                 t.push(tmp)
+    //             })
+    //             setTasks(t)
+    //             }
+    //         })
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }, [userUID])
 
     useEffect(() => {
         async function fetchData() {
@@ -157,31 +166,36 @@ function Home() {
             targetCardsContainer.appendChild(draggedElement)
         }
         const targetColumnID = targetColumn.id
-        let status = ''
-        switch (targetColumnID) {
-            case 'col-1':
-                status = 'todo'
-                break
-            case 'col-2':
-                status = 'inprogress'
-                break
-            case 'col-3':
-                status = 'done'
-                break
-            default:
-                status = 'todo'
-        }
+        let newStatus = ''
         const taskID = (draggedElement?.childNodes[0] as HTMLElement).id
         const task = tasks.find((task) => task.id == taskID)
-        if (task) {
-            task.status = status
+        switch (targetColumnID) {
+            case 'col-1':
+                newStatus = 'todo'
+                break
+            case 'col-2':
+                newStatus = 'inprogress'
+                break
+            case 'col-3':
+                newStatus = 'done'
+                break
+            default:
+                newStatus = 'todo'
         }
-        console.log(tasks)
+        if (task) {
+            updateTaskStatus(task.id, newStatus)
+            console.log('hhh', task)
+            console.log('hhh', newStatus)
+            task.status = newStatus
+        }
+        console.log('jsjasajajajasjsajassajdsajndnjdnjksdjnkjkdskcsks')
+        window.location.reload()
     }
 
     function drag(ev: any) {
         const target = ev.target.closest('[class^="draggable-card"]')
         ev.dataTransfer.setData('text', target.id)
+        setOldColumn(target.parentElement.parentElement.id)
     }
 
     return (

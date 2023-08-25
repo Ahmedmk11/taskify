@@ -45,16 +45,6 @@ describe('User', () => {
         expect(user.taskArray.length).toBe(0)
     })
 
-    it('should start a task for the user', () => {
-        user.startTask(task)
-        expect(task.status).toBe('inprogress')
-    })
-
-    it('should close a task for the user', () => {
-        user.closeTask(task)
-        expect(task.status).toBe('done')
-    })
-
     it('should show low priority tasks only', () => {
         user.createTask(
             'Task 2',
