@@ -26,6 +26,7 @@ import {
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
 import { hydrateRoot } from 'react-dom/client'
+import Loading from './Loading'
 
 function Home() {
     const [isVisible, setIsVisible] = useState(false)
@@ -103,7 +104,7 @@ function Home() {
     }, [location])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <Loading />
     }
 
     function allowDrop(ev: any) {

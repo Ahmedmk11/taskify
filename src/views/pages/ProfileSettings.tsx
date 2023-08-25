@@ -9,6 +9,7 @@ import Footer from '../components/Footer'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
+import Loading from './Loading'
 
 function ProfileSettings() {
     const [user, setUser] = useState(null as unknown as User)
@@ -46,11 +47,7 @@ function ProfileSettings() {
     }, [user])
 
     if (isLoading) {
-        return <div>Loading...</div>
-    }
-
-    if (isLoading) {
-        return <div>Loading...</div>
+        return <Loading />
     }
     return (
         <div id="profile-settings-body">

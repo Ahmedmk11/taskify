@@ -10,6 +10,7 @@ import Footer from '../components/Footer'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
+import Loading from './Loading'
 
 function Placeholder() {
     const [user, setUser] = useState(null as unknown as User)
@@ -48,7 +49,7 @@ function Placeholder() {
     }, [user])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <Loading />
     }
 
     return (

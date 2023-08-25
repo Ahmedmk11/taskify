@@ -14,6 +14,7 @@ import Filter from '../components/Filter'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
+import Loading from './Loading'
 
 function Search() {
     const [isVisible, setIsVisible] = useState(false)
@@ -56,7 +57,7 @@ function Search() {
     }, [user])
 
     if (isLoading) {
-        return <div>Loading...</div>
+        return <Loading />
     }
 
     const getSearchResults = (tasks: Task[]) => {
@@ -129,7 +130,7 @@ function Search() {
                         />
                         <div id="result-items">
                             {getSearchResults(tasks)!.map((task) => (
-                                <Card task={task} />
+                                <div className="draggable-card"><Card task={task} /></div>
                             ))}
                         </div>
                     </div>

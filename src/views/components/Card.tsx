@@ -4,7 +4,7 @@
 
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Space, Input, DatePicker, Select } from 'antd'
+import { Button, Space, Input, DatePicker, Select, Skeleton } from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import type { DatePickerProps } from 'antd'
 import { format, set } from 'date-fns'
@@ -27,6 +27,7 @@ import {
 import todoIcn from '../../assets/icons/todo.svg'
 import inprogressIcn from '../../assets/icons/inprogress.svg'
 import doneIcn from '../../assets/icons/done.svg'
+import Loading from '../pages/Loading'
 
 type CardProps = {
     type: string
@@ -163,9 +164,11 @@ function Card(props: CardProps) {
         return new Intl.DateTimeFormat('en-GB', options).format(date)
     }
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>
-    // }
+    if (isLoading) {
+        return (
+            <Skeleton />
+        )
+    }
 
     function saveCard(ev: any) {
         const title = document.getElementById(
@@ -247,6 +250,11 @@ function Card(props: CardProps) {
         }, 300)
         await deleteTaskFromUser(id)
         await updateTasksArrayIds()
+        if (window.location.href.includes('task')) {
+            window.location.href = '/'
+        } else {
+            window.location.reload()
+        }
     }
 
     const expand = () => {

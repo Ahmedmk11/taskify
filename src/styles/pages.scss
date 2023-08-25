@@ -10,7 +10,8 @@
 #not-found-body,
 #register-body,
 #forgot-password-body,
-#task-body {
+#task-body,
+#loading-body {
     width: 100%;
     height: 100%;
     display: flex;
@@ -25,7 +26,8 @@
     #not-found-content,
     #register-content,
     #forgot-password-content,
-    #task-content {
+    #task-content,
+    #loading-content {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
@@ -502,6 +504,26 @@
     #task-main-content {
         display: flex;
         flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 24px;
+        margin-top: 24px;
+        width: calc(100% - 24px);
+        margin-left: 24px;
+    }
+}
+
+// --------------------------------------------------------------
+// Loading SCSS.
+// --------------------------------------------------------------
+
+#loading-main {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 52px;
+    #loading-main-content {
+        display: flex;
+        flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
         gap: 24px;
