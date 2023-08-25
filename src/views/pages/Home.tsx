@@ -20,6 +20,8 @@ import {
     db,
     updateCurrentUserTasksDocument,
     updateTaskStatus,
+    updateTasksOrder,
+    updateTasksArrayIds,
 } from '../../firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
@@ -120,12 +122,10 @@ function Home() {
         }
         const container = document.createElement('div')
         container.id = 'create-new-task'
-        hydrateRoot(container, <Card type="create" />)
+        ReactDOM.render(<Card type="create" />, container)
         const cards = colEl!.querySelector('.cards')
         cards!.insertBefore(container, cards!.childNodes[0])
-        setTimeout(() => {
-            container.classList.add('show-pop')
-        }, 0)
+        container.classList.add('show-pop')
     }
 
     const showFilters = () => {
@@ -144,7 +144,7 @@ function Home() {
         }, 300)
     }
 
-    function drop(ev: any) {
+    async function drop(ev: any) {
         ev.preventDefault()
         const data = ev.dataTransfer.getData('text')
         const draggedElement = document.getElementById(data)
@@ -181,6 +181,7 @@ function Home() {
                 break
             default:
                 newStatus = 'todo'
+                break
         }
         if (task) {
             updateTaskStatus(task.id, newStatus)
@@ -189,6 +190,7 @@ function Home() {
             task.status = newStatus
         }
         console.log('jsjasajajajasjsajassajdsajndnjdnjksdjnkjkdskcsks')
+        await reorderTasks()
         window.location.reload()
     }
 
@@ -196,6 +198,27 @@ function Home() {
         const target = ev.target.closest('[class^="draggable-card"]')
         ev.dataTransfer.setData('text', target.id)
         setOldColumn(target.parentElement.parentElement.id)
+    }
+
+    async function reorderTasks() {
+        const columns = document.querySelectorAll('.column')
+        const updatedTasks: Task[] = []
+
+        columns.forEach((column: Element) => {
+            const cardContainers = column.querySelectorAll('.draggable-card')
+            cardContainers.forEach((cardContainer: Element) => {
+                const taskId = cardContainer.querySelector('.card')?.id
+                if (taskId) {
+                    const task = tasks.find((task) => task.id === taskId)
+                    if (task) {
+                        updatedTasks.push(task)
+                    }
+                }
+            })
+        })
+        console.log(updatedTasks)
+        await updateTasksOrder(updatedTasks)
+        await updateTasksArrayIds()
     }
 
     return (

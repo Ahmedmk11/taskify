@@ -21,6 +21,7 @@ import {
     readUserDataFromDb,
     updateCurrentUserDocument,
     updateTaskCategories,
+    updateTasksArrayIds,
 } from '../../firebase'
 
 import todoIcn from '../../assets/icons/todo.svg'
@@ -81,7 +82,7 @@ function Card(props: CardProps) {
     const [statusState, setStatusState] = useState<string>(status)
 
     const [priorityInput, setPriorityInput] = useState('default')
-    const [dateInput, setDateInput] = useState(null as any)
+    const [dateInput, setDateInput] = useState('')
     const [inputValue, setInputValue] = useState('')
 
     const [isExpanded, setIsExpanded] = useState(false)
@@ -89,13 +90,13 @@ function Card(props: CardProps) {
     const [isEdit, setIsEdit] = useState(false)
 
     const TodoIcon = () => (
-        <img style={{ width: 24, height: 24 }} src={todoIcn} />
+        <img style={{ width: 18, height: 18 }} src={todoIcn} />
     )
     const InprogressIcon = () => (
-        <img style={{ width: 24, height: 24 }} src={inprogressIcn} />
+        <img style={{ width: 18, height: 18 }} src={inprogressIcn} />
     )
     const DoneIcon = () => (
-        <img style={{ width: 24, height: 24 }} src={doneIcn} />
+        <img style={{ width: 18, height: 18 }} src={doneIcn} />
     )
 
     async function fetchUserData() {
@@ -149,10 +150,11 @@ function Card(props: CardProps) {
     }, [user])
 
     const onDateInput: DatePickerProps['onChange'] = (value) => {
-        setDateInput(value)
+        const dateValue = value && value.toDate() // Convert moment object to Date
+        setDateInput(formatDate(dateValue!))
     }
 
-    function formatDate(date: any) {
+    function formatDate(date: Date) {
         const options: Intl.DateTimeFormatOptions = {
             day: 'numeric',
             month: 'short',
@@ -172,8 +174,8 @@ function Card(props: CardProps) {
         const desc = document.getElementById(
             'text-area-desc'
         ) as HTMLTextAreaElement
-        const date = new Date(dateInput)
-        const formattedDate = format(date, 'dd MMMM yyyy')
+        const date = dateInput
+        const formattedDate = date
         let flag = false
         if (title.value === '') {
             title.classList.add('error')
@@ -196,12 +198,29 @@ function Card(props: CardProps) {
         }
         console.log('date', date)
         console.log('priority', priorityInput)
+
+        const targetColumnID = ev.target.closest('.column').id
+        let newStatus = ''
+        switch (targetColumnID) {
+            case 'col-1':
+                newStatus = 'todo'
+                break
+            case 'col-2':
+                newStatus = 'inprogress'
+                break
+            case 'col-3':
+                newStatus = 'done'
+                break
+            default:
+                newStatus = 'todo'
+        }
         const newTask = new Task(
             `${tasks.length}`,
             title.value,
             desc.value,
             priorityInput,
-            date
+            date,
+            newStatus
         )
         newTask.updateCategories(selectedCategories)
         addNewTaskToCurrentUser(newTask)
@@ -219,14 +238,15 @@ function Card(props: CardProps) {
         }, 300)
     }
 
-    function deleteCard(ev: any) {
-        const container = document.getElementById(id)
+    async function deleteCard(ev: any) {
+        const container = ev.target.closest('.draggable-card')
         container!.classList.remove('show-pop')
         container!.classList.add('hide-pop')
         setTimeout(() => {
             container!.remove()
         }, 300)
-        deleteTaskFromUser(id)
+        await deleteTaskFromUser(id)
+        await updateTasksArrayIds()
     }
 
     const expand = () => {
@@ -240,8 +260,10 @@ function Card(props: CardProps) {
 
     function resizeTextarea(id: string) {
         var a = document.getElementById(id)
-        a!.style.height = 'auto'
-        a!.style.height = a!.scrollHeight + 'px'
+        if (a) {
+            a.style.height = 'auto'
+            a.style.height = a.scrollHeight + 'px'
+        }
     }
 
     function handleSelectChange(value: any, option: any): void {
@@ -373,15 +395,32 @@ function Card(props: CardProps) {
                                         )
                                     )}
                                 </Select>
+                            ) : categories.length > 0 ? (
+                                isExpanded ? (
+                                    categories.map((category: any) => (
+                                        <div
+                                            className="category no-pointer"
+                                            key={category}
+                                        >
+                                            {category}
+                                        </div>
+                                    ))
+                                ) : (
+                                    categories
+                                        .slice(0, 2)
+                                        .map((category: any) => (
+                                            <div
+                                                className="category no-pointer"
+                                                key={category}
+                                            >
+                                                {category}
+                                            </div>
+                                        ))
+                                )
                             ) : (
-                                categories.map((category: any) => (
-                                    <div
-                                        className="category no-pointer"
-                                        key={category}
-                                    >
-                                        {category}
-                                    </div>
-                                ))
+                                <div className="category no-categories">
+                                    No categories yet
+                                </div>
                             )}
                         </div>
                     }
@@ -460,7 +499,7 @@ function Card(props: CardProps) {
                         <div className="border">
                             <img src={dateIcn} alt="date icon" />
                             <p>
-                                Due to: <span>{formatDate(dueDate)}</span>
+                                Due to: <span>{dueDate}</span>
                             </p>
                         </div>
                     )}

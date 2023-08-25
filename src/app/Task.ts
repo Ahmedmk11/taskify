@@ -2,13 +2,15 @@
 // Task class definition.
 // --------------------------------------------------------------
 
+import { formatDate } from './Functions'
+
 export class Task {
     id: string
     title: string
     desc: string
     priority: string
-    dueDate: Date
-    creationDate: Date
+    dueDate: string
+    creationDate: string
     status: string
     categories: string[]
 
@@ -17,15 +19,16 @@ export class Task {
         title: string,
         desc: string,
         priority: string,
-        dueDate: Date
+        dueDate: string,
+        status: string = 'todo'
     ) {
         this.id = id
         this.title = title
         this.desc = desc
         this.priority = priority
         this.dueDate = dueDate
-        this.creationDate = new Date()
-        this.status = 'todo'
+        this.creationDate = formatDate(new Date())
+        this.status = status
         this.categories = ['Main']
     }
 
@@ -41,7 +44,7 @@ export class Task {
         this.priority = newPriority
     }
 
-    updatedueDate(newdueDate: Date): void {
+    updatedueDate(newdueDate: string): void {
         this.dueDate = newdueDate
     }
 

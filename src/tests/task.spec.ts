@@ -4,13 +4,7 @@ describe('Task', () => {
     let task: Task
 
     beforeEach(() => {
-        task = new Task(
-            '0',
-            'Task 1',
-            'Description',
-            'low',
-            new Date('2023-08-08')
-        )
+        task = new Task('0', 'Task 1', 'Description', 'low', '12 May 2023')
     })
 
     it('should update task title', () => {
@@ -29,7 +23,7 @@ describe('Task', () => {
     })
 
     it('should update task dueDate date', () => {
-        const newdueDateDate = new Date('2023-09-09')
+        const newdueDateDate = '9 Sep 2023'
         task.updatedueDate(newdueDateDate)
         expect(task.dueDate).toEqual(newdueDateDate)
     })

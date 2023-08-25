@@ -230,7 +230,7 @@
 .card {
     width: 260px;
     height: fit-content;
-    max-height: 440px;
+    max-height: none !important;
     box-sizing: border-box;
     cursor: grab;
     .card-container {
@@ -265,17 +265,18 @@
             align-items: center;
             width: 100%;
             .card-categories {
-                display: flex;
-                flex-direction: row;
+                display: grid;
+                grid-template-columns: 48% 48%;
+                grid-template-rows: auto;
                 width: 80%;
                 height: 100%;
-                justify-content: flex-start;
-                align-items: center;
-                gap: 3px;
+                grid-gap: 3px;
                 .category {
-                    width: fit-content;
-                    height: 26px;
+                    width: 80px;
+                    height: fit-content;
+                    min-height: 26px;
                     padding: 3px 12px;
+                    box-sizing: border-box;
                     color: #000;
                     background-color: var(--color-light-gray);
                     border-radius: 6px;
@@ -283,16 +284,17 @@
                     -moz-border-radius: 6px;
                     -ms-border-radius: 6px;
                     -o-border-radius: 6px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
                     font-size: 12px;
                     font-weight: 400;
+                    text-align: center;
                     cursor: text;
                     user-select: text;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
                 .category-input {
-                    width: 100%;
+                    min-width: 150px;
                 }
             }
             .card-settings {
@@ -305,6 +307,7 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            height: 100%;
             .card-title {
                 width: 100%;
                 font-size: 16px;
@@ -345,11 +348,24 @@
 }
 
 .expanded {
-    max-height: 1000px;
     .card-description,
     .card-title {
         -webkit-line-clamp: 100000 !important;
     }
+    .category {
+        word-break: break-all !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+    }
+}
+
+.card.expanded .card-container {
+    max-height: none !important;
+}
+
+.no-categories {
+    width: 160px !important;
 }
 
 .card-bottom {
@@ -529,62 +545,39 @@
     }
 }
 
-#create-new-task {
-    max-height: 0px;
-    opacity: 0;
-    transition: opacity 300ms ease-in-out;
-    &.show-pop {
-        animation: show-pop 300ms forwards;
-        -webkit-animation: show-pop 300ms forwards;
-    }
-    &.hide-pop {
-        animation: hide-pop 300ms forwards;
-        -webkit-animation: hide-pop 300ms forwards;
-    }
-}
-
-.error::placeholder {
-    color: #ff4d4e !important;
-}
-
 @keyframes show-pop {
     0% {
         opacity: 0;
-        max-height: 0px;
-    }
-    25% {
-        max-height: 110px;
-    }
-    50% {
-        max-height: 220px;
-    }
-    75% {
-        max-height: 330px;
     }
     100% {
         opacity: 1;
-        max-height: 440px;
     }
 }
 
 @keyframes hide-pop {
     0% {
-        max-height: 440px;
         opacity: 1;
     }
-    25% {
-        max-height: 330px;
-    }
-    50% {
-        max-height: 220px;
-    }
-    75% {
-        max-height: 110px;
-    }
     100% {
-        max-height: 0px;
         opacity: 0;
     }
+}
+
+#create-new-task {
+    min-height: fit-content !important ;
+    opacity: 0;
+    &.show-pop {
+        animation: show-pop 400ms ease-in-out forwards;
+        -webkit-animation: show-pop 400ms ease-in-out forwards;
+    }
+    &.hide-pop {
+        animation: hide-pop 300ms ease-in-out forwards;
+        -webkit-animation: hide-pop 300ms ease-in-out forwards;
+    }
+}
+
+.error::placeholder {
+    color: #ff4d4e !important;
 }
 
 // --------------------------------------------------------------

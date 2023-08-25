@@ -15,6 +15,7 @@ import { Dropdown, Space, Avatar, Switch, Menu } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { readUserDataFromDb, signOutHandler } from '../../firebase'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { parseDateFromString } from '../../app/Functions'
 
 function ToolBar() {
     const [isDarkMode, setIsDarkMode] = useState(
@@ -82,7 +83,7 @@ function ToolBar() {
         dueDate.setDate(dueDate.getDate() + days)
         const priorityOrder = { high: 1, medium: 2, low: 3, default: 4 }
         return tasks
-            .filter((task) => task.dueDate < dueDate)
+            .filter((task) => parseDateFromString(task.dueDate) < dueDate)
             .sort((a, b) => {
                 if (a.dueDate < b.dueDate) {
                     return -1
@@ -129,14 +130,13 @@ function ToolBar() {
                     <div>
                         <h3>{task.title}</h3>
                         <div>
-                            Due: <span>{formatDate(task.dueDate)}</span>
+                            Due: <span>{task.dueDate}</span>
                         </div>
                     </div>
                     <div>
-                        `Priority: $
+                        Priority: &nbsp;
                         {task.priority[0].toUpperCase() +
                             task.priority.slice(1)}
-                        `
                     </div>
                 </div>
             ),

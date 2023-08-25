@@ -408,31 +408,95 @@ export async function deleteTaskFromUser(taskId: string) {
     try {
         // Get a reference to the user document
         const user = getAuth().currentUser
-        const userRef = doc(db, 'users', user!.uid);
+        const userRef = doc(db, 'users', user!.uid)
 
         // Get the user document data
-        const userDoc = await getDoc(userRef);
-        const userData = userDoc.data();
+        const userDoc = await getDoc(userRef)
+        const userData = userDoc.data()
 
         if (userData) {
             // Find the index of the task based on taskId
-            const taskIndex = userData.tasksArray.findIndex((task: Task) => task.id === taskId);
+            const taskIndex = userData.tasksArray.findIndex(
+                (task: Task) => task.id === taskId
+            )
 
             if (taskIndex !== -1) {
                 // Modify the tasksArray using splice to remove the task
-                userData.tasksArray.splice(taskIndex, 1);
+                userData.tasksArray.splice(taskIndex, 1)
 
                 // Update the user document with the modified tasksArray
-                await updateDoc(userRef, { tasksArray: userData.tasksArray });
+                await updateDoc(userRef, { tasksArray: userData.tasksArray })
 
-                console.log('Task deleted successfully');
+                console.log('Task deleted successfully')
             } else {
-                console.log('Task not found');
+                console.log('Task not found')
             }
         } else {
-            console.log('User not found');
+            console.log('User not found')
         }
     } catch (error) {
-        console.error('Error deleting task:', error);
+        console.error('Error deleting task:', error)
+    }
+}
+
+export async function updateTasksOrder(updatedTasks: Task[]) {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        const docSnapshot = await getDoc(userDocRef)
+
+        if (docSnapshot.exists()) {
+            const userData = docSnapshot.data()
+
+            if (userData) {
+                const updateData = {
+                    tasksArray: updatedTasks,
+                }
+
+                try {
+                    await updateDoc(userDocRef, updateData)
+                    console.log('Updated task order in Firestore!')
+                } catch (error) {
+                    console.log('Error updating task order:', error)
+                }
+            }
+        }
+    }
+}
+
+export async function updateTasksArrayIds() {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        const docSnapshot = await getDoc(userDocRef)
+
+        if (docSnapshot.exists()) {
+            const userData = docSnapshot.data()
+
+            if (userData) {
+                const tasksArray = [...userData.tasksArray]
+
+                // Sort tasksArray based on some criteria, like creationDate
+                tasksArray.sort((a, b) => a.creationDate - b.creationDate)
+
+                // Update task IDs and create a new tasksArray with updated IDs
+                const updatedTasksArray = tasksArray.map((task, index) => {
+                    const updatedTask = { ...task, id: index.toString() }
+                    return updatedTask
+                })
+
+                // Update the tasksArray in Firestore
+                const updateData = {
+                    tasksArray: updatedTasksArray,
+                }
+
+                try {
+                    await updateDoc(userDocRef, updateData)
+                    console.log('Updated task IDs in Firestore!')
+                } catch (error) {
+                    console.log('Error updating task IDs:', error)
+                }
+            }
+        }
     }
 }

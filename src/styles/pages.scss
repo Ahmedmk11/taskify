@@ -1,5 +1,3 @@
-@import 'variables';
-
 // --------------------------------------------------------------
 // All Pages SCSS.
 // --------------------------------------------------------------
@@ -109,8 +107,7 @@
                 -moz-border-radius: 6px;
                 -ms-border-radius: 6px;
                 -o-border-radius: 6px;
-                height: 700px;
-                max-height: 700px;
+                min-height: 700px;
                 transition: height 0.3s ease-in-out;
                 -webkit-transition: height 0.3s ease-in-out;
                 -moz-transition: height 0.3s ease-in-out;

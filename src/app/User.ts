@@ -3,6 +3,7 @@
 // --------------------------------------------------------------
 
 import { Task } from './Task'
+import { parseDateFromString } from './Functions'
 
 export class User {
     name: string
@@ -22,42 +23,6 @@ export class User {
         this.categories = categories
     }
 
-    createTask(
-        title: string,
-        id?: string,
-        desc?: string,
-        priority?: string,
-        dueDate?: Date
-    ): void
-    createTask(task: Task): void
-    createTask(
-        titleOrTask: string | Task,
-        id?: string,
-        desc?: string,
-        priority?: string,
-        dueDate?: Date
-    ): void {
-        if (titleOrTask instanceof Task) {
-            this.taskArray.push(titleOrTask)
-        } else {
-            const newTask = new Task(
-                titleOrTask,
-                id!,
-                desc!,
-                priority!,
-                dueDate!
-            )
-            this.taskArray.push(newTask)
-        }
-    }
-
-    deleteTask(task: Task): void {
-        const index = this.taskArray.indexOf(task)
-        if (index > -1) {
-            this.taskArray.splice(index, 1)
-        }
-    }
-
     addCategory(category: string): void {
         this.categories.push(category)
     }
@@ -67,6 +32,9 @@ export class User {
     }
 
     filterTasksByDate(tasks: Task[], date: Date): Task[] {
-        return tasks.filter((task) => task.dueDate.getTime() === date.getTime())
+        return tasks.filter(
+            (task) =>
+                parseDateFromString(task.dueDate).getTime() === date.getTime()
+        )
     }
 }
