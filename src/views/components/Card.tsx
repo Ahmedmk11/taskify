@@ -362,7 +362,7 @@ function Card(props: CardProps) {
                             setInputValue('')
                         }}
                         style={{ flex: 'auto' }}
-                        placeholder="Enter new option"
+                        placeholder="Add a new category"
                     />
 
                     <Button
