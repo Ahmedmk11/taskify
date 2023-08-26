@@ -25,7 +25,8 @@ function LoginPage() {
     )
 
     const onFinish = async (values: any) => {
-        setIsValid(await signInHandler(values.email, values.password))
+        const res = await signInHandler(values.email, values.password)
+        setIsValid(res)
     }
 
     const handleToggleVisibility = () => {

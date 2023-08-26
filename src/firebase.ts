@@ -47,50 +47,82 @@ initializeAppCheck(app, {
     isTokenAutoRefreshEnabled: true,
 })
 
-export async function registerUser(
+// export async function registerUser(
+//     emailInput: string,
+//     passwordInput: string,
+//     nameInput: string
+// ): Promise<void> {
+//     try {
+//         await writeNewUserToFirestore(emailInput, passwordInput, nameInput)
+//         console.log('User registered!')
+//     } catch (error) {
+//         console.error('Error registering user:', error)
+//     }
+// }
+
+export async function writeNewUserToFirestore(
     emailInput: string,
-    passwordInput: string,
-    nameInput: string
-): Promise<void> {
+    nameInput: string,
+    user: any
+) {
     try {
-        await writeNewUserToFirestore(emailInput, passwordInput, nameInput)
-        console.log('User registered!')
+        const userDocRef = doc(db, 'users', user.uid)
+        const userData = {
+            id: user.uid,
+            email: emailInput,
+            displayName: nameInput,
+            tasksArray: [],
+            categories: [],
+        }
+        setDoc(userDocRef, userData)
     } catch (error) {
-        console.error('Error registering user:', error)
+        console.log('error saving to firestore', error)
+    }
+}
+export async function signInHandler(
+    emailInput: string,
+    passwordInput: string
+): Promise<boolean> {
+    const auth = getAuth()
+    try {
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            emailInput,
+            passwordInput
+        )
+        const user = userCredential.user
+        console.log(user)
+        await readUserDataFromDb(user.uid)
+        window.location.href = '/home'
+        return true
+    } catch (error: any) {
+        const errorCode = error.code
+        const errorMessage = error.message
+        console.log(errorCode, errorMessage)
+        console.log('tptototoottoto')
+        return false
     }
 }
 
-export function signInHandler(emailInput: string, passwordInput: string): any {
+export async function signInWithGoogle(): Promise<void> {
     const auth = getAuth()
-    signInWithEmailAndPassword(auth, emailInput, passwordInput)
-        .then((userCredential) => {
-            const user = userCredential.user
-            console.log(user)
-            readUserDataFromDb(user.uid)
-            window.location.href = '/home'
-            return true
-        })
-        .catch((error) => {
-            const errorCode = error.code
-            const errorMessage = error.message
-            console.log(errorCode, errorMessage)
-            return false
-        })
-}
+    const provider = new GoogleAuthProvider()
+    try {
+        const result = await signInWithPopup(auth, provider)
+        const credential = GoogleAuthProvider.credentialFromResult(result)
+        const token = credential!.accessToken
+        const user = result.user
 
-export function signInWithGoogle(): void {
-    const auth = getAuth()
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential!.accessToken
-            const user = result.user
-            const displayName = user?.displayName
+        if (user.email && user.displayName && credential) {
+            await writeNewUserToFirestore(user.email, user.displayName, user)
+            await readUserDataFromDb(user.uid)
             window.location.href = '/home'
-        })
-        .catch((error) => {
-            console.log(error.code, error.message)
-        })
+        } else {
+            console.error('User data incomplete')
+        }
+    } catch (error: any) {
+        console.error(error.code, error.message)
+    }
 }
 
 export function signOutHandler(): void {
@@ -105,33 +137,21 @@ export function signOutHandler(): void {
         })
 }
 
-export async function writeNewUserToFirestore(
+export async function registerUser(
     email: string,
     password: string,
     name: string
 ): Promise<void> {
     const auth = getAuth()
-    createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user
-            const userDocRef = doc(db, 'users', user.uid)
-            const userData = {
-                id: user.uid,
-                email: user.email,
-                displayName: name,
-                tasksArray: [],
-                categories: [],
-            }
-            return setDoc(userDocRef, userData)
-        })
-        .then(() => {
-            console.log('User data saved to Firestore!')
+    await createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCredential) => {
+            await writeNewUserToFirestore(email, name, userCredential)
         })
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
             console.log(
-                'Error saving user to firestore',
+                'Error registering user',
                 errorCode + ': ' + errorMessage
             )
         })

@@ -17,10 +17,9 @@ import {
     Space,
     Avatar,
     Switch,
-    Menu,
     Divider,
-    List,
     Skeleton,
+    Badge,
 } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { readUserDataFromDb, signOutHandler } from '../../firebase'
@@ -322,11 +321,20 @@ function ToolBar(props: ToolBarProps) {
                             placement="bottomLeft"
                         >
                             <a onClick={(e) => e.preventDefault()}>
-                                <img
-                                    id="notification-img"
-                                    src={notificationsIcn}
-                                    alt="Icon for notificatons"
-                                />
+                                <Space size="middle">
+                                    <Badge
+                                        count={
+                                            getOverDueTasks().length +
+                                            getTasksDueInDays().length
+                                        }
+                                    >
+                                        <img
+                                            id="notification-img"
+                                            src={notificationsIcn}
+                                            alt="Icon for notificatons"
+                                        />
+                                    </Badge>
+                                </Space>
                             </a>
                         </Dropdown>
                     </div>
