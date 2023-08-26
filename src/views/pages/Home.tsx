@@ -113,6 +113,11 @@ function Home() {
 
     function createCardPop(col = 'col-1') {
         const colEl = document.getElementById(col)
+        const cardsDiv = colEl?.querySelector('.cards')
+        cardsDiv?.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        })
         const chk = document.getElementById('create-new-task')
         if (chk) {
             if (chk.closest('#' + col)) {
@@ -164,7 +169,10 @@ function Home() {
                 )
             }
         } else {
-            targetCardsContainer.appendChild(draggedElement)
+            targetCardsContainer.insertBefore(
+                draggedElement,
+                targetColumn.querySelector('.empty-div')
+            )
         }
         const targetColumnID = targetColumn.id
         let newStatus = ''
@@ -279,6 +287,10 @@ function Home() {
                                                 </div>
                                             )
                                     )}
+                                    <div
+                                        className="empty-div"
+                                        style={{ height: '30px' }}
+                                    ></div>
                                 </div>
                             </div>
                             <div
@@ -314,6 +326,10 @@ function Home() {
                                                 </div>
                                             )
                                     )}
+                                    <div
+                                        className="empty-div"
+                                        style={{ height: '30px' }}
+                                    ></div>
                                 </div>
                             </div>
                             <div
@@ -349,6 +365,10 @@ function Home() {
                                                 </div>
                                             )
                                     )}
+                                    <div
+                                        className="empty-div"
+                                        style={{ height: '30px' }}
+                                    ></div>
                                 </div>
                             </div>
                         </div>

@@ -70,7 +70,11 @@ function Task() {
                         isDisabled={true}
                     />
                     <div id="task-main-content">
-                        {task && <div className="draggable-card"><Card task={task} /></div>}
+                        {task && (
+                            <div className="draggable-card">
+                                <Card task={task} />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

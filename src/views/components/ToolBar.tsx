@@ -12,7 +12,16 @@ import moonIcn from '../../assets/icons/moon.svg'
 import { User } from '../../app/User'
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
-import { Dropdown, Space, Avatar, Switch, Menu, Divider, List, Skeleton } from 'antd'
+import {
+    Dropdown,
+    Space,
+    Avatar,
+    Switch,
+    Menu,
+    Divider,
+    List,
+    Skeleton,
+} from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { readUserDataFromDb, signOutHandler } from '../../firebase'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -79,60 +88,62 @@ function ToolBar(props: ToolBarProps) {
         setVisible(flag)
     }
     function getTasksDueInDays(days = 3) {
-        const currentDate = new Date();
-        const dueDate = new Date(currentDate);
-        dueDate.setDate(currentDate.getDate() + days);
-    
-        const priorityOrder = { high: 1, medium: 2, low: 3, default: 4 };
-    
+        const currentDate = new Date()
+        const dueDate = new Date(currentDate)
+        dueDate.setDate(currentDate.getDate() + days)
+
+        const priorityOrder = { high: 1, medium: 2, low: 3, default: 4 }
+
         return tasks
             .filter((task) => {
-                const taskDueDate = parseDateFromString(task.dueDate);
+                const taskDueDate = parseDateFromString(task.dueDate)
                 return (
-                    taskDueDate > currentDate && taskDueDate <= dueDate && task.status !== 'done'
-                );
+                    taskDueDate > currentDate &&
+                    taskDueDate <= dueDate &&
+                    task.status !== 'done'
+                )
             })
             .sort((a, b) => {
                 if (a.dueDate < b.dueDate) {
-                    return -1;
+                    return -1
                 } else if (a.dueDate > b.dueDate) {
-                    return 1;
+                    return 1
                 } else {
                     return (
-                        priorityOrder[a.priority as keyof typeof priorityOrder] -
+                        priorityOrder[
+                            a.priority as keyof typeof priorityOrder
+                        ] -
                         priorityOrder[b.priority as keyof typeof priorityOrder]
-                    );
+                    )
                 }
-            });
+            })
     }
-    
 
     function getOverDueTasks() {
-        const currentDate = new Date();
-    
-        const priorityOrder = { high: 1, medium: 2, low: 3, default: 4 };
-    
+        const currentDate = new Date()
+
+        const priorityOrder = { high: 1, medium: 2, low: 3, default: 4 }
+
         return tasks
             .filter((task) => {
-                const taskDueDate = parseDateFromString(task.dueDate);
-                return (
-                    taskDueDate < currentDate && task.status !== 'done'
-                );
+                const taskDueDate = parseDateFromString(task.dueDate)
+                return taskDueDate < currentDate && task.status !== 'done'
             })
             .sort((a, b) => {
                 if (a.dueDate < b.dueDate) {
-                    return -1;
+                    return -1
                 } else if (a.dueDate > b.dueDate) {
-                    return 1;
+                    return 1
                 } else {
                     return (
-                        priorityOrder[a.priority as keyof typeof priorityOrder] -
+                        priorityOrder[
+                            a.priority as keyof typeof priorityOrder
+                        ] -
                         priorityOrder[b.priority as keyof typeof priorityOrder]
-                    );
+                    )
                 }
-            });
+            })
     }
-    
 
     const notifs: MenuProps['items'] = [
         {
@@ -152,7 +163,7 @@ function ToolBar(props: ToolBarProps) {
                 <div
                     className="notif-item"
                     onClick={() => {
-                        navigate('/task/' + task.id);
+                        navigate('/task/' + task.id)
                     }}
                 >
                     <div>
@@ -186,7 +197,7 @@ function ToolBar(props: ToolBarProps) {
                 <div
                     className="notif-item"
                     onClick={() => {
-                        navigate('/task/' + task.id);
+                        navigate('/task/' + task.id)
                     }}
                 >
                     <div>
@@ -204,8 +215,7 @@ function ToolBar(props: ToolBarProps) {
             ),
             key: 'overdueTask-' + task.id,
         })) ?? []),
-    ];
-    
+    ]
 
     const items: MenuProps['items'] = [
         {
@@ -343,9 +353,19 @@ function ToolBar(props: ToolBarProps) {
                     </div>
                 </div>
             )}
-            {isLoading 
-                    ? <div style={{width: '100px', height: '100px', marginRight: '100px'}} id='tool-bar-profile'><Skeleton.Avatar style={{marginRight: '20px'}} /><Skeleton.Input block active /></div>
-                    : null}
+            {isLoading ? (
+                <div
+                    style={{
+                        width: '100px',
+                        height: '100px',
+                        marginRight: '100px',
+                    }}
+                    id="tool-bar-profile"
+                >
+                    <Skeleton.Avatar style={{ marginRight: '20px' }} />
+                    <Skeleton.Input block active />
+                </div>
+            ) : null}
         </div>
     )
 }

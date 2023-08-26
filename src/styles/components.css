@@ -532,18 +532,12 @@ body.dark {
     color: white !important;
 }
 
-.card.show-pop {
-    animation: show-pop 300ms forwards;
-    -webkit-animation: show-pop 300ms forwards;
-}
-.card.hide-pop {
-    animation: hide-pop 300ms forwards;
-    -webkit-animation: hide-pop 300ms forwards;
-}
-
 @keyframes show-pop {
     0% {
         opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
     }
     100% {
         opacity: 1;
@@ -553,17 +547,29 @@ body.dark {
     0% {
         opacity: 1;
     }
+    50% {
+        opacity: 0.5;
+    }
     100% {
         opacity: 0;
     }
 }
+.card.show-pop {
+    animation: show-pop 300ms forwards;
+    -webkit-animation: show-pop 300ms forwards;
+}
+.card.hide-pop {
+    animation: hide-pop 300ms forwards;
+    -webkit-animation: hide-pop 300ms forwards;
+}
+
 #create-new-task {
     min-height: fit-content !important;
-    opacity: 0;
+    opacity: 1;
 }
 #create-new-task.show-pop {
-    animation: show-pop 400ms ease-in-out forwards;
-    -webkit-animation: show-pop 400ms ease-in-out forwards;
+    animation: show-pop 300ms ease-in-out forwards;
+    -webkit-animation: show-pop 300ms ease-in-out forwards;
 }
 #create-new-task.hide-pop {
     animation: hide-pop 300ms ease-in-out forwards;

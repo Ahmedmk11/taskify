@@ -12,7 +12,7 @@ function Loading() {
         <div id="loading-body">
             <ToolBar loading />
             <div id="loading-content">
-                <NavBar  />
+                <NavBar />
                 <div id="loading-main">
                     <div id="loading-main-content">
                         <Skeleton active />
@@ -20,7 +20,7 @@ function Loading() {
                         <Skeleton active />
                     </div>
                 </div>
-            </div>        
+            </div>
         </div>
     )
 }

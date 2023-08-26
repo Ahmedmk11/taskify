@@ -534,6 +534,30 @@
     }
 }
 
+@keyframes show-pop {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hide-pop {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 .card {
     &.show-pop {
         animation: show-pop 300ms forwards;
@@ -545,30 +569,12 @@
     }
 }
 
-@keyframes show-pop {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes hide-pop {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
 #create-new-task {
-    min-height: fit-content !important ;
-    opacity: 0;
+    min-height: fit-content !important;
+    opacity: 1;
     &.show-pop {
-        animation: show-pop 400ms ease-in-out forwards;
-        -webkit-animation: show-pop 400ms ease-in-out forwards;
+        animation: show-pop 300ms ease-in-out forwards;
+        -webkit-animation: show-pop 300ms ease-in-out forwards;
     }
     &.hide-pop {
         animation: hide-pop 300ms ease-in-out forwards;

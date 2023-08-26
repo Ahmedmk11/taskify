@@ -143,15 +143,10 @@ function Card(props: CardProps) {
         if (user) {
             setUserCategories(user?.categories)
         }
-        let a = document.getElementsByTagName('textarea')
-        for (var i = 0, inb = a.length; i < inb; i++) {
-            if (a[i].getAttribute('data-resizable') == 'true')
-                resizeTextarea(a[i].id)
-        }
     }, [user])
 
     const onDateInput: DatePickerProps['onChange'] = (value) => {
-        const dateValue = value && value.toDate() // Convert moment object to Date
+        const dateValue = value && value.toDate()
         setDateInput(formatDate(dateValue!))
     }
 
@@ -164,10 +159,8 @@ function Card(props: CardProps) {
         return new Intl.DateTimeFormat('en-GB', options).format(date)
     }
 
-    if (isLoading) {
-        return (
-            <Skeleton />
-        )
+    if (isLoading && type == 'task') {
+        return <Skeleton />
     }
 
     function saveCard(ev: any) {

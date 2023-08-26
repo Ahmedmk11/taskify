@@ -130,7 +130,9 @@ function Search() {
                         />
                         <div id="result-items">
                             {getSearchResults(tasks)!.map((task) => (
-                                <div className="draggable-card"><Card task={task} /></div>
+                                <div className="draggable-card">
+                                    <Card task={task} />
+                                </div>
                             ))}
                         </div>
                     </div>
