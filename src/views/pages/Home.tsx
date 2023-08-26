@@ -26,7 +26,7 @@ import {
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
 import { hydrateRoot } from 'react-dom/client'
-import Loading from './Loading'
+import { Skeleton } from 'antd'
 
 function Home() {
     const [isVisible, setIsVisible] = useState(false)
@@ -102,10 +102,6 @@ function Home() {
             createCardPop()
         }
     }, [location])
-
-    if (isLoading) {
-        return <Loading />
-    }
 
     function allowDrop(ev: any) {
         ev.preventDefault()
@@ -232,7 +228,7 @@ function Home() {
 
     return (
         <div id="home-body">
-            <ToolBar />
+            <ToolBar loading={isLoading ? true : false} />
             <div id="home-content">
                 <NavBar currentPage={'home'} />
                 <div id="home-main">
@@ -273,19 +269,27 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="cards">
-                                    {tasks.map(
-                                        (task, index) =>
-                                            task.status === 'todo' && (
-                                                <div
-                                                    className="draggable-card"
-                                                    id={`card-container-${index}`}
-                                                    draggable="true"
-                                                    onDragStart={drag}
-                                                    key={task.id}
-                                                >
-                                                    <Card task={task} />
-                                                </div>
-                                            )
+                                    {isLoading ? (
+                                        <>
+                                            <Skeleton active />
+                                            <Skeleton active />
+                                            <Skeleton active />
+                                        </>
+                                    ) : (
+                                        tasks.map(
+                                            (task, index) =>
+                                                task.status === 'todo' && (
+                                                    <div
+                                                        className="draggable-card"
+                                                        id={`card-container-${index}`}
+                                                        draggable="true"
+                                                        onDragStart={drag}
+                                                        key={task.id}
+                                                    >
+                                                        <Card task={task} />
+                                                    </div>
+                                                )
+                                        )
                                     )}
                                     <div
                                         className="empty-div"
@@ -312,19 +316,28 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="cards">
-                                    {tasks.map(
-                                        (task, index) =>
-                                            task.status === 'inprogress' && (
-                                                <div
-                                                    className="draggable-card"
-                                                    id={`card-container-${index}`}
-                                                    draggable="true"
-                                                    onDragStart={drag}
-                                                    key={task.id}
-                                                >
-                                                    <Card task={task} />
-                                                </div>
-                                            )
+                                    {isLoading ? (
+                                        <>
+                                            <Skeleton active />
+                                            <Skeleton active />
+                                            <Skeleton active />
+                                        </>
+                                    ) : (
+                                        tasks.map(
+                                            (task, index) =>
+                                                task.status ===
+                                                    'inprogress' && (
+                                                    <div
+                                                        className="draggable-card"
+                                                        id={`card-container-${index}`}
+                                                        draggable="true"
+                                                        onDragStart={drag}
+                                                        key={task.id}
+                                                    >
+                                                        <Card task={task} />
+                                                    </div>
+                                                )
+                                        )
                                     )}
                                     <div
                                         className="empty-div"
@@ -351,19 +364,27 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="cards">
-                                    {tasks.map(
-                                        (task, index) =>
-                                            task.status === 'done' && (
-                                                <div
-                                                    className="draggable-card"
-                                                    id={`card-container-${index}`}
-                                                    draggable="true"
-                                                    onDragStart={drag}
-                                                    key={task.id}
-                                                >
-                                                    <Card task={task} />
-                                                </div>
-                                            )
+                                    {isLoading ? (
+                                        <>
+                                            <Skeleton active />
+                                            <Skeleton active />
+                                            <Skeleton active />
+                                        </>
+                                    ) : (
+                                        tasks.map(
+                                            (task, index) =>
+                                                task.status === 'done' && (
+                                                    <div
+                                                        className="draggable-card"
+                                                        id={`card-container-${index}`}
+                                                        draggable="true"
+                                                        onDragStart={drag}
+                                                        key={task.id}
+                                                    >
+                                                        <Card task={task} />
+                                                    </div>
+                                                )
+                                        )
                                     )}
                                     <div
                                         className="empty-div"

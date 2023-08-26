@@ -14,7 +14,6 @@ import Filter from '../components/Filter'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
-import Loading from './Loading'
 
 function Search() {
     const [isVisible, setIsVisible] = useState(false)
@@ -55,10 +54,6 @@ function Search() {
         }
         hideFiltersContainer()
     }, [user])
-
-    if (isLoading) {
-        return <Loading />
-    }
 
     const getSearchResults = (tasks: Task[]) => {
         return tasks.filter((task) => {

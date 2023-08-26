@@ -4,7 +4,15 @@
 
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Space, Input, DatePicker, Select, Skeleton } from 'antd'
+import {
+    Button,
+    Space,
+    Input,
+    DatePicker,
+    Select,
+    Skeleton,
+    message,
+} from 'antd'
 import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
 import type { DatePickerProps } from 'antd'
 import { format, set } from 'date-fns'
@@ -27,7 +35,6 @@ import {
 import todoIcn from '../../assets/icons/todo.svg'
 import inprogressIcn from '../../assets/icons/inprogress.svg'
 import doneIcn from '../../assets/icons/done.svg'
-import Loading from '../pages/Loading'
 
 type CardProps = {
     type: string
@@ -99,6 +106,21 @@ function Card(props: CardProps) {
     const DoneIcon = () => (
         <img style={{ width: 18, height: 18 }} src={doneIcn} />
     )
+
+    // const undoDelete = () => {
+    //     message.destroy()
+    // }
+
+    const CustomMessage = () => (
+        <div className="feedback-msg">Task Deleted.</div>
+    )
+
+    const showMessage = () => {
+        message.open({
+            content: <CustomMessage />,
+            duration: 1.5,
+        })
+    }
 
     async function fetchUserData() {
         const auth = getAuth()
@@ -241,13 +263,14 @@ function Card(props: CardProps) {
         setTimeout(() => {
             container!.remove()
         }, 300)
-        await deleteTaskFromUser(id)
-        await updateTasksArrayIds()
-        if (window.location.href.includes('task')) {
-            window.location.href = '/'
-        } else {
-            window.location.reload()
-        }
+        showMessage()
+        // await deleteTaskFromUser(id)
+        // await updateTasksArrayIds()
+        // if (window.location.href.includes('task')) {
+        //     window.location.href = '/'
+        // } else {
+        //     window.location.reload()
+        // }
     }
 
     const expand = () => {

@@ -97,4 +97,15 @@ body {
     color: white;
 }
 
+.ant-message-notice-content {
+    background-color: var(--color-blue) !important;
+}
+.ant-message-notice-content .feedback-msg {
+    color: #fff;
+}
+.ant-message-notice-content .feedback-msg span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 /*# sourceMappingURL=index.css.map */

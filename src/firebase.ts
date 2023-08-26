@@ -145,7 +145,7 @@ export async function registerUser(
     const auth = getAuth()
     await createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
-            await writeNewUserToFirestore(email, name, userCredential)
+            await writeNewUserToFirestore(email, name, userCredential.user)
         })
         .catch((error) => {
             const errorCode = error.code

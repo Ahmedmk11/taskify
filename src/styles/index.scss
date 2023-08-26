@@ -80,3 +80,14 @@ body {
         }
     }
 }
+
+.ant-message-notice-content {
+    background-color: var(--color-blue) !important;
+    .feedback-msg {
+        color: #fff;
+        span {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}

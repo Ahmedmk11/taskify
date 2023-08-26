@@ -6,7 +6,6 @@ import React from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
-import { User } from '../../app/User'
 
 function TermsAndConditions() {
     return (

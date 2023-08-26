@@ -13,7 +13,6 @@ import Card from '../components/Card'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
-import Loading from './Loading'
 
 function Task() {
     const { id } = useParams()
@@ -53,10 +52,6 @@ function Task() {
         }
         hideFiltersContainer()
     }, [user])
-
-    if (isLoading) {
-        return <Loading />
-    }
 
     return (
         <div id="task-body">

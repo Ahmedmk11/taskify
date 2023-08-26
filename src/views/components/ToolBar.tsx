@@ -12,15 +12,7 @@ import moonIcn from '../../assets/icons/moon.svg'
 import { User } from '../../app/User'
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
-import {
-    Dropdown,
-    Space,
-    Avatar,
-    Switch,
-    Divider,
-    Skeleton,
-    Badge,
-} from 'antd'
+import { Dropdown, Space, Avatar, Switch, Divider, Skeleton, Badge } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { readUserDataFromDb, signOutHandler } from '../../firebase'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -352,6 +344,7 @@ function ToolBar(props: ToolBarProps) {
                                         <Avatar
                                             size={32}
                                             icon={<UserOutlined />}
+                                            shape="square"
                                         />
                                     </Space>
                                 </Space>

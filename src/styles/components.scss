@@ -41,6 +41,10 @@
 
 .selected-nav-item {
     background-color: #e5f7ff;
+    img {
+        filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg)
+            brightness(101%) contrast(101%);
+    }
 }
 
 .nav-item:not(.selected-nav-item):hover {
@@ -93,7 +97,7 @@
         }
         #notification-img {
             cursor: pointer;
-            height: 21px;
+            height: 22px;
         }
     }
     #tool-bar-profile {
