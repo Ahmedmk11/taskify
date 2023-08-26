@@ -36,6 +36,11 @@ const RouteSwitch = () => {
             <Route path="/reset-password" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route
+                path="/terms-and-conditions"
+                element={<TermsAndConditions />}
+            />
+            <Route path="*" element={<NotFound />} />
+            <Route
                 path="/search"
                 element={
                     <PrivateRoute>
@@ -67,15 +72,6 @@ const RouteSwitch = () => {
                     </PrivateRoute>
                 }
             />
-            <Route
-                path="/terms-and-conditions"
-                element={
-                    <PrivateRoute>
-                        <TermsAndConditions />
-                    </PrivateRoute>
-                }
-            />
-            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

@@ -7,7 +7,8 @@
 #register-body,
 #forgot-password-body,
 #task-body,
-#loading-body {
+#loading-body,
+#terms-body {
     width: 100%;
     height: 100%;
     display: flex;
@@ -25,6 +26,7 @@
 #home-body #forgot-password-content,
 #home-body #task-content,
 #home-body #loading-content,
+#home-body #terms-content,
 #placeholder-body #home-content,
 #placeholder-body #placeholder-content,
 #placeholder-body #search-content,
@@ -35,6 +37,7 @@
 #placeholder-body #forgot-password-content,
 #placeholder-body #task-content,
 #placeholder-body #loading-content,
+#placeholder-body #terms-content,
 #search-body #home-content,
 #search-body #placeholder-content,
 #search-body #search-content,
@@ -45,6 +48,7 @@
 #search-body #forgot-password-content,
 #search-body #task-content,
 #search-body #loading-content,
+#search-body #terms-content,
 #profile-settings-body #home-content,
 #profile-settings-body #placeholder-content,
 #profile-settings-body #search-content,
@@ -55,6 +59,7 @@
 #profile-settings-body #forgot-password-content,
 #profile-settings-body #task-content,
 #profile-settings-body #loading-content,
+#profile-settings-body #terms-content,
 #login-body #home-content,
 #login-body #placeholder-content,
 #login-body #search-content,
@@ -65,6 +70,7 @@
 #login-body #forgot-password-content,
 #login-body #task-content,
 #login-body #loading-content,
+#login-body #terms-content,
 #not-found-body #home-content,
 #not-found-body #placeholder-content,
 #not-found-body #search-content,
@@ -75,6 +81,7 @@
 #not-found-body #forgot-password-content,
 #not-found-body #task-content,
 #not-found-body #loading-content,
+#not-found-body #terms-content,
 #register-body #home-content,
 #register-body #placeholder-content,
 #register-body #search-content,
@@ -85,6 +92,7 @@
 #register-body #forgot-password-content,
 #register-body #task-content,
 #register-body #loading-content,
+#register-body #terms-content,
 #forgot-password-body #home-content,
 #forgot-password-body #placeholder-content,
 #forgot-password-body #search-content,
@@ -95,6 +103,7 @@
 #forgot-password-body #forgot-password-content,
 #forgot-password-body #task-content,
 #forgot-password-body #loading-content,
+#forgot-password-body #terms-content,
 #task-body #home-content,
 #task-body #placeholder-content,
 #task-body #search-content,
@@ -105,6 +114,7 @@
 #task-body #forgot-password-content,
 #task-body #task-content,
 #task-body #loading-content,
+#task-body #terms-content,
 #loading-body #home-content,
 #loading-body #placeholder-content,
 #loading-body #search-content,
@@ -114,7 +124,19 @@
 #loading-body #register-content,
 #loading-body #forgot-password-content,
 #loading-body #task-content,
-#loading-body #loading-content {
+#loading-body #loading-content,
+#loading-body #terms-content,
+#terms-body #home-content,
+#terms-body #placeholder-content,
+#terms-body #search-content,
+#terms-body #profile-settings-content,
+#terms-body #login-content,
+#terms-body #not-found-content,
+#terms-body #register-content,
+#terms-body #forgot-password-content,
+#terms-body #task-content,
+#terms-body #loading-content,
+#terms-body #terms-content {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -131,7 +153,8 @@
 #register-body #placeholder-main,
 #forgot-password-body #placeholder-main,
 #task-body #placeholder-main,
-#loading-body #placeholder-main {
+#loading-body #placeholder-main,
+#terms-body #placeholder-main {
     width: 100%;
     height: 100%;
     padding-bottom: 52px;
@@ -617,12 +640,127 @@
 #profile-settings-main #profile-settings-main-content {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-start;
-    gap: 24px;
     margin-top: 24px;
-    width: calc(100% - 24px);
+    width: 1200px;
     margin-left: 24px;
+}
+#profile-settings-main #profile-settings-main-content #profile-actions {
+    width: 550px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    box-shadow: 0px 0px 8px 0px var(--color-light-black-25);
+    height: 345px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-info {
+    height: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 14px;
+    margin-top: 26px;
+    margin-left: 26px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-info
+    #pars {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-info
+    #pars
+    p {
+    color: #949494;
+    width: 100%;
+    text-align: start;
+    font-weight: 300;
+    font-size: 15px;
+    margin: 0px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-info
+    #spans {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-info
+    #spans
+    span {
+    color: var(--color-light-black-85);
+    width: 100%;
+    text-align: start;
+    font-weight: 500;
+    font-size: 15px;
+    margin: 0px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    height: 110px;
+    width: 150px;
+    margin: auto;
+    gap: 5px;
+    margin-right: 26px;
+    margin-bottom: 26px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-buttons
+    * {
+    width: 150px;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #profile-actions
+    #profile-actions-buttons
+    *
+    span {
+    width: fit-content;
+}
+#profile-settings-main #profile-settings-main-content #user-categories {
+    height: 600px;
+    width: 550px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    box-shadow: 0px 0px 8px 0px var(--color-light-black-25);
 }
 
 #task-main {
@@ -655,6 +793,42 @@
     margin-top: 24px;
     width: calc(100% - 24px);
     margin-left: 24px;
+}
+
+#terms-main {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 52px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+#terms-main #terms-main-content {
+    background-color: var(--color-gray);
+    padding: 16px 24px;
+    margin-top: 25px;
+    text-align: left;
+    width: 500px;
+    height: 500px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+#terms-main #terms-main-content h2 {
+    width: 100%;
+    text-align: center;
+}
+#terms-main #terms-main-content div {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
 }
 
 /*# sourceMappingURL=pages.css.map */

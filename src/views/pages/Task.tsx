@@ -61,7 +61,7 @@ function Task() {
                 <div id="task-main">
                     <ActionBar
                         isHideButton={true}
-                        title={`Task-${task!.id}`}
+                        title={`Task-${task?.id}`}
                         isDisabled={true}
                     />
                     <div id="task-main-content">
