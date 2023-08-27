@@ -12,9 +12,16 @@ import {
     Select,
     Skeleton,
     message,
+    Menu,
+    Dropdown,
 } from 'antd'
-import { PlusOutlined, CloseOutlined } from '@ant-design/icons'
-import type { DatePickerProps } from 'antd'
+import {
+    PlusOutlined,
+    EllipsisOutlined,
+    DeleteOutlined,
+    EditOutlined,
+} from '@ant-design/icons'
+import type { DatePickerProps, MenuProps } from 'antd'
 import { format, set } from 'date-fns'
 
 const { Option } = Select
@@ -96,6 +103,7 @@ function Card(props: CardProps) {
     const [isExpanded, setIsExpanded] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isEdit, setIsEdit] = useState(false)
+    const [currentTaskSettings, setCurrentTaskSettings] = useState('')
 
     const TodoIcon = () => (
         <img style={{ width: 18, height: 18 }} src={todoIcn} />
@@ -256,8 +264,13 @@ function Card(props: CardProps) {
         }, 300)
     }
 
-    async function deleteCard(ev: any) {
-        const container = ev.target.closest('.draggable-card')
+    const saveSettingsCardInfo = (ev: any) => {
+        setCurrentTaskSettings(ev.target.closest('.draggable-card').id)
+    }
+
+    async function deleteCard() {
+        const container = document.getElementById(currentTaskSettings)
+        console.log(container)
         container!.classList.remove('show-pop')
         container!.classList.add('hide-pop')
         setTimeout(() => {
@@ -271,6 +284,10 @@ function Card(props: CardProps) {
         // } else {
         //     window.location.reload()
         // }
+    }
+
+    function editCard(): void {
+        throw new Error('Function not implemented.')
     }
 
     const expand = () => {
@@ -378,6 +395,46 @@ function Card(props: CardProps) {
         </div>
     )
 
+    const menu: MenuProps['items'] = [
+        {
+            label: (
+                <a
+                    onClick={editCard}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        width: '100%',
+                    }}
+                    className="card-settings-cont"
+                >
+                    <EditOutlined style={{ marginRight: '8px' }} />
+                    Edit
+                </a>
+            ),
+            key: 'edit',
+        },
+        {
+            label: (
+                <a
+                    onClick={deleteCard}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        width: '100%',
+                    }}
+                    className="card-settings-cont"
+                >
+                    <DeleteOutlined style={{ marginRight: '8px' }} />
+                    Delete
+                </a>
+            ),
+            key: 'delete',
+            danger: true,
+        },
+    ]
+
     return (
         <div
             className={isExpanded ? 'card expanded' : 'card'}
@@ -450,7 +507,19 @@ function Card(props: CardProps) {
                     }
                     <div className="card-settings">
                         {type !== 'task' ? null : (
-                            <CloseOutlined onClick={deleteCard} />
+                            <Dropdown
+                                menu={{ items: menu }}
+                                trigger={['click']}
+                            >
+                                <span>
+                                    <EllipsisOutlined
+                                        onClick={(e) => {
+                                            saveSettingsCardInfo(e)
+                                        }}
+                                        style={{ fontSize: '24px' }}
+                                    />
+                                </span>
+                            </Dropdown>
                         )}
                     </div>
                 </div>

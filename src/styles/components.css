@@ -45,6 +45,7 @@
 .nav-item:not(.selected-nav-item):hover img,
 .nav-item:not(.selected-nav-item):hover p {
   filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg) brightness(101%) contrast(101%);
+  -webkit-filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg);
 }
 
 #tool-bar {
