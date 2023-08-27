@@ -1,10 +1,10 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 
 import Home from './views/pages/Home'
 import Login from './views/pages/Login'
 import Register from './views/pages/Register'
-import Placeholder from './views/pages/Placeholder'
+import CalendarPage from './views/pages/CalendarPage'
 import NotFound from './views/pages/NotFound'
 import Search from './views/pages/Search'
 import ProfileSettings from './views/pages/ProfileSettings'
@@ -14,6 +14,12 @@ import PrivateRoute from './PrivateRoute'
 import ForgotPassword from './views/pages/ForgotPassword'
 
 const RouteSwitch = () => {
+    const location = useLocation()
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [location])
+
     return (
         <Routes>
             <Route
@@ -57,10 +63,10 @@ const RouteSwitch = () => {
                 }
             />
             <Route
-                path="/placeholder"
+                path="/calendar"
                 element={
                     <PrivateRoute>
-                        <Placeholder />
+                        <CalendarPage />
                     </PrivateRoute>
                 }
             />

@@ -319,6 +319,7 @@ function ToolBar(props: ToolBarProps) {
                                             getOverDueTasks().length +
                                             getTasksDueInDays().length
                                         }
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         <img
                                             id="notification-img"

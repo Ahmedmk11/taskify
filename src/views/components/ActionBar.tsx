@@ -35,7 +35,7 @@ function ActionBar(props: ActionBarProps) {
                 ) : (
                     <h2>{title}</h2>
                 )}
-                {title !== 'Profile Settings' && (
+                {title !== 'Profile Settings' && title !== 'Calendar' && (
                     <div id="action-bar-buttons">
                         <Space
                             wrap

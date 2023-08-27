@@ -1,6 +1,6 @@
 import React from 'react'
 import homeIcn from '../../assets/icons/home.svg'
-import placeHolderIcn from '../../assets/icons/placeholder.svg'
+import calendarIcn from '../../assets/icons/calendar.svg'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
@@ -31,12 +31,12 @@ function NavBar(props: NavBarProps) {
                     <img src={homeIcn} alt="Icon for home page" />
                 </div>
                 <div
-                    className={classSelect('placeholder')}
+                    className={classSelect('calendar')}
                     onClick={() => {
-                        navigate('/placeholder')
+                        navigate('/calendar')
                     }}
                 >
-                    <img src={placeHolderIcn} alt="Icon for placeholder page" />
+                    <img src={calendarIcn} alt="Icon for calendar page" />
                 </div>
             </div>
         </div>

@@ -121,7 +121,7 @@ function Search() {
                         <Filter
                             className={isVisible ? '' : 'hide-filters'}
                             hideFilters={hideFilters}
-                            categories={user!.categories}
+                            categories={user?.categories}
                         />
                         <div id="result-items">
                             {getSearchResults(tasks)!.map((task) => (
