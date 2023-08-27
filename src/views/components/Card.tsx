@@ -14,6 +14,7 @@ import {
     message,
     Menu,
     Dropdown,
+    Modal,
 } from 'antd'
 import {
     PlusOutlined,
@@ -42,6 +43,8 @@ import {
 import todoIcn from '../../assets/icons/todo.svg'
 import inprogressIcn from '../../assets/icons/inprogress.svg'
 import doneIcn from '../../assets/icons/done.svg'
+import { parseDateFromString } from '../../app/Functions'
+import dayjs from 'dayjs'
 
 type CardProps = {
     type: string
@@ -85,25 +88,26 @@ function Card(props: CardProps) {
     const [user, setUser] = useState(null as unknown as User)
     const tasks = user ? user.taskArray : []
     const [userCategories, setUserCategories] = useState<string[]>([])
-    const [userUID, setUserUID] = useState('')
 
-    const [idState, setIdState] = useState<string>(id)
-    const [titleState, setTitleState] = useState<string>(title)
-    const [descState, setDescState] = useState<string>(desc)
     const [selectedCategories, setSelectedCategories] =
         useState<string[]>(categories)
-    const [dueDateState, setDueDateState] = useState<any>(dueDate)
-    const [priorityState, setPriorityState] = useState<string>(priority)
-    const [statusState, setStatusState] = useState<string>(status)
 
+    const [titleInput, setTitleInput] = useState('')
+    const [descInput, setDescInput] = useState('')
     const [priorityInput, setPriorityInput] = useState('default')
-    const [dateInput, setDateInput] = useState('')
+    const [dateInput, setDateInput] = useState(formatDate(new Date()))
     const [inputValue, setInputValue] = useState('')
 
     const [isExpanded, setIsExpanded] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
     const [isEdit, setIsEdit] = useState(false)
     const [currentTaskSettings, setCurrentTaskSettings] = useState('')
+
+    const [intermediateCategories, setIntermediateCategories] = useState([])
+    const [intermediateTitle, setIntermediateTitle] = useState('')
+    const [intermediateDesc, setIntermediateDesc] = useState('')
+    const [intermediateDate, setIntermediateDate] = useState('')
+    const [intermediatePriority, setIntermediatePriority] = useState('')
 
     const TodoIcon = () => (
         <img style={{ width: 18, height: 18 }} src={todoIcn} />
@@ -114,6 +118,28 @@ function Card(props: CardProps) {
     const DoneIcon = () => (
         <img style={{ width: 18, height: 18 }} src={doneIcn} />
     )
+
+    useEffect(() => {
+        if (type === 'modal') {
+            setIntermediateCategories(task?.categories)
+            setIntermediateTitle(task?.title)
+            setIntermediateDesc(task?.desc)
+            setIntermediateDate(task?.dueDate)
+            setIntermediatePriority(task?.priority)
+        }
+    }, [])
+
+    const showModal = () => {
+        setIsEdit(true)
+    }
+
+    const handleModalSave = () => {
+        setIsEdit(false)
+    }
+
+    const handleModalCancel = () => {
+        setIsEdit(false)
+    }
 
     // const undoDelete = () => {
     //     message.destroy()
@@ -137,7 +163,6 @@ function Card(props: CardProps) {
                 const userData = await readUserDataFromDb(
                     getAuth().currentUser!.uid
                 )
-                setUserUID(getAuth().currentUser!.uid)
                 setUser(userData!)
                 setIsLoading(false)
             }
@@ -155,7 +180,7 @@ function Card(props: CardProps) {
 
     useEffect(() => {
         try {
-            updateTaskCategories(idState, selectedCategories)
+            updateTaskCategories(id, selectedCategories)
         } catch (error) {
             console.log(error)
         }
@@ -287,7 +312,7 @@ function Card(props: CardProps) {
     }
 
     function editCard(): void {
-        throw new Error('Function not implemented.')
+        showModal()
     }
 
     const expand = () => {
@@ -312,42 +337,6 @@ function Card(props: CardProps) {
     }
 
     const handlePriorityChange = (value: any) => {
-        const input = document.getElementsByClassName('card-input')[0]
-        const saveBtn = document.getElementById('save-input-btn')
-        input.classList.remove(
-            'default-priority',
-            'low-priority',
-            'medium-priority',
-            'high-priority'
-        )
-        saveBtn!.classList.remove(
-            'default-priority-btn',
-            'low-priority-btn',
-            'medium-priority-btn',
-            'high-priority-btn'
-        )
-        switch (value) {
-            case 'default':
-                input.classList.add('default-priority')
-                saveBtn!.classList.add('default-priority-btn')
-                break
-            case 'low':
-                input.classList.add('low-priority')
-                saveBtn!.classList.add('low-priority-btn')
-                break
-            case 'medium':
-                input.classList.add('medium-priority')
-                saveBtn!.classList.add('medium-priority-btn')
-                break
-            case 'high':
-                input.classList.add('high-priority')
-                saveBtn!.classList.add('high-priority-btn')
-                break
-            default:
-                console.log('default')
-                break
-        }
-
         setPriorityInput(value)
     }
 
@@ -435,16 +424,37 @@ function Card(props: CardProps) {
         },
     ]
 
+    function handleEditCategories(value: any): void {
+        setIntermediateCategories(value)
+    }
+    function handleEditTitle(value: string): void {
+        setIntermediateTitle(value)
+    }
+    function handleEditDesc(value: string): void {
+        setIntermediateDesc(value)
+    }
+    function handleEditDate(value: string): void {
+        setIntermediateDate(value)
+    }
+    function handleEditPriority(value: string): void {
+        setIntermediatePriority(value)
+    }
+
     return (
         <div
             className={isExpanded ? 'card expanded' : 'card'}
             id={type !== 'task' ? '' : id}
+            style={
+                type === 'task' ? { cursor: 'pointer' } : { cursor: 'default' }
+            }
         >
             <div
                 className={
-                    type !== 'task'
-                        ? 'card-container card-input'
-                        : `card-container ${priority}-priority`
+                    type !== 'modal'
+                        ? type !== 'task'
+                            ? `card-container ${priorityInput}-priority card-input`
+                            : `card-container ${priorityInput}-priority`
+                        : `card-container card-input`
                 }
             >
                 <div className="card-info-settings">
@@ -455,13 +465,22 @@ function Card(props: CardProps) {
                                     className="category-input"
                                     mode="multiple"
                                     placeholder="Select categories"
-                                    onChange={handleSelectChange}
                                     dropdownRender={handleDropdownRender}
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') {
                                             e.preventDefault()
                                         }
                                     }}
+                                    value={
+                                        type === 'modal'
+                                            ? intermediateCategories
+                                            : selectedCategories
+                                    }
+                                    onChange={
+                                        type === 'modal'
+                                            ? handleEditCategories
+                                            : handleSelectChange
+                                    }
                                 >
                                     {userCategories.map(
                                         (
@@ -543,6 +562,16 @@ function Card(props: CardProps) {
                                 )}
                                 data-resizable="true"
                                 maxLength={50}
+                                value={
+                                    type === 'modal'
+                                        ? intermediateTitle
+                                        : titleInput
+                                }
+                                onChange={(e) => {
+                                    type === 'modal'
+                                        ? handleEditTitle(e.target.value)
+                                        : setTitleInput(e.target.value)
+                                }}
                             />
                         ) : (
                             title
@@ -559,6 +588,16 @@ function Card(props: CardProps) {
                                     'text-area-desc'
                                 )}
                                 data-resizable="true"
+                                value={
+                                    type === 'modal'
+                                        ? intermediateDesc
+                                        : descInput
+                                }
+                                onChange={(e) => {
+                                    type === 'modal'
+                                        ? handleEditDesc(e.target.value)
+                                        : setDescInput(e.target.value)
+                                }}
                             />
                         </div>
                     ) : (
@@ -571,16 +610,48 @@ function Card(props: CardProps) {
                             <Space direction="vertical">
                                 <DatePicker
                                     id="date-picker-ad"
-                                    onChange={onDateInput}
                                     placeholder="Due date"
                                     style={{ width: 140 }}
+                                    value={
+                                        type === 'modal'
+                                            ? dayjs(
+                                                  parseDateFromString(
+                                                      intermediateDate
+                                                  )
+                                              )
+                                            : dayjs(
+                                                  parseDateFromString(dateInput)
+                                              )
+                                    }
+                                    onChange={
+                                        type === 'modal'
+                                            ? (newDate) => {
+                                                  handleEditDate(
+                                                      formatDate(
+                                                          newDate!.toDate()
+                                                      )
+                                                  )
+                                              }
+                                            : onDateInput
+                                    }
                                 />
                             </Space>
                             <Select
                                 id="select-ad"
                                 placeholder="Priority"
-                                onChange={handlePriorityChange}
                                 style={{ width: 140 }}
+                                value={
+                                    type === 'modal'
+                                        ? intermediatePriority
+                                        : priorityInput
+                                }
+                                onChange={
+                                    type === 'modal'
+                                        ? (v) => {
+                                              handleEditPriority(v)
+                                          }
+                                        : handlePriorityChange
+                                }
                             >
                                 <Option value="default">Default</Option>
                                 <Option value="low">Low</Option>
@@ -597,49 +668,67 @@ function Card(props: CardProps) {
                         </div>
                     )}
                 </div>
-                <div className="card-bottom-bottom">
-                    {type !== 'task' ? (
-                        <Space wrap>
-                            <Button
-                                onClick={(e) => {
-                                    cancelCard(e)
+                {type !== 'modal' && (
+                    <div className="card-bottom-bottom">
+                        {type !== 'task' ? (
+                            <Space wrap>
+                                <Button
+                                    onClick={(e) => {
+                                        cancelCard(e)
+                                    }}
+                                    danger
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    onClick={(e) => {
+                                        saveCard(e)
+                                    }}
+                                    className="default-priority-btn"
+                                    id="save-input-btn"
+                                >
+                                    Save
+                                </Button>
+                            </Space>
+                        ) : (
+                            <Space
+                                className="read-more"
+                                onClick={() => {
+                                    type !== 'task' ? null : expand()
                                 }}
-                                danger
+                                wrap
                             >
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={(e) => {
-                                    saveCard(e)
-                                }}
-                                className="default-priority-btn"
-                                id="save-input-btn"
-                            >
-                                Save
-                            </Button>
-                        </Space>
-                    ) : (
-                        <Space
-                            className="read-more"
-                            onClick={() => {
-                                type !== 'task' ? null : expand()
-                            }}
-                            wrap
-                        >
-                            {status === 'todo' ? (
-                                <TodoIcon />
-                            ) : status === 'inprogress' ? (
-                                <InprogressIcon />
-                            ) : (
-                                <DoneIcon />
-                            )}
-                            <Button type="link">
-                                {isExpanded ? 'Read less' : 'Read more'}
-                            </Button>
-                        </Space>
-                    )}
-                </div>
+                                {status === 'todo' ? (
+                                    <TodoIcon />
+                                ) : status === 'inprogress' ? (
+                                    <InprogressIcon />
+                                ) : (
+                                    <DoneIcon />
+                                )}
+                                <Button type="link">
+                                    {isExpanded ? 'Read less' : 'Read more'}
+                                </Button>
+                            </Space>
+                        )}
+                    </div>
+                )}
             </div>
+            <Modal
+                title="Edit Task"
+                open={isEdit}
+                onOk={handleModalSave}
+                onCancel={handleModalCancel}
+                className="modal-item-input"
+                destroyOnClose
+            >
+                <Card
+                    task={tasks.find(
+                        (task) =>
+                            task.id == currentTaskSettings.split('-').pop()
+                    )}
+                    type="modal"
+                />
+            </Modal>
         </div>
     )
 }
