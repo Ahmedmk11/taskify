@@ -17,6 +17,7 @@ import {
 import {
     addNewCategoryToCurrentUser,
     deleteCategoryFromUser,
+    deleteUserFromFirebase,
     readUserDataFromDb,
     updateUserEmail,
     updateUserName,
@@ -49,6 +50,9 @@ function ProfileSettings() {
     const [email, setEmail] = useState('')
     const [categoryStatus, setCategoryStatus] = useState(false)
     const [isEditPassword, setIsEditPassword] = useState(false)
+    const [isDeleteModal, setIsDeleteModal] = useState(false)
+    const [validation, setValidation] = useState('')
+    const [validationStatus, setValidationStatus] = useState(true)
     const inputRef = useRef<any>(null)
 
     const LabelIcon = () => (
@@ -125,11 +129,15 @@ function ProfileSettings() {
     }
 
     function deleteAccount(ev: any) {
-        throw new Error('Function not implemented.')
+        setIsDeleteModal(true)
     }
 
     function changePassword(ev: any) {
         setIsEditPassword(true)
+    }
+
+    function handleValidation(ev: any) {
+        setValidation(ev.target.value)
     }
 
     function saveCategory(value: string) {
@@ -453,7 +461,7 @@ function ProfileSettings() {
                     </Form.Item>
                     <Form.Item
                         name="password"
-                        label="Password"
+                        label="New Password"
                         rules={[
                             {
                                 required: true,
@@ -466,7 +474,7 @@ function ProfileSettings() {
                     </Form.Item>
                     <Form.Item
                         name="confirm"
-                        label="Confirm Password"
+                        label="Confirm New Password"
                         dependencies={['password']}
                         hasFeedback
                         rules={[
@@ -494,6 +502,48 @@ function ProfileSettings() {
                         <Input.Password />
                     </Form.Item>
                 </Form>
+            </Modal>
+
+            <Modal
+                title=""
+                open={isDeleteModal}
+                onOk={() => {
+                    if (validation === 'Delete account') {
+                        // deleteUserFromFirebase()
+                        console.log('deleted')
+                        setIsDeleteModal(false)
+                        setValidationStatus(true)
+                        setValidation('')
+                    } else {
+                        setValidationStatus(false)
+                    }
+                }}
+                onCancel={() => {
+                    setIsDeleteModal(false)
+                    setValidation('')
+                    setValidationStatus(true)
+                }}
+                okText={'Delete Account'}
+                okButtonProps={{ danger: true }}
+                className="modal-item-input"
+                destroyOnClose
+            >
+                <h3 id='validation-msg'>Please type 'Delete account' below for confirmation.</h3>
+                <Input
+                    style={
+                        !validationStatus 
+                        ?   {width: '200px',
+                            borderColor: 'red'}
+                        :   {width: '200px'}
+                    }
+                    onChange={(e) => {
+                        handleValidation(e)
+                        setValidationStatus(true)
+                    }}
+                    value={validation}
+                />
+                <p style={{fontWeight: 500}}>This action cannot be undone.</p>
+                
             </Modal>
         </div>
     )

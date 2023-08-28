@@ -17,6 +17,7 @@ import {
     onSnapshot,
     FieldValue,
     arrayRemove,
+    deleteDoc,
 } from 'firebase/firestore'
 import {
     getAuth,
@@ -186,6 +187,27 @@ export async function readUserDataFromDb(docID: string): Promise<User | null> {
     } else {
         console.log('No such document!')
         return null
+    }
+}
+
+export async function deleteUserFromFirebase() {
+    const currentUser = getAuth().currentUser;
+    
+    if (currentUser) {
+        try {
+            // Delete the user account
+            await currentUser.delete();
+            console.log("User account deleted successfully.");
+
+            // Delete the user document from Firestore
+            const userDocRef = doc(db, 'users', currentUser.uid);
+            await deleteDoc(userDocRef);
+            console.log("User document deleted from Firestore.");
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    } else {
+        console.log("No user is currently authenticated.");
     }
 }
 
