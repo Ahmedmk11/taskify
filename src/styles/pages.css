@@ -755,6 +755,14 @@
     justify-content: flex-start;
     align-items: center;
 }
+#profile-settings-main
+    #profile-settings-main-content
+    #user-categories
+    .ant-skeleton {
+    padding: 12px;
+    display: flex !important;
+    justify-content: center !important;
+}
 #profile-settings-main #profile-settings-main-content #user-categories h2 {
     width: fit-content;
     text-align: start;
@@ -774,6 +782,18 @@
     align-items: center;
     width: 100%;
     margin-top: 24px;
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    -webkit-transition: opacity 200ms ease-in-out;
+    -moz-transition: opacity 200ms ease-in-out;
+    -ms-transition: opacity 200ms ease-in-out;
+    -o-transition: opacity 200ms ease-in-out;
+}
+#profile-settings-main
+    #profile-settings-main-content
+    #user-categories
+    #new-cat-input.show-input {
+    opacity: 1 !important;
 }
 #profile-settings-main
     #profile-settings-main-content
@@ -812,6 +832,7 @@
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    max-height: 55%;
 }
 #all-categories::-webkit-scrollbar {
     display: none;

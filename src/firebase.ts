@@ -15,6 +15,8 @@ import {
     arrayUnion,
     updateDoc,
     onSnapshot,
+    FieldValue,
+    arrayRemove,
 } from 'firebase/firestore'
 import {
     getAuth,
@@ -343,6 +345,40 @@ export function addNewTaskToCurrentUser(task: Task): void {
     }
 }
 
+export function addNewCategoryToCurrentUser(cat: string): void {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        const userData = {
+            categories: arrayUnion(cat),
+        }
+        updateDoc(userDocRef, userData)
+            .then(() => {
+                console.log('Added new category in Firestore!')
+            })
+            .catch((error) => {
+                console.log('Error adding category', error)
+            })
+    }
+}
+
+export function deleteCategoryFromUser(cat: string): void {
+    const user = getAuth().currentUser
+    if (user) {
+        const userDocRef = doc(db, 'users', user.uid)
+        const userData = {
+            categories: arrayRemove(cat),
+        }
+        updateDoc(userDocRef, userData)
+            .then(() => {
+                console.log('Removed category from Firestore!')
+            })
+            .catch((error) => {
+                console.log('Error removing category', error)
+            })
+    }
+}
+
 export function updateCurrentUserTasksDocument(
     field: string,
     newValue: string,
@@ -441,12 +477,8 @@ export async function deleteTaskFromUser(taskId: string) {
             )
 
             if (taskIndex !== -1) {
-                // Modify the tasksArray using splice to remove the task
                 userData.tasksArray.splice(taskIndex, 1)
-
-                // Update the user document with the modified tasksArray
                 await updateDoc(userRef, { tasksArray: userData.tasksArray })
-
                 console.log('Task deleted successfully')
             } else {
                 console.log('Task not found')

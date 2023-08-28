@@ -2,14 +2,14 @@
 // ProfileSettings page frontend code.
 // --------------------------------------------------------------
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { readUserDataFromDb } from '../../firebase'
-import { Button, Input, List, Skeleton, Typography } from 'antd'
+import { addNewCategoryToCurrentUser, readUserDataFromDb } from '../../firebase'
+import { Button, Input, List, Skeleton, Typography, message } from 'antd'
 import ActionBar from '../components/ActionBar'
 import labelIcn from '../../assets/icons/label.svg'
 import { CloseOutlined } from '@ant-design/icons'
@@ -18,8 +18,10 @@ function ProfileSettings() {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
     const [isAdding, setIsAdding] = useState(false)
+    const [allCats, setAllCats] = useState(user ? user.categories : [])
     const [categoryValue, setCategoryValue] = useState('')
     const [categoryStatus, setCategoryStatus] = useState(false)
+    const inputRef = useRef<any>(null)
 
     const LabelIcon = () => (
         <img style={{ width: 24, height: 24 }} src={labelIcn} />
@@ -46,6 +48,21 @@ function ProfileSettings() {
     }, [])
 
     useEffect(() => {
+        const newCatInput = document.getElementById('new-cat-input')
+        if (isAdding) {
+            newCatInput?.setAttribute('style', 'display: flex; opacity: 0;')
+            setTimeout(() => {
+                newCatInput?.classList.add('show-input')
+            }, 150)
+        } else {
+            newCatInput?.classList.remove('show-input')
+            setTimeout(() => {
+                newCatInput?.setAttribute('style', 'display: none;')
+            }, 200)
+        }
+    }, [isAdding])
+
+    useEffect(() => {
         const hideFiltersContainer = () => {
             const filtersContainer =
                 document.getElementById('filters-container')
@@ -54,7 +71,21 @@ function ProfileSettings() {
             }
         }
         hideFiltersContainer()
+        if (user) {
+            setAllCats(user.categories)
+        }
     }, [user])
+
+    const CustomMessage = () => (
+        <div className="feedback-msg">New Category Added: {categoryValue}</div>
+    )
+
+    const showMessage = () => {
+        message.open({
+            content: <CustomMessage />,
+            duration: 1.5,
+        })
+    }
 
     function editProfile(ev: any) {
         throw new Error('Function not implemented.')
@@ -68,12 +99,14 @@ function ProfileSettings() {
         throw new Error('Function not implemented.')
     }
 
-    function saveCategory() {
+    function saveCategory(value: string) {
         if (categoryValue.trim().length >= 2) {
             console.log('Category saved:', categoryValue.trim())
             setIsAdding(false)
             setCategoryStatus(false)
-            // add to db
+            setAllCats([...allCats, value])
+            addNewCategoryToCurrentUser(value)
+            showMessage()
             setCategoryValue('')
         } else {
             setCategoryStatus(true)
@@ -87,6 +120,11 @@ function ProfileSettings() {
     function cancelCategory() {
         setIsAdding(false)
         setCategoryValue('')
+        setCategoryStatus(false)
+        if (inputRef.current) {
+            inputRef.current.setValue('') // Clear input value
+            inputRef.current.setState({ value: '', dirty: false }) // Reset validation status
+        }
     }
 
     return (
@@ -165,24 +203,13 @@ function ProfileSettings() {
                                 style={{ width: '85%' }}
                                 dataSource={
                                     isLoading
-                                        ? [
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                              'x',
-                                          ]
-                                        : user.categories
-                                } // Use user.categories as dataSource
+                                        ? ['x', 'x', 'x', 'x', 'x', 'x']
+                                        : allCats
+                                }
                                 renderItem={(item) =>
                                     isLoading ? (
                                         <Skeleton.Input
-                                            style={{ marginTop: '12px' }}
+                                            style={{ width: '85%' }}
                                             active
                                             block
                                         />
@@ -212,45 +239,44 @@ function ProfileSettings() {
                                     Add new category
                                 </Button>
                             )}
-                            {isAdding && (
-                                <div id="new-cat-input">
-                                    <Input
-                                        allowClear
-                                        style={{ width: '400px' }}
-                                        size="large"
-                                        placeholder="Add a new category"
-                                        prefix={<LabelIcon />}
-                                        value={categoryValue}
-                                        onChange={(ev) =>
-                                            setCategoryValue(ev.target.value)
+                            <div id="new-cat-input">
+                                <Input
+                                    allowClear
+                                    style={{ width: '400px' }}
+                                    size="large"
+                                    placeholder="Add a new category"
+                                    prefix={<LabelIcon />}
+                                    value={categoryValue}
+                                    onChange={(ev) =>
+                                        setCategoryValue(ev.target.value)
+                                    }
+                                    onKeyDown={(ev: any) => {
+                                        if (ev.key === 'Enter') {
+                                            saveCategory(ev.target.value)
                                         }
-                                        onKeyDown={(ev: any) => {
-                                            if (ev.key === 'Enter') {
-                                                saveCategory()
-                                            }
+                                    }}
+                                    status={categoryStatus ? 'error' : ''}
+                                    ref={inputRef}
+                                />
+                                <div id="new-cat-buttons">
+                                    <Button
+                                        danger
+                                        onClick={() => {
+                                            cancelCategory()
                                         }}
-                                        status={categoryStatus ? 'error' : ''}
-                                    />
-                                    <div id="new-cat-buttons">
-                                        <Button
-                                            danger
-                                            onClick={() => {
-                                                cancelCategory()
-                                            }}
-                                        >
-                                            Cancel
-                                        </Button>
-                                        <Button
-                                            type="primary"
-                                            onClick={() => {
-                                                saveCategory()
-                                            }}
-                                        >
-                                            Save
-                                        </Button>
-                                    </div>
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        type="primary"
+                                        onClick={(ev: any) => {
+                                            saveCategory(categoryValue)
+                                        }}
+                                    >
+                                        Save
+                                    </Button>
                                 </div>
-                            )}
+                            </div>
                         </div>
                     </div>
                 </div>
