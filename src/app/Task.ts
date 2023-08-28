@@ -29,7 +29,7 @@ export class Task {
         this.dueDate = dueDate
         this.creationDate = formatDate(new Date())
         this.status = status
-        this.categories = ['Main']
+        this.categories = []
     }
 
     updateTitle(newTitle: string): void {

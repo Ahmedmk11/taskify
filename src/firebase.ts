@@ -520,3 +520,44 @@ export async function updateTasksArrayIds() {
         }
     }
 }
+
+export async function saveEditsToDB(task: any) {
+    try {
+        console.log('inside save try')
+        const user = getAuth().currentUser
+        const userDocRef = doc(db, 'users', user!.uid)
+        const userDocSnapshot = await getDoc(userDocRef)
+        const userData = userDocSnapshot.data()
+        console.log(task)
+
+        if (userData) {
+            const taskIndex = userData.tasksArray.findIndex(
+                (t: Task) => t.id === task.id
+            )
+            if (taskIndex !== -1) {
+                if (task.title) {
+                    userData.tasksArray[taskIndex].title = task.title
+                }
+                if (task.desc) {
+                    userData.tasksArray[taskIndex].desc = task.desc
+                }
+                if (task.priority) {
+                    userData.tasksArray[taskIndex].priority = task.priority
+                }
+                if (task.dueDate) {
+                    userData.tasksArray[taskIndex].dueDate = task.dueDate
+                }
+                if (task.categories) {
+                    userData.tasksArray[taskIndex].categories = task.categories
+                } else {
+                    userData.tasksArray[taskIndex].categories = []
+                }
+                console.log(userData.tasksArray)
+                await updateDoc(userDocRef, { tasksArray: userData.tasksArray })
+            }
+        }
+        console.log('Saved edits to database!')
+    } catch (error) {
+        console.error('Error updating task:', error)
+    }
+}

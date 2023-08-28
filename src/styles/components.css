@@ -605,6 +605,15 @@
     .card
     .card-container
     .card-body
+    .card-description {
+    -webkit-line-clamp: 100000;
+    -webkit-box-orient: vertical;
+}
+.modal-item-input
+    .ant-modal-body
+    .card
+    .card-container
+    .card-body
     .card-description
     textarea {
     width: 100%;

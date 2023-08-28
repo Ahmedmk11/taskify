@@ -614,6 +614,8 @@
                         }
                     }
                     .card-description {
+                        -webkit-line-clamp: 100000;
+                        -webkit-box-orient: vertical;
                         textarea {
                             width: 100%;
                         }
