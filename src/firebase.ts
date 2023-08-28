@@ -206,10 +206,12 @@ export async function updateUserName(newName: string): Promise<void> {
     }
 }
 
-export async function updateUserPassword(newPassword: string): Promise<void> {
+export async function updateUserPassword(
+    reauth: any,
+    newPassword: string
+): Promise<void> {
     const auth = getAuth()
-    const user = auth.currentUser!
-    updatePassword(user, newPassword)
+    updatePassword(reauth, newPassword)
         .then(function () {
             console.log('Password updated!')
         })

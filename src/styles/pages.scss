@@ -514,7 +514,7 @@
                 margin-top: 26px;
                 margin-left: 26px;
                 #pars {
-                    height: 100%;
+                    height: 150px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -527,10 +527,11 @@
                         font-weight: 300;
                         font-size: 15px;
                         margin: 0px;
+                        height: 32px;
                     }
                 }
                 #spans {
-                    height: 100%;
+                    height: 150px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -543,6 +544,11 @@
                         font-weight: 500;
                         font-size: 15px;
                         margin: 0px;
+                        height: 32px;
+                    }
+                    .ant-input {
+                        box-sizing: border-box;
+                        width: 400px;
                     }
                 }
             }
@@ -623,6 +629,10 @@
             }
         }
     }
+}
+
+#change-password {
+    margin-top: 22px;
 }
 
 .list-item {

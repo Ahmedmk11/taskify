@@ -91,12 +91,11 @@ function Register() {
                                 rules={[
                                     {
                                         type: 'email',
-                                        message:
-                                            'The input is not valid E-mail!',
+                                        message: 'This email is invalid!',
                                     },
                                     {
                                         required: true,
-                                        message: 'Please input your E-mail!',
+                                        message: 'Please enter your email!',
                                     },
                                 ]}
                             >
@@ -109,7 +108,7 @@ function Register() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your password!',
+                                        message: 'Please enter your password!',
                                     },
                                 ]}
                                 hasFeedback

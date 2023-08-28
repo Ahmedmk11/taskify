@@ -7,20 +7,48 @@ import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import Footer from '../components/Footer'
 import { User } from '../../app/User'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { addNewCategoryToCurrentUser, readUserDataFromDb } from '../../firebase'
-import { Button, Input, List, Skeleton, Typography, message } from 'antd'
+import {
+    EmailAuthProvider,
+    UserCredential,
+    getAuth,
+    onAuthStateChanged,
+    reauthenticateWithCredential,
+} from 'firebase/auth'
+import {
+    addNewCategoryToCurrentUser,
+    deleteCategoryFromUser,
+    readUserDataFromDb,
+    updateUserEmail,
+    updateUserName,
+    updateUserPassword,
+} from '../../firebase'
+import {
+    Button,
+    Form,
+    Input,
+    List,
+    Modal,
+    Skeleton,
+    Typography,
+    message,
+} from 'antd'
 import ActionBar from '../components/ActionBar'
 import labelIcn from '../../assets/icons/label.svg'
 import { CloseOutlined } from '@ant-design/icons'
 
 function ProfileSettings() {
+    const [form] = Form.useForm()
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
     const [isAdding, setIsAdding] = useState(false)
+    const [isEditProfile, setIsEditProfile] = useState(false)
     const [allCats, setAllCats] = useState(user ? user.categories : [])
     const [categoryValue, setCategoryValue] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
     const [categoryStatus, setCategoryStatus] = useState(false)
+    const [isEditPassword, setIsEditPassword] = useState(false)
     const inputRef = useRef<any>(null)
 
     const LabelIcon = () => (
@@ -39,6 +67,25 @@ function ProfileSettings() {
             }
         })
     }
+
+    useEffect(() => {
+        const hideFiltersContainer = () => {
+            const filtersContainer =
+                document.getElementById('filters-container')
+            if (filtersContainer) {
+                filtersContainer.classList.add('visibility-hidden')
+            }
+        }
+        hideFiltersContainer()
+        if (user) {
+            setAllCats(user.categories)
+        }
+        if (user) {
+            setFirstName(user.name.split(' ')[0])
+            setLastName(user.name.split(' ')[1])
+            setEmail(user.email)
+        }
+    }, [user])
 
     useEffect(() => {
         async function fetchData() {
@@ -62,33 +109,19 @@ function ProfileSettings() {
         }
     }, [isAdding])
 
-    useEffect(() => {
-        const hideFiltersContainer = () => {
-            const filtersContainer =
-                document.getElementById('filters-container')
-            if (filtersContainer) {
-                filtersContainer.classList.add('visibility-hidden')
-            }
-        }
-        hideFiltersContainer()
-        if (user) {
-            setAllCats(user.categories)
-        }
-    }, [user])
-
-    const CustomMessage = () => (
-        <div className="feedback-msg">New Category Added: {categoryValue}</div>
+    const CustomMessage = ({ msg }: { msg: string }) => (
+        <div className="feedback-msg">{msg}</div>
     )
 
-    const showMessage = () => {
+    const showMessage = (msg: string) => {
         message.open({
-            content: <CustomMessage />,
+            content: <CustomMessage msg={msg} />,
             duration: 1.5,
         })
     }
 
-    function editProfile(ev: any) {
-        throw new Error('Function not implemented.')
+    function editProfile() {
+        setIsEditProfile(true)
     }
 
     function deleteAccount(ev: any) {
@@ -96,7 +129,7 @@ function ProfileSettings() {
     }
 
     function changePassword(ev: any) {
-        throw new Error('Function not implemented.')
+        setIsEditPassword(true)
     }
 
     function saveCategory(value: string) {
@@ -106,25 +139,99 @@ function ProfileSettings() {
             setCategoryStatus(false)
             setAllCats([...allCats, value])
             addNewCategoryToCurrentUser(value)
-            showMessage()
+            showMessage(`New category added: ${categoryValue}`)
             setCategoryValue('')
         } else {
             setCategoryStatus(true)
         }
     }
-
     function deleteCategory(ev: any) {
-        throw new Error('Function not implemented.')
+        const catElement = ev.target.closest('[id^="category-"]')
+        if (catElement) {
+            const cat = catElement.id.split('category-')[1]
+            if (cat) {
+                deleteCategoryFromUser(cat)
+                const updatedCats = allCats.filter(
+                    (category) => category !== cat
+                )
+                setAllCats(updatedCats)
+                showMessage(`Category deleted: ${cat}`)
+            }
+        }
     }
 
     function cancelCategory() {
         setIsAdding(false)
         setCategoryValue('')
         setCategoryStatus(false)
-        if (inputRef.current) {
-            inputRef.current.setValue('') // Clear input value
-            inputRef.current.setState({ value: '', dirty: false }) // Reset validation status
+    }
+
+    function cancelEditProfile() {
+        setIsEditProfile(false)
+        setLastName(user.name.split(' ')[0])
+        setLastName(user.name.split(' ')[1])
+        setEmail(user.email)
+    }
+
+    async function saveNewProfile() {
+        setIsEditProfile(false)
+        updateUserName(firstName + ' ' + lastName)
+        updateUserEmail(email)
+    }
+
+    const handleFirstNameChange = (e: any) => {
+        setFirstName(e.target.value)
+    }
+
+    const handleLastNameChange = (e: any) => {
+        setLastName(e.target.value)
+    }
+
+    const handleEmailChange = (e: any) => {
+        setEmail(e.target.value)
+    }
+
+    function handleCancel(e: any): void {
+        setIsEditPassword(false)
+    }
+
+    const handleOk = async (): Promise<void> => {
+        const values = await form.validateFields()
+        const newPassword: string = values.password
+        const currPassword: string = values.currPassword
+
+        const us = await getAuth().currentUser
+        if (us) {
+            console.log(currPassword)
+            const credential = EmailAuthProvider.credential(
+                user.email,
+                currPassword
+            )
+            const reauthenticationResult = await reauthenticateWithCredential(
+                us,
+                credential
+            )
+
+            // If reauthentication succeeds, update the password
+            if (reauthenticationResult.user) {
+                await updateUserPassword(
+                    reauthenticationResult.user,
+                    newPassword
+                )
+                setIsEditPassword(false)
+            }
         }
+    }
+
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 24 },
+            sm: { span: 8 },
+        },
+        wrapperCol: {
+            xs: { span: 24 },
+            sm: { span: 16 },
+        },
     }
 
     return (
@@ -147,13 +254,41 @@ function ProfileSettings() {
                                             <p>Email&nbsp;</p>
                                         </div>
                                         <div id="spans">
-                                            <span>
-                                                {user.name.split(' ')[0]}
-                                            </span>
-                                            <span>
-                                                {user.name.split(' ')[1]}
-                                            </span>
-                                            <span>{user.email}</span>
+                                            {isEditProfile ? (
+                                                <>
+                                                    <Input
+                                                        className="edit-profile-input"
+                                                        onChange={(e) => {
+                                                            handleFirstNameChange(
+                                                                e
+                                                            )
+                                                        }}
+                                                        value={firstName}
+                                                    />
+                                                    <Input
+                                                        className="edit-profile-input"
+                                                        onChange={(e) => {
+                                                            handleLastNameChange(
+                                                                e
+                                                            )
+                                                        }}
+                                                        value={lastName}
+                                                    />
+                                                    <Input
+                                                        className="edit-profile-input"
+                                                        onChange={(e) => {
+                                                            handleEmailChange(e)
+                                                        }}
+                                                        value={email}
+                                                    />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span>{firstName}</span>
+                                                    <span>{lastName}</span>
+                                                    <span>{email}</span>
+                                                </>
+                                            )}
                                         </div>
                                     </>
                                 )}
@@ -163,27 +298,33 @@ function ProfileSettings() {
                                     <Skeleton />
                                 ) : (
                                     <>
+                                        {!isEditProfile && (
+                                            <Button onClick={editProfile}>
+                                                Edit Profile
+                                            </Button>
+                                        )}
                                         <Button
                                             onClick={(e) => {
-                                                editProfile(e)
+                                                isEditProfile
+                                                    ? saveNewProfile()
+                                                    : changePassword(e)
                                             }}
                                         >
-                                            Edit Profile
+                                            {isEditProfile
+                                                ? 'Save'
+                                                : 'Change Password'}
                                         </Button>
                                         <Button
                                             onClick={(e) => {
-                                                changePassword(e)
-                                            }}
-                                        >
-                                            Change Password
-                                        </Button>
-                                        <Button
-                                            onClick={(e) => {
-                                                deleteAccount(e)
+                                                isEditProfile
+                                                    ? cancelEditProfile()
+                                                    : deleteAccount(e)
                                             }}
                                             danger
                                         >
-                                            Delete Account
+                                            {isEditProfile
+                                                ? 'Cancel'
+                                                : 'Delete Account'}
                                         </Button>
                                     </>
                                 )}
@@ -214,7 +355,7 @@ function ProfileSettings() {
                                             block
                                         />
                                     ) : (
-                                        <List.Item>
+                                        <List.Item id={`category-${item}`}>
                                             <Typography.Text
                                                 mark
                                             ></Typography.Text>
@@ -282,6 +423,78 @@ function ProfileSettings() {
                 </div>
             </div>
             <Footer />
+            <Modal
+                title="Change password"
+                open={isEditPassword}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                okText={'Confirm'}
+                cancelButtonProps={{ danger: true }}
+                className="modal-item-input"
+                destroyOnClose
+            >
+                <Form
+                    {...formItemLayout}
+                    form={form}
+                    name="change-password"
+                    scrollToFirstError
+                >
+                    <Form.Item
+                        name="currPassword"
+                        label="Current Password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please enter your current password.',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        label="Password"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please enter your password!',
+                            },
+                        ]}
+                        hasFeedback
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                    <Form.Item
+                        name="confirm"
+                        label="Confirm Password"
+                        dependencies={['password']}
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please confirm your password!',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (
+                                        !value ||
+                                        getFieldValue('password') === value
+                                    ) {
+                                        return Promise.resolve()
+                                    }
+                                    return Promise.reject(
+                                        new Error(
+                                            'The new password that you entered do not match!'
+                                        )
+                                    )
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     )
 }
