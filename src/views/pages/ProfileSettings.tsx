@@ -53,6 +53,8 @@ function ProfileSettings() {
     const [isDeleteModal, setIsDeleteModal] = useState(false)
     const [validation, setValidation] = useState('')
     const [validationStatus, setValidationStatus] = useState(true)
+    const [alreadyExistsMsg, setAlreadyExistsMsg] = useState(false)
+
     const inputRef = useRef<any>(null)
 
     const LabelIcon = () => (
@@ -142,15 +144,22 @@ function ProfileSettings() {
 
     function saveCategory(value: string) {
         if (categoryValue.trim().length >= 2) {
-            console.log('Category saved:', categoryValue.trim())
-            setIsAdding(false)
-            setCategoryStatus(false)
-            setAllCats([...allCats, value])
-            addNewCategoryToCurrentUser(value)
-            showMessage(`New category added: ${categoryValue}`)
-            setCategoryValue('')
+            if (!allCats.includes(categoryValue)) {
+                console.log('Category saved:', categoryValue.trim())
+                setIsAdding(false)
+                setCategoryStatus(false)
+                setAllCats([...allCats, value])
+                addNewCategoryToCurrentUser(value)
+                showMessage(`New category added: ${categoryValue}`)
+                setCategoryValue('')
+                setAlreadyExistsMsg(false)
+            } else {
+                setCategoryStatus(true)
+                setAlreadyExistsMsg(true)
+            }
         } else {
             setCategoryStatus(true)
+            setAlreadyExistsMsg(false)
         }
     }
     function deleteCategory(ev: any) {
@@ -172,6 +181,7 @@ function ProfileSettings() {
         setIsAdding(false)
         setCategoryValue('')
         setCategoryStatus(false)
+        setAlreadyExistsMsg(false)
     }
 
     function cancelEditProfile() {
@@ -407,6 +417,17 @@ function ProfileSettings() {
                                     status={categoryStatus ? 'error' : ''}
                                     ref={inputRef}
                                 />
+                                {alreadyExistsMsg && (
+                                    <p
+                                        style={{
+                                            margin: 5,
+                                            fontSize: 12,
+                                            color: 'red',
+                                        }}
+                                    >
+                                        This category already exists.
+                                    </p>
+                                )}
                                 <div id="new-cat-buttons">
                                     <Button
                                         danger
@@ -528,13 +549,14 @@ function ProfileSettings() {
                 className="modal-item-input"
                 destroyOnClose
             >
-                <h3 id='validation-msg'>Please type 'Delete account' below for confirmation.</h3>
+                <h3 id="validation-msg">
+                    Please type 'Delete account' below for confirmation.
+                </h3>
                 <Input
                     style={
-                        !validationStatus 
-                        ?   {width: '200px',
-                            borderColor: 'red'}
-                        :   {width: '200px'}
+                        !validationStatus
+                            ? { width: '200px', borderColor: 'red' }
+                            : { width: '200px' }
                     }
                     onChange={(e) => {
                         handleValidation(e)
@@ -542,8 +564,7 @@ function ProfileSettings() {
                     }}
                     value={validation}
                 />
-                <p style={{fontWeight: 500}}>This action cannot be undone.</p>
-                
+                <p style={{ fontWeight: 500 }}>This action cannot be undone.</p>
             </Modal>
         </div>
     )
