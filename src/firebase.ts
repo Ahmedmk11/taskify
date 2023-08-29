@@ -18,6 +18,7 @@ import {
     FieldValue,
     arrayRemove,
     deleteDoc,
+    DocumentData,
 } from 'firebase/firestore'
 import {
     getAuth,
@@ -215,7 +216,7 @@ export async function updateUserName(newName: string): Promise<void> {
     const auth = getAuth()
     const user = auth.currentUser
     if (user) {
-        await updateProfile(user, {
+        return updateProfile(user, {
             displayName: newName,
         })
             .then(() => {
@@ -245,7 +246,7 @@ export async function updateUserPassword(
 export async function updateUserEmail(newEmail: string): Promise<void> {
     const auth = getAuth()
     const user = auth.currentUser!
-    updateEmail(user, newEmail)
+    return updateEmail(user, newEmail)
         .then(function () {
             updateCurrentUserDocument('email', newEmail)
             console.log('Email updated!')

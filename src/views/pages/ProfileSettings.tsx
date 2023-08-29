@@ -36,6 +36,7 @@ import {
 import ActionBar from '../components/ActionBar'
 import labelIcn from '../../assets/icons/label.svg'
 import { CloseOutlined } from '@ant-design/icons'
+import { doc, getFirestore, onSnapshot } from 'firebase/firestore'
 
 function ProfileSettings() {
     const [form] = Form.useForm()
@@ -193,8 +194,10 @@ function ProfileSettings() {
 
     async function saveNewProfile() {
         setIsEditProfile(false)
-        updateUserName(firstName + ' ' + lastName)
-        updateUserEmail(email)
+
+        await updateUserName(firstName + ' ' + lastName)
+        await updateUserEmail(email)
+        window.location.reload()
     }
 
     const handleFirstNameChange = (e: any) => {
@@ -313,7 +316,7 @@ function ProfileSettings() {
                             </div>
                             <div id="profile-actions-buttons">
                                 {isLoading ? (
-                                    <Skeleton />
+                                    <Skeleton active />
                                 ) : (
                                     <>
                                         {!isEditProfile && (
@@ -530,8 +533,7 @@ function ProfileSettings() {
                 open={isDeleteModal}
                 onOk={() => {
                     if (validation === 'Delete account') {
-                        // deleteUserFromFirebase()
-                        console.log('deleted')
+                        deleteUserFromFirebase()
                         setIsDeleteModal(false)
                         setValidationStatus(true)
                         setValidation('')

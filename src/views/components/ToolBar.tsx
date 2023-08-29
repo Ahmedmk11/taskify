@@ -24,8 +24,8 @@ type ToolBarProps = {
 
 function ToolBar(props: ToolBarProps) {
     const { loading } = props
-    const [isDarkMode, setIsDarkMode] = useState(
-        localStorage.getItem('theme') === 'dark' ? true : false
+    const [themeMode, setThemeMode] = useState(
+        localStorage.getItem('theme') ? localStorage.getItem('theme') : 'light'
     )
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
@@ -53,7 +53,23 @@ function ToolBar(props: ToolBarProps) {
             await fetchUserData()
         }
         fetchData()
+        if (themeMode === 'dark') {
+            document.body.classList.add('dark')
+            document.body.classList.remove('light')
+        } else {
+            document.body.classList.add('light')
+            document.body.classList.remove('dark')
+        }
+
+        // Make sure the theme mode is stored in localStorage
+        if (!localStorage.getItem('theme')) {
+            localStorage.setItem('theme', themeMode!)
+        }
     }, [])
+
+    useEffect(() => {
+        console.log(themeMode)
+    }, [themeMode])
 
     useEffect(() => {
         const hideFiltersContainer = () => {
@@ -66,13 +82,17 @@ function ToolBar(props: ToolBarProps) {
         hideFiltersContainer()
     }, [user])
 
-    const handleMenuClick = () => {
-        setVisible(true)
-    }
-
-    const SunIcon = () => <img style={{ width: 16, height: 16 }} src={sunIcn} />
+    const SunIcon = () => (
+        <img
+            style={{ marginRight: '8px', width: 16, height: 16 }}
+            src={sunIcn}
+        />
+    )
     const MoonIcon = () => (
-        <img style={{ width: 16, height: 16 }} src={moonIcn} />
+        <img
+            style={{ marginRight: '8px', width: 16, height: 16 }}
+            src={moonIcn}
+        />
     )
 
     const handleVisibleChange = (flag: boolean) => {
@@ -215,8 +235,9 @@ function ToolBar(props: ToolBarProps) {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'flex-start',
                         width: '100%',
+                        userSelect: 'none',
                     }}
                     onClick={() => {
                         navigate('/profile')
@@ -230,43 +251,40 @@ function ToolBar(props: ToolBarProps) {
         },
         {
             label: (
-                <Space
+                <a
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'flex-start',
                         width: '100%',
+                        userSelect: 'none',
                     }}
-                    direction="vertical"
-                    onMouseEnter={(ev: any) => {
-                        const closestLi = ev.target.closest('li')
-                        closestLi.setAttribute(
-                            'style',
-                            'cursor: default; background-color: #fff'
-                        )
+                    onClick={() => {
+                        if (themeMode === 'light') {
+                            document.body.classList.remove('light')
+                            document.body.classList.add('dark')
+                        } else {
+                            document.body.classList.remove('dark')
+                            document.body.classList.add('light')
+                        }
+                        const newThemeMode =
+                            themeMode === 'light' ? 'dark' : 'light'
+                        setThemeMode(newThemeMode)
+                        localStorage.setItem('theme', newThemeMode)
                     }}
                 >
-                    <Switch
-                        checkedChildren={<SunIcon />}
-                        unCheckedChildren={<MoonIcon />}
-                        defaultChecked={isDarkMode ? false : true}
-                        onClick={handleMenuClick}
-                        onChange={(checked) => {
-                            setIsDarkMode(!checked)
-                            localStorage.setItem(
-                                'theme',
-                                checked ? 'light' : 'dark'
-                            )
-                            if (checked) {
-                                document.body.classList.add('light')
-                                document.body.classList.remove('dark')
-                            } else {
-                                document.body.classList.add('dark')
-                                document.body.classList.remove('light')
-                            }
-                        }}
-                    />
-                </Space>
+                    {themeMode === 'light' ? (
+                        <>
+                            <SunIcon />
+                            Light
+                        </>
+                    ) : (
+                        <>
+                            <MoonIcon />
+                            Dark
+                        </>
+                    )}
+                </a>
             ),
             key: '1',
         },
@@ -280,8 +298,9 @@ function ToolBar(props: ToolBarProps) {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
+                        justifyContent: 'flex-start',
                         width: '100%',
+                        userSelect: 'none',
                     }}
                 >
                     <LogoutOutlined style={{ marginRight: '8px' }} />
@@ -306,7 +325,7 @@ function ToolBar(props: ToolBarProps) {
             </div>
             {user && (
                 <div id="tool-bar-item">
-                    <div>
+                    <div id="notif-container">
                         <Dropdown
                             menu={{ items: notifs }}
                             trigger={['click']}

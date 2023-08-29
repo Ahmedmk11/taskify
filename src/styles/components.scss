@@ -85,6 +85,7 @@
     }
     #tool-bar-item {
         width: 150px;
+        min-width: fit-content;
         height: 100%;
         display: flex;
         flex-direction: row;
@@ -103,10 +104,11 @@
         }
     }
     #tool-bar-profile {
-        width: 102px;
+        width: 152px;
         height: 100%;
         display: flex;
         flex-direction: row;
+        gap: 8px;
         justify-content: space-evenly;
         align-items: center;
         p {
@@ -119,6 +121,10 @@
     #profile-avi {
         cursor: pointer;
     }
+}
+
+#notif-container {
+    margin-right: 20px;
 }
 
 #notifs-p {
@@ -141,23 +147,15 @@
     }
 }
 
-.ant-switch-inner {
+#dark-light-button {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     align-items: center;
-    height: 16px !important;
-}
-
-.ant-switch-checked .anticon,
-.ant-switch .anticon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 16px;
-}
-
-.ant-switch .anticon svg {
-    vertical-align: middle;
+    p {
+        margin: 0%;
+        margin-left: 8px;
+    }
 }
 
 // --------------------------------------------------------------
