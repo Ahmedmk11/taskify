@@ -454,7 +454,7 @@ function Card(props: CardProps) {
                 className={
                     type !== 'task'
                         ? `card-container ${priorityInput}-priority card-input`
-                        : `card-container ${priorityInput}-priority`
+                        : `card-container ${priority}-priority`
                 }
             >
                 <div className="card-info-settings">

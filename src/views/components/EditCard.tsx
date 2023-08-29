@@ -200,7 +200,9 @@ function EditCard(props: EditCardProps) {
 
     return (
         <div className="card" style={{ cursor: 'default' }}>
-            <div className={'card-container card-input'}>
+            <div
+                className={`card-container card-input ${intermediatePriority}-priority`}
+            >
                 <div className="card-info-settings">
                     {
                         <div className="card-categories">
@@ -217,15 +219,11 @@ function EditCard(props: EditCardProps) {
                                 value={intermediateCategories}
                                 onChange={handleEditCategories}
                             >
-                                {userCategories.map(
-                                    (
-                                        category // here
-                                    ) => (
-                                        <Option key={category} value={category}>
-                                            {category}
-                                        </Option>
-                                    )
-                                )}
+                                {userCategories.map((category) => (
+                                    <Option key={category} value={category}>
+                                        {category}
+                                    </Option>
+                                ))}
                             </Select>
                         </div>
                     }

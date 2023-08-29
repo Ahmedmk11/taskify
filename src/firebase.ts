@@ -604,10 +604,8 @@ export async function saveEditsToDB(task: any) {
                 if (task.dueDate) {
                     userData.tasksArray[taskIndex].dueDate = task.dueDate
                 }
-                if (task.categories) {
+                if (task.categories[0]) {
                     userData.tasksArray[taskIndex].categories = task.categories
-                } else {
-                    userData.tasksArray[taskIndex].categories = []
                 }
                 console.log(userData.tasksArray)
                 await updateDoc(userDocRef, { tasksArray: userData.tasksArray })
