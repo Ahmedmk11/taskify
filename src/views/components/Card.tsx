@@ -74,6 +74,7 @@ function Card(props: CardProps) {
     const [userCategories, setUserCategories] = useState<string[]>([])
 
     const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+    const [categoryValidation, setCategoryValidation] = useState('')
 
     const [titleInput, setTitleInput] = useState('')
     const [descInput, setDescInput] = useState('')
@@ -391,9 +392,17 @@ function Card(props: CardProps) {
     }
 
     function handleCreateOption(value: string) {
-        if (typeof value === 'string') {
+        if (value.trim() === '') {
+            setCategoryValidation('Invalid Input.')
+            return
+        }
+        if (typeof value === 'string' && !userCategories.includes(value)) {
             setSelectedCategories([...selectedCategories, value])
             setUserCategories([...userCategories, value])
+            setCategoryValidation('')
+        } else if (userCategories.includes(value)) {
+            setCategoryValidation('This category already exists.')
+            return
         }
     }
 
@@ -430,6 +439,18 @@ function Card(props: CardProps) {
                     />
                 </div>
             )}
+            {categoryValidation !== '' ? (
+                <p
+                    style={{
+                        color: 'red',
+                        textAlign: 'center',
+                        fontSize: '12px',
+                        width: '200px',
+                    }}
+                >
+                    {categoryValidation}
+                </p>
+            ) : null}
         </div>
     )
 
@@ -494,7 +515,10 @@ function Card(props: CardProps) {
             >
                 <div className="card-info-settings">
                     {
-                        <div className="card-categories">
+                        <div
+                            style={type !== 'task' ? { width: '100%' } : {}}
+                            className="card-categories"
+                        >
                             {type !== 'task' ? (
                                 <Select
                                     className="category-input"
@@ -508,6 +532,7 @@ function Card(props: CardProps) {
                                     }}
                                     value={selectedCategories}
                                     onChange={handleSelectChange}
+                                    style={{ width: '100% !important' }}
                                 >
                                     {userCategories.map(
                                         (
@@ -551,8 +576,9 @@ function Card(props: CardProps) {
                             )}
                         </div>
                     }
-                    <div className="card-settings">
-                        {type !== 'task' ? null : (
+
+                    {type !== 'task' ? null : (
+                        <div className="card-settings">
                             <Dropdown
                                 menu={{ items: menu }}
                                 trigger={['click']}
@@ -566,8 +592,8 @@ function Card(props: CardProps) {
                                     />
                                 </span>
                             </Dropdown>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
                 <div className="card-body">
                     <div

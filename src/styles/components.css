@@ -286,8 +286,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.card .card-container .card-info-settings .card-categories .category-input {
-    min-width: 150px;
+.card .card-container .card-info-settings .card-categories .ant-select {
+    width: 210px !important;
 }
 .card .card-container .card-info-settings .card-settings {
     align-self: flex-start;
