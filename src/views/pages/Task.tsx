@@ -2,7 +2,7 @@
 // Task page frontend code.
 // --------------------------------------------------------------
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import NavBar from '../components/NavBar'
@@ -12,15 +12,17 @@ import Footer from '../components/Footer'
 import Card from '../components/Card'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { readUserDataFromDb } from '../../firebase'
+import { db, readUserDataFromDb } from '../../firebase'
+import { EditCardContext } from '../components/EditCardProvider'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 function Task() {
     const { id } = useParams()
 
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
-    const tasks = user ? user.taskArray : []
-    const task = tasks.find((task) => task.id == id)
+    let tasks = user ? user.taskArray : []
+    const [task, setTask] = useState(tasks.find((task) => task.id == id))
 
     async function fetchUserData() {
         const auth = getAuth()
@@ -43,6 +45,25 @@ function Task() {
     }, [])
 
     useEffect(() => {
+        try {
+            const userUID = getAuth().currentUser?.uid
+            if (userUID) {
+                const userDocRef = doc(db, 'users', userUID)
+                onSnapshot(userDocRef, (docSnapshot) => {
+                    const data = docSnapshot.data()
+                    if (data) {
+                        setTask(
+                            data.tasksArray.find((task: any) => task.id == id)
+                        )
+                    }
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }, [])
+
+    useEffect(() => {
         const hideFiltersContainer = () => {
             const filtersContainer =
                 document.getElementById('filters-container')
@@ -61,12 +82,15 @@ function Task() {
                 <div id="task-main">
                     <ActionBar
                         isHideButton={true}
-                        title={`Task-${task?.id}`}
+                        title={`${task?.title}`}
                         isDisabled={true}
                     />
                     <div id="task-main-content">
                         {task && (
-                            <div className="draggable-card">
+                            <div
+                                id={`card-container-${task.id}`}
+                                className="draggable-card"
+                            >
                                 <Card task={task} />
                             </div>
                         )}

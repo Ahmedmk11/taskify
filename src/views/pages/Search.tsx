@@ -20,6 +20,8 @@ function Search() {
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
 
+    const [appliedFilters, setAppliedFilters] = useState(null)
+
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
     const tasks = user ? user.taskArray : []
@@ -54,6 +56,10 @@ function Search() {
         }
         hideFiltersContainer()
     }, [user])
+
+    const handleFiltersUpdate = (filters: any) => {
+        setAppliedFilters(filters)
+    }
 
     const getSearchResults = (tasks: Task[]) => {
         return tasks.filter((task) => {
@@ -121,7 +127,7 @@ function Search() {
                         <Filter
                             className={isVisible ? '' : 'hide-filters'}
                             hideFilters={hideFilters}
-                            categories={user?.categories}
+                            handleFiltersUpdate={handleFiltersUpdate}
                         />
                         <div id="result-items">
                             {getSearchResults(tasks)!.map((task) => (

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import homeIcn from '../../assets/icons/home.svg'
 import calendarIcn from '../../assets/icons/calendar.svg'
+import categoryIcn from '../../assets/icons/category.svg'
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 
@@ -37,6 +38,14 @@ function NavBar(props: NavBarProps) {
                     }}
                 >
                     <img src={calendarIcn} alt="Icon for calendar page" />
+                </div>
+                <div
+                    className={classSelect('categories')}
+                    onClick={() => {
+                        navigate('/my-categories')
+                    }}
+                >
+                    <img src={categoryIcn} alt="Icon for categories page" />
                 </div>
             </div>
         </div>

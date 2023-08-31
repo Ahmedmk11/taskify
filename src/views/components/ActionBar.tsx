@@ -26,56 +26,57 @@ function ActionBar(props: ActionBarProps) {
     return (
         <>
             <div id="action-bar">
-                {title == 'Task-undefined' ? (
-                    <Skeleton.Button
-                        style={{ marginLeft: '24px' }}
-                        active
+                {title == 'undefined' ? (
+                    <Skeleton.Input
                         block
+                        active
+                        style={{ width: '52px', marginLeft: '24px' }}
                     />
                 ) : (
                     <h2>{title}</h2>
                 )}
-                {title !== 'Profile Settings' && title !== 'Calendar' && (
-                    <div id="action-bar-buttons">
-                        <Space
-                            wrap
-                            style={
-                                isHideButton
-                                    ? { visibility: 'hidden' }
-                                    : { display: 'block' }
-                            }
-                        >
-                            <Button
-                                onClick={() => {
-                                    handleCreate()
-                                }}
-                                className="new-button"
-                                type="primary"
+                {title !== 'Profile Settings' &&
+                    !['Calendar', 'My Categories'].includes(title) && (
+                        <div id="action-bar-buttons">
+                            <Space
+                                wrap
+                                style={
+                                    isHideButton
+                                        ? { visibility: 'hidden' }
+                                        : { display: 'block' }
+                                }
                             >
-                                New Task
-                            </Button>
-                        </Space>
-                        <Space direction="vertical">
-                            <Search
-                                placeholder="What are you looking for?"
-                                onSearch={(value) => {
-                                    navigate(`/search?query=${value}`)
+                                <Button
+                                    onClick={() => {
+                                        handleCreate()
+                                    }}
+                                    className="new-button"
+                                    type="primary"
+                                >
+                                    New Task
+                                </Button>
+                            </Space>
+                            <Space direction="vertical">
+                                <Search
+                                    placeholder="What are you looking for?"
+                                    onSearch={(value) => {
+                                        navigate(`/search?query=${value}`)
+                                    }}
+                                    allowClear
+                                    style={{ width: 363 }}
+                                />
+                            </Space>
+                            <Button
+                                disabled={isDisabled}
+                                className="custom-button-size"
+                                onClick={() => {
+                                    handleFilters()
                                 }}
-                                allowClear
-                                style={{ width: 363 }}
-                            />
-                        </Space>
-                        <Button
-                            disabled={isDisabled}
-                            className="custom-button-size"
-                            onClick={() => {
-                                handleFilters()
-                            }}
-                        >
-                            <img src={filterIcn} alt="Icon for filter" />
-                        </Button>
-                    </div>
-                )}
+                            >
+                                <img src={filterIcn} alt="Icon for filter" />
+                            </Button>
+                        </div>
+                    )}
             </div>
             <hr id="action-bar-hr"></hr>
         </>

@@ -21,12 +21,12 @@ import {
     updateCurrentUserTasksDocument,
     updateTaskStatus,
     updateTasksOrder,
-    updateTasksArrayIds,
 } from '../../firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
 import { hydrateRoot } from 'react-dom/client'
 import { Skeleton } from 'antd'
+import { parseDateFromString } from '../../app/Functions'
 
 function Home() {
     const [isVisible, setIsVisible] = useState(false)
@@ -34,6 +34,23 @@ function Home() {
     const [userUID, setUserUID] = useState('')
     const [oldColumn, setOldColumn] = useState('')
     const [isLoading, setIsLoading] = useState(true)
+
+    const [isCol1Input, setIsCol1Input] = useState(false)
+    const [isCol2Input, setIsCol2Input] = useState(false)
+    const [isCol3Input, setIsCol3Input] = useState(false)
+
+    const [filteredTasks, setFilteredTasks] = useState<any[]>([])
+
+    const [col1Tasks, setCol1Tasks] = useState<any[]>([])
+    const [col2Tasks, setCol2Tasks] = useState<any[]>([])
+    const [col3Tasks, setCol3Tasks] = useState<any[]>([])
+
+    const [appliedFilters, setAppliedFilters] = useState({
+        categoryFilter: null as string[] | null,
+        dateFilter: null as Date[] | null,
+        priorityFilter: null as string[] | null,
+    })
+
     const [tasks, setTasks] = useState(user ? user.taskArray : [])
     const [firstReload, setFirstReload] = useState(true)
     const location = useLocation()
@@ -50,9 +67,103 @@ function Home() {
                 setUser(userData!)
                 setIsLoading(false)
                 setTasks(userData!.taskArray)
+                setFilteredTasks(userData!.taskArray)
             }
         })
     }
+
+    useEffect(() => {
+        const cols = tasks.filter((task, index) => {
+            const dueDate = parseDateFromString(task.dueDate)
+            console.log(appliedFilters.priorityFilter)
+
+            let dueDateDay
+            let dueDateMonth
+            let dueDateYear
+            let startDay
+            let startMonth
+            let startYear
+            let endDay
+            let endMonth
+            let endYear
+
+            if (appliedFilters.dateFilter!.length !== 0) {
+                const dueDate = parseDateFromString(task.dueDate)
+                const startDate = appliedFilters.dateFilter![0]
+                const endDate = appliedFilters.dateFilter![1]
+
+                dueDateDay = dueDate.getDate()
+                dueDateMonth = dueDate.getMonth()
+                dueDateYear = dueDate.getFullYear()
+
+                startDay = startDate.getDate()
+                startMonth = startDate.getMonth()
+                startYear = startDate.getFullYear()
+
+                endDay = endDate.getDate()
+                endMonth = endDate.getMonth()
+                endYear = endDate.getFullYear()
+            }
+
+            const isCategoryFiltered =
+                appliedFilters.categoryFilter!.length === 0 ||
+                task.categories.some((category: string) =>
+                    appliedFilters.categoryFilter!.includes(category)
+                )
+
+            const isDateFiltered =
+                appliedFilters.dateFilter!.length === 0 ||
+                !appliedFilters.dateFilter ||
+                appliedFilters.dateFilter.length === 0 ||
+                ((dueDateYear! > startYear! ||
+                    (dueDateYear! === startYear! &&
+                        (dueDateMonth! > startMonth! ||
+                            (dueDateMonth! === startMonth! &&
+                                dueDateDay! >= startDay!)))) &&
+                    (dueDateYear! < endYear! ||
+                        (dueDateYear! === endYear! &&
+                            (dueDateMonth! < endMonth! ||
+                                (dueDateMonth! === endMonth! &&
+                                    dueDateDay! <= endDay!)))))
+
+            const isPriorityFiltered =
+                appliedFilters.priorityFilter!.length === 0 ||
+                appliedFilters.priorityFilter!.includes(
+                    task.priority.charAt(0).toUpperCase() +
+                        task.priority.slice(1)
+                )
+
+            return (
+                (!appliedFilters.categoryFilter ||
+                    appliedFilters.categoryFilter.length === 0 ||
+                    isCategoryFiltered) &&
+                isDateFiltered &&
+                (!appliedFilters.priorityFilter ||
+                    appliedFilters.priorityFilter.length === 0 ||
+                    isPriorityFiltered)
+            )
+        })
+
+        setFilteredTasks(cols)
+    }, [appliedFilters])
+
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                if (
+                    Array.from(mutation.removedNodes).some(
+                        (node) =>
+                            node instanceof HTMLElement &&
+                            node.id === 'create-new-task'
+                    )
+                ) {
+                    setIsCol1Input(false)
+                    setIsCol2Input(false)
+                    setIsCol3Input(false)
+                }
+            }
+        }
+    })
 
     // useEffect(() => {
     //     try {
@@ -84,6 +195,8 @@ function Home() {
             await fetchUserData()
         }
         fetchData()
+        const config = { childList: true, subtree: true }
+        observer.observe(document.body, config)
     }, [])
 
     useEffect(() => {
@@ -102,6 +215,10 @@ function Home() {
             createCardPop()
         }
     }, [location])
+
+    const handleFiltersUpdate = (filters: any) => {
+        setAppliedFilters(filters)
+    }
 
     function allowDrop(ev: any) {
         ev.preventDefault()
@@ -131,10 +248,17 @@ function Home() {
     }
 
     const showFilters = () => {
-        setIsVisible(true)
+        setIsVisible(!isVisible)
         document
             .getElementById('filters-container')
             ?.classList.remove('visibility-hidden')
+        if (isVisible) {
+            setTimeout(() => {
+                document
+                    .getElementById('filters-container')
+                    ?.classList.add('visibility-hidden')
+            }, 300)
+        }
     }
 
     const hideFilters = () => {
@@ -177,15 +301,27 @@ function Home() {
         switch (targetColumnID) {
             case 'col-1':
                 newStatus = 'todo'
+                document
+                    .getElementById('col1-msg')
+                    ?.setAttribute('style', 'display: none;')
                 break
             case 'col-2':
                 newStatus = 'inprogress'
+                document
+                    .getElementById('col2-msg')
+                    ?.setAttribute('style', 'display: none;')
                 break
             case 'col-3':
                 newStatus = 'done'
+                document
+                    .getElementById('col3-msg')
+                    ?.setAttribute('style', 'display: none;')
                 break
             default:
                 newStatus = 'todo'
+                document
+                    .getElementById('col1-msg')
+                    ?.setAttribute('style', 'display: none;')
                 break
         }
         if (task) {
@@ -194,7 +330,6 @@ function Home() {
             console.log('hhh', newStatus)
             task.status = newStatus
         }
-        console.log('jsjasajajajasjsajassajdsajndnjdnjksdjnkjkdskcsks')
         await reorderTasks()
         window.location.reload()
     }
@@ -206,24 +341,23 @@ function Home() {
     }
 
     async function reorderTasks() {
-        const columns = document.querySelectorAll('.column')
-        const updatedTasks: Task[] = []
-
-        columns.forEach((column: Element) => {
-            const cardContainers = column.querySelectorAll('.draggable-card')
-            cardContainers.forEach((cardContainer: Element) => {
-                const taskId = cardContainer.querySelector('.card')?.id
-                if (taskId) {
-                    const task = tasks.find((task) => task.id === taskId)
-                    if (task) {
-                        updatedTasks.push(task)
-                    }
-                }
-            })
-        })
-        console.log(updatedTasks)
-        await updateTasksOrder(updatedTasks)
-        await updateTasksArrayIds()
+        // const columns = document.querySelectorAll('.column')
+        // const updatedTasks: Task[] = []
+        // columns.forEach((column: Element) => {
+        //     const cardContainers = column.querySelectorAll('.draggable-card')
+        //     cardContainers.forEach((cardContainer: Element) => {
+        //         const taskId = cardContainer.querySelector('.card')?.id
+        //         if (taskId) {
+        //             const task = tasks.find((task) => task.id === taskId)
+        //             if (task) {
+        //                 updatedTasks.push(task)
+        //             }
+        //         }
+        //     })
+        // })
+        // console.log(updatedTasks)
+        // await updateTasksOrder(updatedTasks)
+        // await updateTasksArrayIds()
     }
 
     return (
@@ -247,7 +381,7 @@ function Home() {
                         <Filter
                             className={isVisible ? '' : 'hide-filters'}
                             hideFilters={hideFilters}
-                            categories={['Main', 'Work', 'UI Design']}
+                            handleFiltersUpdate={handleFiltersUpdate}
                         />
                         <div id="columns-container">
                             <div
@@ -262,6 +396,7 @@ function Home() {
                                         <img
                                             onClick={() => {
                                                 createCardPop('col-1')
+                                                setIsCol1Input(true)
                                             }}
                                             src={plusIcn}
                                             alt="plus icon"
@@ -275,13 +410,20 @@ function Home() {
                                             <Skeleton active />
                                             <Skeleton active />
                                         </>
+                                    ) : filteredTasks.filter(
+                                          (t) => t.status == 'todo'
+                                      ).length == 0 && !isCol1Input ? (
+                                        <p id="col1-msg">
+                                            No tasks to do right now. Add some
+                                            tasks to get started!
+                                        </p>
                                     ) : (
-                                        tasks.map(
+                                        filteredTasks.map(
                                             (task, index) =>
                                                 task.status === 'todo' && (
                                                     <div
                                                         className="draggable-card"
-                                                        id={`card-container-${index}`}
+                                                        id={`card-container-${task.id}`}
                                                         draggable="true"
                                                         onDragStart={drag}
                                                         key={task.id}
@@ -309,6 +451,7 @@ function Home() {
                                         <img
                                             onClick={() => {
                                                 createCardPop('col-2')
+                                                setIsCol2Input(true)
                                             }}
                                             src={plusIcn}
                                             alt="plus icon"
@@ -322,14 +465,21 @@ function Home() {
                                             <Skeleton active />
                                             <Skeleton active />
                                         </>
+                                    ) : filteredTasks.filter(
+                                          (t) => t.status == 'inprogress'
+                                      ).length == 0 && !isCol2Input ? (
+                                        <p id="col2-msg">
+                                            No tasks in progress at the moment.
+                                            Keep up the great work!
+                                        </p>
                                     ) : (
-                                        tasks.map(
+                                        filteredTasks.map(
                                             (task, index) =>
                                                 task.status ===
                                                     'inprogress' && (
                                                     <div
                                                         className="draggable-card"
-                                                        id={`card-container-${index}`}
+                                                        id={`card-container-${task.id}`}
                                                         draggable="true"
                                                         onDragStart={drag}
                                                         key={task.id}
@@ -357,6 +507,7 @@ function Home() {
                                         <img
                                             onClick={() => {
                                                 createCardPop('col-3')
+                                                setIsCol3Input(true)
                                             }}
                                             src={plusIcn}
                                             alt="plus icon"
@@ -370,13 +521,20 @@ function Home() {
                                             <Skeleton active />
                                             <Skeleton active />
                                         </>
+                                    ) : filteredTasks.filter(
+                                          (t) => t.status == 'done'
+                                      ).length == 0 && !isCol3Input ? (
+                                        <p id="col3-msg">
+                                            Congratulations! You've completed
+                                            all your tasks.
+                                        </p>
                                     ) : (
-                                        tasks.map(
+                                        filteredTasks.map(
                                             (task, index) =>
                                                 task.status === 'done' && (
                                                     <div
                                                         className="draggable-card"
-                                                        id={`card-container-${index}`}
+                                                        id={`card-container-${task.id}`}
                                                         draggable="true"
                                                         onDragStart={drag}
                                                         key={task.id}

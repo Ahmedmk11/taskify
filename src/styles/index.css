@@ -108,4 +108,8 @@ body {
     cursor: pointer;
 }
 
+.no-scroll {
+    overflow: hidden;
+}
+
 /*# sourceMappingURL=index.css.map */

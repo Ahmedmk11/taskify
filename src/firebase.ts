@@ -541,42 +541,42 @@ export async function updateTasksOrder(updatedTasks: Task[]) {
     }
 }
 
-export async function updateTasksArrayIds() {
-    const user = getAuth().currentUser
-    if (user) {
-        const userDocRef = doc(db, 'users', user.uid)
-        const docSnapshot = await getDoc(userDocRef)
+// export async function updateTasksArrayIds() {
+//     const user = getAuth().currentUser
+//     if (user) {
+//         const userDocRef = doc(db, 'users', user.uid)
+//         const docSnapshot = await getDoc(userDocRef)
 
-        if (docSnapshot.exists()) {
-            const userData = docSnapshot.data()
+//         if (docSnapshot.exists()) {
+//             const userData = docSnapshot.data()
 
-            if (userData) {
-                const tasksArray = [...userData.tasksArray]
+//             if (userData) {
+//                 const tasksArray = [...userData.tasksArray]
 
-                // Sort tasksArray based on some criteria, like creationDate
-                tasksArray.sort((a, b) => a.creationDate - b.creationDate)
+//                 // Sort tasksArray based on some criteria, like creationDate
+//                 tasksArray.sort((a, b) => a.creationDate - b.creationDate)
 
-                // Update task IDs and create a new tasksArray with updated IDs
-                const updatedTasksArray = tasksArray.map((task, index) => {
-                    const updatedTask = { ...task, id: index.toString() }
-                    return updatedTask
-                })
+//                 // Update task IDs and create a new tasksArray with updated IDs
+//                 const updatedTasksArray = tasksArray.map((task, index) => {
+//                     const updatedTask = { ...task, id: index.toString() }
+//                     return updatedTask
+//                 })
 
-                // Update the tasksArray in Firestore
-                const updateData = {
-                    tasksArray: updatedTasksArray,
-                }
+//                 // Update the tasksArray in Firestore
+//                 const updateData = {
+//                     tasksArray: updatedTasksArray,
+//                 }
 
-                try {
-                    await updateDoc(userDocRef, updateData)
-                    console.log('Updated task IDs in Firestore!')
-                } catch (error) {
-                    console.log('Error updating task IDs:', error)
-                }
-            }
-        }
-    }
-}
+//                 try {
+//                     await updateDoc(userDocRef, updateData)
+//                     console.log('Updated task IDs in Firestore!')
+//                 } catch (error) {
+//                     console.log('Error updating task IDs:', error)
+//                 }
+//             }
+//         }
+//     }
+// }
 
 export async function saveEditsToDB(task: any) {
     try {

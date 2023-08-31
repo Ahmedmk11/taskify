@@ -12,15 +12,7 @@ const { Option } = Select
 import { Task } from '../../app/Task'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import {
-    addNewTaskToCurrentUser,
-    deleteTaskFromUser,
-    readUserDataFromDb,
-    saveEditsToDB,
-    updateCurrentUserDocument,
-    updateTaskCategories,
-    updateTasksArrayIds,
-} from '../../firebase'
+import { readUserDataFromDb, updateCurrentUserDocument } from '../../firebase'
 
 import { parseDateFromString } from '../../app/Functions'
 import dayjs from 'dayjs'
@@ -199,7 +191,10 @@ function EditCard(props: EditCardProps) {
     }
 
     return (
-        <div className="card" style={{ cursor: 'default' }}>
+        <div
+            className="card"
+            style={{ cursor: 'default', paddingBottom: '20px' }}
+        >
             <div
                 className={`card-container card-input ${intermediatePriority}-priority`}
             >

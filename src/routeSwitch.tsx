@@ -12,6 +12,7 @@ import TermsAndConditions from './views/pages/TermsAndConditions'
 import Task from './views/pages/Task'
 import PrivateRoute from './PrivateRoute'
 import ForgotPassword from './views/pages/ForgotPassword'
+import CategoriesPage from './views/pages/CategoriesPage'
 
 const RouteSwitch = () => {
     const location = useLocation()
@@ -67,6 +68,14 @@ const RouteSwitch = () => {
                 element={
                     <PrivateRoute>
                         <CalendarPage />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path="/my-categories"
+                element={
+                    <PrivateRoute>
+                        <CategoriesPage />
                     </PrivateRoute>
                 }
             />

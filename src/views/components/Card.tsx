@@ -23,7 +23,8 @@ import {
     EditOutlined,
 } from '@ant-design/icons'
 import type { DatePickerProps, MenuProps } from 'antd'
-import { format, set } from 'date-fns'
+
+import { v4 as uuidv4 } from 'uuid'
 
 const { Option } = Select
 
@@ -38,7 +39,6 @@ import {
     saveEditsToDB,
     updateCurrentUserDocument,
     updateTaskCategories,
-    updateTasksArrayIds,
 } from '../../firebase'
 
 import todoIcn from '../../assets/icons/todo.svg'
@@ -56,44 +56,24 @@ type CardProps = {
 
 function Card(props: CardProps) {
     const { type, task } = props
-    let id = ''
-    let title = ''
-    let desc = ''
-    let categories = []
-    let dueDate = ''
-    let priority = ''
-    let status = ''
 
-    if (task) {
-        if ('id' in task && 'title' in task && 'desc' in task) {
-            id = task.id
-            title = task.title
-            desc = task.desc
-        }
-
-        if ('categories' in task) {
-            categories = task.categories
-        }
-
-        if ('dueDate' in task) {
-            dueDate = task.dueDate
-        }
-
-        if ('priority' in task) {
-            priority = task.priority
-        }
-
-        if ('status' in task) {
-            status = task.status
-        }
-    }
+    const [id, setId] = useState(task?.id ? task?.id : '')
+    const [title, setTitle] = useState(task?.title ? task?.title : '')
+    const [desc, setDesc] = useState(task?.desc ? task?.desc : '')
+    const [categories, setCategories] = useState<string[]>(
+        task?.categories ? task?.categories : []
+    )
+    const [dueDate, setDueDate] = useState(task?.dueDate ? task?.dueDate : '')
+    const [priority, setPriority] = useState(
+        task?.priority ? task?.priority : ''
+    )
+    const [status, setStatus] = useState(task?.status ? task?.status : '')
 
     const [user, setUser] = useState(null as unknown as User)
-    const tasks = user ? user.taskArray : []
+    let tasks = user ? user.taskArray : []
     const [userCategories, setUserCategories] = useState<string[]>([])
 
-    const [selectedCategories, setSelectedCategories] =
-        useState<string[]>(categories)
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([])
 
     const [titleInput, setTitleInput] = useState('')
     const [descInput, setDescInput] = useState('')
@@ -148,7 +128,7 @@ function Card(props: CardProps) {
     }
 
     const handleModalSave = async () => {
-        const taskId = currentTaskSettings?.split('-').pop() ?? ''
+        const taskId = currentTaskSettings?.split('container-').pop() ?? ''
         const edittedTask = {
             id: taskId,
             title: intermediateTitle,
@@ -159,6 +139,52 @@ function Card(props: CardProps) {
         }
         await saveEditsToDB(edittedTask)
         setIsEdit(false)
+
+        if (intermediateTitle) {
+            setTitle(intermediateTitle)
+        }
+
+        if (intermediateDesc) {
+            setDesc(intermediateDesc)
+        }
+
+        if (intermediateCategories[0]) {
+            setCategories(intermediateCategories)
+        }
+
+        if (intermediateDate) {
+            setDueDate(intermediateDate)
+        }
+
+        if (intermediatePriority) {
+            setPriority(intermediatePriority)
+        }
+
+        const updatedArray = tasks.map((task) => {
+            if (task.id === taskId) {
+                if (intermediateTitle) {
+                    task.title = intermediateTitle
+                }
+
+                if (intermediateDesc) {
+                    task.desc = intermediateDesc
+                }
+
+                if (intermediateCategories[0]) {
+                    task.categories = intermediateCategories
+                }
+
+                if (intermediateDate) {
+                    task.dueDate = intermediateDate
+                }
+
+                if (intermediatePriority) {
+                    task.priority = intermediatePriority
+                }
+            }
+            return task
+        })
+        tasks = updatedArray
     }
 
     const handleModalCancel = () => {
@@ -285,8 +311,10 @@ function Card(props: CardProps) {
             default:
                 newStatus = 'todo'
         }
+
+        const genID: string = uuidv4()
         const newTask = new Task(
-            `${tasks.length}`,
+            `${genID}`,
             title.value,
             desc.value,
             priorityInput,
@@ -311,23 +339,26 @@ function Card(props: CardProps) {
 
     const saveSettingsCardInfo = (ev: any) => {
         setCurrentTaskSettings(ev.target.closest('.draggable-card').id)
+        console.log(currentTaskSettings)
+        console.log(ev.target.closest('.draggable-card').id)
     }
 
     async function deleteCard() {
+        console.log('idddd', id)
         const container = document.getElementById(currentTaskSettings)
+        console.log(currentTaskSettings)
         container!.classList.remove('show-pop')
         container!.classList.add('hide-pop')
         setTimeout(() => {
             container!.remove()
         }, 300)
         showMessage()
-        // await deleteTaskFromUser(id)
-        // await updateTasksArrayIds()
-        // if (window.location.href.includes('task')) {
-        //     window.location.href = '/'
-        // } else {
-        //     window.location.reload()
-        // }
+        await deleteTaskFromUser(id)
+        if (window.location.href.includes('task')) {
+            window.location.href = '/'
+        } else {
+            window.location.reload()
+        }
     }
 
     function editCard(): void {
@@ -447,7 +478,11 @@ function Card(props: CardProps) {
             className={isExpanded ? 'card expanded' : 'card'}
             id={type !== 'task' ? '' : id}
             style={
-                type === 'task' ? { cursor: 'pointer' } : { cursor: 'default' }
+                type === 'task' &&
+                (window.location.pathname == '/home' ||
+                    window.location.pathname == '/')
+                    ? { cursor: 'grab' }
+                    : { cursor: 'default' }
             }
         >
             <div
@@ -677,7 +712,8 @@ function Card(props: CardProps) {
                 <EditCard
                     task={tasks.find(
                         (task) =>
-                            task.id == currentTaskSettings.split('-').pop()
+                            task.id ==
+                            currentTaskSettings.split('container-').pop()
                     )}
                     type="modal"
                 />
