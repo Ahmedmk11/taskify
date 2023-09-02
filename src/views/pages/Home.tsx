@@ -66,78 +66,79 @@ function Home() {
     }
 
     useEffect(() => {
-        const cols = tasks.filter((task, index) => {
-            const dueDate = parseDateFromString(task.dueDate)
-            console.log(appliedFilters.priorityFilter)
-
-            let dueDateDay
-            let dueDateMonth
-            let dueDateYear
-            let startDay
-            let startMonth
-            let startYear
-            let endDay
-            let endMonth
-            let endYear
-
-            if (appliedFilters.dateFilter?.length !== 0) {
+        try {
+            const cols = tasks.filter((task, index) => {
                 const dueDate = parseDateFromString(task.dueDate)
-                const startDate = appliedFilters.dateFilter![0]
-                const endDate = appliedFilters.dateFilter![1]
+                console.log(appliedFilters.priorityFilter)
 
-                dueDateDay = dueDate.getDate()
-                dueDateMonth = dueDate.getMonth()
-                dueDateYear = dueDate.getFullYear()
+                let dueDateDay
+                let dueDateMonth
+                let dueDateYear
+                let startDay
+                let startMonth
+                let startYear
+                let endDay
+                let endMonth
+                let endYear
 
-                startDay = startDate.getDate()
-                startMonth = startDate.getMonth()
-                startYear = startDate.getFullYear()
+                if (appliedFilters.dateFilter?.length !== 0) {
+                    const dueDate = parseDateFromString(task.dueDate)
+                    const startDate = appliedFilters.dateFilter![0]
+                    const endDate = appliedFilters.dateFilter![1]
 
-                endDay = endDate.getDate()
-                endMonth = endDate.getMonth()
-                endYear = endDate.getFullYear()
-            }
+                    dueDateDay = dueDate.getDate()
+                    dueDateMonth = dueDate.getMonth()
+                    dueDateYear = dueDate.getFullYear()
 
-            const isCategoryFiltered =
-                appliedFilters.categoryFilter!.length === 0 ||
-                task.categories.some((category: string) =>
-                    appliedFilters.categoryFilter!.includes(category)
+                    startDay = startDate.getDate()
+                    startMonth = startDate.getMonth()
+                    startYear = startDate.getFullYear()
+
+                    endDay = endDate.getDate()
+                    endMonth = endDate.getMonth()
+                    endYear = endDate.getFullYear()
+                }
+
+                const isCategoryFiltered =
+                    appliedFilters.categoryFilter!.length === 0 ||
+                    task.categories.some((category: string) =>
+                        appliedFilters.categoryFilter!.includes(category)
+                    )
+
+                const isDateFiltered =
+                    appliedFilters.dateFilter!.length === 0 ||
+                    !appliedFilters.dateFilter ||
+                    appliedFilters.dateFilter.length === 0 ||
+                    ((dueDateYear! > startYear! ||
+                        (dueDateYear! === startYear! &&
+                            (dueDateMonth! > startMonth! ||
+                                (dueDateMonth! === startMonth! &&
+                                    dueDateDay! >= startDay!)))) &&
+                        (dueDateYear! < endYear! ||
+                            (dueDateYear! === endYear! &&
+                                (dueDateMonth! < endMonth! ||
+                                    (dueDateMonth! === endMonth! &&
+                                        dueDateDay! <= endDay!)))))
+
+                const isPriorityFiltered =
+                    appliedFilters.priorityFilter!.length === 0 ||
+                    appliedFilters.priorityFilter!.includes(
+                        task.priority.charAt(0).toUpperCase() +
+                            task.priority.slice(1)
+                    )
+
+                return (
+                    (!appliedFilters.categoryFilter ||
+                        appliedFilters.categoryFilter.length === 0 ||
+                        isCategoryFiltered) &&
+                    isDateFiltered &&
+                    (!appliedFilters.priorityFilter ||
+                        appliedFilters.priorityFilter.length === 0 ||
+                        isPriorityFiltered)
                 )
-
-            const isDateFiltered =
-                appliedFilters.dateFilter!.length === 0 ||
-                !appliedFilters.dateFilter ||
-                appliedFilters.dateFilter.length === 0 ||
-                ((dueDateYear! > startYear! ||
-                    (dueDateYear! === startYear! &&
-                        (dueDateMonth! > startMonth! ||
-                            (dueDateMonth! === startMonth! &&
-                                dueDateDay! >= startDay!)))) &&
-                    (dueDateYear! < endYear! ||
-                        (dueDateYear! === endYear! &&
-                            (dueDateMonth! < endMonth! ||
-                                (dueDateMonth! === endMonth! &&
-                                    dueDateDay! <= endDay!)))))
-
-            const isPriorityFiltered =
-                appliedFilters.priorityFilter!.length === 0 ||
-                appliedFilters.priorityFilter!.includes(
-                    task.priority.charAt(0).toUpperCase() +
-                        task.priority.slice(1)
-                )
-
-            return (
-                (!appliedFilters.categoryFilter ||
-                    appliedFilters.categoryFilter.length === 0 ||
-                    isCategoryFiltered) &&
-                isDateFiltered &&
-                (!appliedFilters.priorityFilter ||
-                    appliedFilters.priorityFilter.length === 0 ||
-                    isPriorityFiltered)
-            )
-        })
-
-        setFilteredTasks(cols)
+            })
+            setFilteredTasks(cols)
+        } catch {}
     }, [appliedFilters])
 
     const observer = new MutationObserver((mutationsList) => {
@@ -201,31 +202,45 @@ function Home() {
     }
 
     const showFilters = () => {
-        document.getElementById('filters-container')?.classList.toggle('show-filters')
+        document
+            .getElementById('filters-container')
+            ?.classList.toggle('show-filters')
     }
 
     const hideFilters = () => {
-        document.getElementById('filters-container')?.classList.toggle('show-filters')
+        document
+            .getElementById('filters-container')
+            ?.classList.toggle('show-filters')
     }
 
     const handleDragEnd = (result: any) => {
         if (!result.destination) {
-            return;
+            return
         }
-        const sourceIndex = result.source.index;
-        const destinationIndex = result.destination.index;
-        const sourceColumnId = result.source.droppableId;
-        const destinationColumnId = result.destination.droppableId;
-        const draggedTask = filteredTasks[sourceIndex];
-        const updatedFilteredTasks = [...filteredTasks];
-        updatedFilteredTasks.splice(sourceIndex, 1);
-        updatedFilteredTasks.splice(destinationIndex, 0, draggedTask);
-        const taskIndex = tasks.findIndex((task) => task.id === draggedTask.id);
-        const updatedTasks = [...tasks];
-        updatedTasks[taskIndex].status = destinationColumnId;
-        setFilteredTasks(updatedFilteredTasks);
-        setTasks(updatedTasks);
-    };
+        const sourceIndex = result.source.index
+        const destinationIndex = result.destination.index
+        const sourceColumnId = result.source.droppableId
+        const destinationColumnId = result.destination.droppableId
+        const draggedTask = filteredTasks[sourceIndex]
+        const updatedFilteredTasks = [...filteredTasks]
+        updatedFilteredTasks.splice(sourceIndex, 1)
+
+        const firstTaskInDestinationColumnIndex =
+            updatedFilteredTasks.findIndex(
+                (task) => task.status === destinationColumnId
+            )
+
+        const newDestinationIndex =
+            firstTaskInDestinationColumnIndex + destinationIndex
+
+        updatedFilteredTasks.splice(newDestinationIndex, 0, draggedTask)
+
+        const taskIndex = tasks.findIndex((task) => task.id === draggedTask.id)
+        const updatedTasks = [...tasks]
+        updatedTasks[taskIndex].status = destinationColumnId
+        setFilteredTasks(updatedFilteredTasks)
+        setTasks(updatedTasks)
+    }
 
     return (
         <div id="home-body">
@@ -244,33 +259,30 @@ function Home() {
                         />
                         <DragDropContext onDragEnd={handleDragEnd}>
                             <div id="columns-container">
-                                <Droppable
-                                    droppableId="todo"
-                                    direction="vertical"
-                                >
-                                    {(provided) => (
-                                        <div
-                                            id="col-1"
-                                            className="column"
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                        >
-                                            <div className="cards-status">
-                                                <p>Todo</p>
-                                                <div className="image-container">
-                                                    <img
-                                                        onClick={() => {
-                                                            createCardPop(
-                                                                'col-1'
-                                                            )
-                                                            setIsCol1Input(true)
-                                                        }}
-                                                        src={plusIcn}
-                                                        alt="plus icon"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="cards">
+                                <div id="col-1" className="column">
+                                    <div className="cards-status">
+                                        <p>Todo</p>
+                                        <div className="image-container">
+                                            <img
+                                                onClick={() => {
+                                                    createCardPop('col-1')
+                                                    setIsCol1Input(true)
+                                                }}
+                                                src={plusIcn}
+                                                alt="plus icon"
+                                            />
+                                        </div>
+                                    </div>
+                                    <Droppable
+                                        droppableId="todo"
+                                        direction="vertical"
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                className="cards"
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps}
+                                            >
                                                 {isLoading ? (
                                                     <>
                                                         <Skeleton active />
@@ -329,36 +341,34 @@ function Home() {
                                                     style={{ height: '30px' }}
                                                 ></div>
                                             </div>
+                                        )}
+                                    </Droppable>
+                                </div>
+
+                                <div id="col-2" className="column">
+                                    <div className="cards-status">
+                                        <p>In Progress</p>
+                                        <div className="image-container">
+                                            <img
+                                                onClick={() => {
+                                                    createCardPop('col-2')
+                                                    setIsCol2Input(true)
+                                                }}
+                                                src={plusIcn}
+                                                alt="plus icon"
+                                            />
                                         </div>
-                                    )}
-                                </Droppable>
-                                <Droppable
-                                    droppableId="inprogress"
-                                    direction="vertical"
-                                >
-                                    {(provided) => (
-                                        <div
-                                            id="col-2"
-                                            className="column"
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                        >
-                                            <div className="cards-status">
-                                                <p>In Progress</p>
-                                                <div className="image-container">
-                                                    <img
-                                                        onClick={() => {
-                                                            createCardPop(
-                                                                'col-2'
-                                                            )
-                                                            setIsCol2Input(true)
-                                                        }}
-                                                        src={plusIcn}
-                                                        alt="plus icon"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="cards">
+                                    </div>
+                                    <Droppable
+                                        droppableId="inprogress"
+                                        direction="vertical"
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                className="cards"
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps}
+                                            >
                                                 {isLoading ? (
                                                     <>
                                                         <Skeleton active />
@@ -419,36 +429,34 @@ function Home() {
                                                     style={{ height: '30px' }}
                                                 ></div>
                                             </div>
+                                        )}
+                                    </Droppable>
+                                </div>
+
+                                <div id="col-3" className="column">
+                                    <div className="cards-status">
+                                        <p>Done</p>
+                                        <div className="image-container">
+                                            <img
+                                                onClick={() => {
+                                                    createCardPop('col-3')
+                                                    setIsCol3Input(true)
+                                                }}
+                                                src={plusIcn}
+                                                alt="plus icon"
+                                            />
                                         </div>
-                                    )}
-                                </Droppable>
-                                <Droppable
-                                    droppableId="done"
-                                    direction="vertical"
-                                >
-                                    {(provided) => (
-                                        <div
-                                            id="col-3"
-                                            className="column"
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                        >
-                                            <div className="cards-status">
-                                                <p>Done</p>
-                                                <div className="image-container">
-                                                    <img
-                                                        onClick={() => {
-                                                            createCardPop(
-                                                                'col-3'
-                                                            )
-                                                            setIsCol3Input(true)
-                                                        }}
-                                                        src={plusIcn}
-                                                        alt="plus icon"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className="cards">
+                                    </div>
+                                    <Droppable
+                                        droppableId="done"
+                                        direction="vertical"
+                                    >
+                                        {(provided) => (
+                                            <div
+                                                className="cards"
+                                                ref={provided.innerRef}
+                                                {...provided.droppableProps}
+                                            >
                                                 {isLoading ? (
                                                     <>
                                                         <Skeleton active />
@@ -507,9 +515,9 @@ function Home() {
                                                     style={{ height: '30px' }}
                                                 ></div>
                                             </div>
-                                        </div>
-                                    )}
-                                </Droppable>
+                                        )}
+                                    </Droppable>
+                                </div>
                             </div>
                         </DragDropContext>
                     </div>

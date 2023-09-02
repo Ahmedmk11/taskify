@@ -263,10 +263,6 @@ function Card(props: CardProps) {
         return new Intl.DateTimeFormat('en-GB', options).format(date)
     }
 
-    if (isLoading && type == 'task') {
-        return <Skeleton />
-    }
-
     function saveCard(ev: any) {
         const title = document.getElementById(
             'text-area-title'
@@ -513,217 +509,227 @@ function Card(props: CardProps) {
                         : `card-container ${priority}-priority`
                 }
             >
-                <div className="card-info-settings">
-                    {
-                        <div
-                            style={type !== 'task' ? { width: '100%' } : {}}
-                            className="card-categories"
-                        >
-                            {type !== 'task' ? (
-                                <Select
-                                    className="category-input"
-                                    mode="multiple"
-                                    placeholder="Select categories"
-                                    dropdownRender={handleDropdownRender}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            e.preventDefault()
-                                        }
-                                    }}
-                                    value={selectedCategories}
-                                    onChange={handleSelectChange}
-                                    style={{ width: '100% !important' }}
+                {isLoading ? (
+                    <Skeleton active></Skeleton>
+                ) : (
+                    <>
+                        <div className="card-info-settings">
+                            {
+                                <div
+                                    style={
+                                        type !== 'task' ? { width: '100%' } : {}
+                                    }
+                                    className="card-categories"
                                 >
-                                    {userCategories.map(
-                                        (
-                                            category // here
-                                        ) => (
-                                            <Option
-                                                key={category}
-                                                value={category}
-                                            >
-                                                {category}
-                                            </Option>
-                                        )
-                                    )}
-                                </Select>
-                            ) : categories.length > 0 ? (
-                                isExpanded ? (
-                                    categories.map((category: any) => (
-                                        <div
-                                            className="category no-pointer"
-                                            key={category}
+                                    {type !== 'task' ? (
+                                        <Select
+                                            className="category-input"
+                                            mode="multiple"
+                                            placeholder="Select categories"
+                                            dropdownRender={
+                                                handleDropdownRender
+                                            }
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    e.preventDefault()
+                                                }
+                                            }}
+                                            value={selectedCategories}
+                                            onChange={handleSelectChange}
+                                            style={{ width: '100% !important' }}
                                         >
-                                            {category}
+                                            {userCategories.map(
+                                                (
+                                                    category // here
+                                                ) => (
+                                                    <Option
+                                                        key={category}
+                                                        value={category}
+                                                    >
+                                                        {category}
+                                                    </Option>
+                                                )
+                                            )}
+                                        </Select>
+                                    ) : categories.length > 0 ? (
+                                        isExpanded ? (
+                                            categories.map((category: any) => (
+                                                <div
+                                                    className="category no-pointer"
+                                                    key={category}
+                                                >
+                                                    {category}
+                                                </div>
+                                            ))
+                                        ) : (
+                                            categories
+                                                .slice(0, 2)
+                                                .map((category: any) => (
+                                                    <div
+                                                        className="category no-pointer"
+                                                        key={category}
+                                                    >
+                                                        {category}
+                                                    </div>
+                                                ))
+                                        )
+                                    ) : (
+                                        <div className="category no-categories">
+                                            No categories yet
                                         </div>
-                                    ))
-                                ) : (
-                                    categories
-                                        .slice(0, 2)
-                                        .map((category: any) => (
-                                            <div
-                                                className="category no-pointer"
-                                                key={category}
-                                            >
-                                                {category}
-                                            </div>
-                                        ))
-                                )
-                            ) : (
-                                <div className="category no-categories">
-                                    No categories yet
+                                    )}
+                                </div>
+                            }
+
+                            {type !== 'task' ? null : (
+                                <div className="card-settings">
+                                    <Dropdown
+                                        menu={{ items: menu }}
+                                        trigger={['click']}
+                                    >
+                                        <span>
+                                            <EllipsisOutlined
+                                                onClick={(e) => {
+                                                    saveSettingsCardInfo(e)
+                                                }}
+                                                style={{ fontSize: '24px' }}
+                                            />
+                                        </span>
+                                    </Dropdown>
                                 </div>
                             )}
                         </div>
-                    }
-
-                    {type !== 'task' ? null : (
-                        <div className="card-settings">
-                            <Dropdown
-                                menu={{ items: menu }}
-                                trigger={['click']}
+                        <div className="card-body">
+                            <div
+                                className={
+                                    type !== 'task'
+                                        ? 'popup-newtask-title card-title'
+                                        : 'card-title'
+                                }
                             >
-                                <span>
-                                    <EllipsisOutlined
-                                        onClick={(e) => {
-                                            saveSettingsCardInfo(e)
+                                {type !== 'task' ? (
+                                    <textarea
+                                        rows={1}
+                                        id="text-area-title"
+                                        className="textarea-new-task-title text-area-title"
+                                        placeholder="Title"
+                                        onKeyUp={resizeTextarea.bind(
+                                            null,
+                                            'text-area-title'
+                                        )}
+                                        data-resizable="true"
+                                        maxLength={50}
+                                        value={titleInput}
+                                        onChange={(e) => {
+                                            setTitleInput(e.target.value)
                                         }}
-                                        style={{ fontSize: '24px' }}
                                     />
-                                </span>
-                            </Dropdown>
-                        </div>
-                    )}
-                </div>
-                <div className="card-body">
-                    <div
-                        className={
-                            type !== 'task'
-                                ? 'popup-newtask-title card-title'
-                                : 'card-title'
-                        }
-                    >
-                        {type !== 'task' ? (
-                            <textarea
-                                rows={1}
-                                id="text-area-title"
-                                className="textarea-new-task-title text-area-title"
-                                placeholder="Title"
-                                onKeyUp={resizeTextarea.bind(
-                                    null,
-                                    'text-area-title'
+                                ) : (
+                                    title
                                 )}
-                                data-resizable="true"
-                                maxLength={50}
-                                value={titleInput}
-                                onChange={(e) => {
-                                    setTitleInput(e.target.value)
-                                }}
-                            />
-                        ) : (
-                            title
-                        )}
-                    </div>
-                    {type !== 'task' ? (
-                        <div className="card-description">
-                            <textarea
-                                id="text-area-desc"
-                                className="textarea-new-task-desc text-area-new-desc"
-                                placeholder="Description"
-                                onKeyUp={resizeTextarea.bind(
-                                    null,
-                                    'text-area-desc'
-                                )}
-                                data-resizable="true"
-                                value={descInput}
-                                onChange={(e) => {
-                                    setDescInput(e.target.value)
-                                }}
-                                rows={2}
-                            />
-                        </div>
-                    ) : (
-                        <div className="card-description">{desc}</div>
-                    )}
-                </div>
-                <div className="card-bottom">
-                    {type !== 'task' ? (
-                        <Space className="card-bottom-space">
-                            <Space direction="vertical">
-                                <DatePicker
-                                    id="date-picker-ad"
-                                    placeholder="Due date"
-                                    style={{ width: 140 }}
-                                    value={dayjs(
-                                        parseDateFromString(dateInput)
-                                    )}
-                                    onChange={onDateInput}
-                                />
-                            </Space>
-                            <Select
-                                id="select-ad"
-                                placeholder="Priority"
-                                style={{ width: 140 }}
-                                value={priorityInput}
-                                onChange={handlePriorityChange}
-                            >
-                                <Option value="default">Default</Option>
-                                <Option value="low">Low</Option>
-                                <Option value="medium">Medium</Option>
-                                <Option value="high">High</Option>
-                            </Select>
-                        </Space>
-                    ) : (
-                        <div className="border">
-                            <img src={dateIcn} alt="date icon" />
-                            <p>
-                                Due to: <span>{dueDate}</span>
-                            </p>
-                        </div>
-                    )}
-                </div>
-                <div className="card-bottom-bottom">
-                    {type !== 'task' ? (
-                        <Space wrap>
-                            <Button
-                                onClick={(e) => {
-                                    cancelCard(e)
-                                }}
-                                danger
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                onClick={(e) => {
-                                    saveCard(e)
-                                }}
-                                className="default-priority-btn"
-                                id="save-input-btn"
-                            >
-                                Save
-                            </Button>
-                        </Space>
-                    ) : (
-                        <Space
-                            className="read-more"
-                            onClick={() => {
-                                type !== 'task' ? null : expand()
-                            }}
-                            wrap
-                        >
-                            {status === 'todo' ? (
-                                <TodoIcon />
-                            ) : status === 'inprogress' ? (
-                                <InprogressIcon />
+                            </div>
+                            {type !== 'task' ? (
+                                <div className="card-description">
+                                    <textarea
+                                        id="text-area-desc"
+                                        className="textarea-new-task-desc text-area-new-desc"
+                                        placeholder="Description"
+                                        onKeyUp={resizeTextarea.bind(
+                                            null,
+                                            'text-area-desc'
+                                        )}
+                                        data-resizable="true"
+                                        value={descInput}
+                                        onChange={(e) => {
+                                            setDescInput(e.target.value)
+                                        }}
+                                        rows={2}
+                                    />
+                                </div>
                             ) : (
-                                <DoneIcon />
+                                <div className="card-description">{desc}</div>
                             )}
-                            <Button type="link">
-                                {isExpanded ? 'Read less' : 'Read more'}
-                            </Button>
-                        </Space>
-                    )}
-                </div>
+                        </div>
+                        <div className="card-bottom">
+                            {type !== 'task' ? (
+                                <Space className="card-bottom-space">
+                                    <Space direction="vertical">
+                                        <DatePicker
+                                            id="date-picker-ad"
+                                            placeholder="Due date"
+                                            style={{ width: 140 }}
+                                            value={dayjs(
+                                                parseDateFromString(dateInput)
+                                            )}
+                                            onChange={onDateInput}
+                                        />
+                                    </Space>
+                                    <Select
+                                        id="select-ad"
+                                        placeholder="Priority"
+                                        style={{ width: 140 }}
+                                        value={priorityInput}
+                                        onChange={handlePriorityChange}
+                                    >
+                                        <Option value="default">Default</Option>
+                                        <Option value="low">Low</Option>
+                                        <Option value="medium">Medium</Option>
+                                        <Option value="high">High</Option>
+                                    </Select>
+                                </Space>
+                            ) : (
+                                <div className="border">
+                                    <img src={dateIcn} alt="date icon" />
+                                    <p>
+                                        Due to: <span>{dueDate}</span>
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        <div className="card-bottom-bottom">
+                            {type !== 'task' ? (
+                                <Space wrap>
+                                    <Button
+                                        onClick={(e) => {
+                                            cancelCard(e)
+                                        }}
+                                        danger
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        onClick={(e) => {
+                                            saveCard(e)
+                                        }}
+                                        className="default-priority-btn"
+                                        id="save-input-btn"
+                                    >
+                                        Save
+                                    </Button>
+                                </Space>
+                            ) : (
+                                <Space
+                                    className="read-more"
+                                    onClick={() => {
+                                        type !== 'task' ? null : expand()
+                                    }}
+                                    wrap
+                                >
+                                    {status === 'todo' ? (
+                                        <TodoIcon />
+                                    ) : status === 'inprogress' ? (
+                                        <InprogressIcon />
+                                    ) : (
+                                        <DoneIcon />
+                                    )}
+                                    <Button type="link">
+                                        {isExpanded ? 'Read less' : 'Read more'}
+                                    </Button>
+                                </Space>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
             <Modal
                 title="Edit Task"
