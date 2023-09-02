@@ -28,11 +28,10 @@ import { hydrateRoot } from 'react-dom/client'
 import { Skeleton } from 'antd'
 import { parseDateFromString } from '../../app/Functions'
 
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+
 function Home() {
-    const [isVisible, setIsVisible] = useState(false)
     const [user, setUser] = useState(null as unknown as User)
-    const [userUID, setUserUID] = useState('')
-    const [oldColumn, setOldColumn] = useState('')
     const [isLoading, setIsLoading] = useState(true)
 
     const [isCol1Input, setIsCol1Input] = useState(false)
@@ -41,10 +40,6 @@ function Home() {
 
     const [filteredTasks, setFilteredTasks] = useState<any[]>([])
 
-    const [col1Tasks, setCol1Tasks] = useState<any[]>([])
-    const [col2Tasks, setCol2Tasks] = useState<any[]>([])
-    const [col3Tasks, setCol3Tasks] = useState<any[]>([])
-
     const [appliedFilters, setAppliedFilters] = useState({
         categoryFilter: null as string[] | null,
         dateFilter: null as Date[] | null,
@@ -52,7 +47,6 @@ function Home() {
     })
 
     const [tasks, setTasks] = useState(user ? user.taskArray : [])
-    const [firstReload, setFirstReload] = useState(true)
     const location = useLocation()
 
     async function fetchUserData() {
@@ -62,7 +56,6 @@ function Home() {
                 const userData = await readUserDataFromDb(
                     getAuth().currentUser!.uid
                 )
-                setUserUID(getAuth().currentUser!.uid)
                 console.log(userData)
                 setUser(userData!)
                 setIsLoading(false)
@@ -87,7 +80,7 @@ function Home() {
             let endMonth
             let endYear
 
-            if (appliedFilters.dateFilter!.length !== 0) {
+            if (appliedFilters.dateFilter?.length !== 0) {
                 const dueDate = parseDateFromString(task.dueDate)
                 const startDate = appliedFilters.dateFilter![0]
                 const endDate = appliedFilters.dateFilter![1]
@@ -165,31 +158,6 @@ function Home() {
         }
     })
 
-    // useEffect(() => {
-    //     try {
-    //         onSnapshot(doc(db, 'users', userUID), (doc) => {
-    //             if (tasks.length == 0) {
-    //                 console.log('reload: ', doc.data())
-    //             let t = [] as Task[]
-    //             doc.data()!.tasksArray.forEach((task: any) => {
-    //                 let tmp = new Task(
-    //                     task.id,
-    //                     task.title,
-    //                     task.desc,
-    //                     task.priority,
-    //                     task.dueDate
-    //                 )
-    //                 tmp.updateCategories(task.categories)
-    //                 t.push(tmp)
-    //             })
-    //             setTasks(t)
-    //             }
-    //         })
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }, [userUID])
-
     useEffect(() => {
         async function fetchData() {
             await fetchUserData()
@@ -200,17 +168,6 @@ function Home() {
     }, [])
 
     useEffect(() => {
-        const hideFiltersContainer = () => {
-            const filtersContainer =
-                document.getElementById('filters-container')
-            if (filtersContainer) {
-                filtersContainer.classList.add('visibility-hidden')
-            }
-        }
-        hideFiltersContainer()
-    }, [user])
-
-    useEffect(() => {
         if (location.state?.createCardPop) {
             createCardPop()
         }
@@ -218,10 +175,6 @@ function Home() {
 
     const handleFiltersUpdate = (filters: any) => {
         setAppliedFilters(filters)
-    }
-
-    function allowDrop(ev: any) {
-        ev.preventDefault()
     }
 
     function createCardPop(col = 'col-1') {
@@ -248,117 +201,31 @@ function Home() {
     }
 
     const showFilters = () => {
-        setIsVisible(!isVisible)
-        document
-            .getElementById('filters-container')
-            ?.classList.remove('visibility-hidden')
-        if (isVisible) {
-            setTimeout(() => {
-                document
-                    .getElementById('filters-container')
-                    ?.classList.add('visibility-hidden')
-            }, 300)
-        }
+        document.getElementById('filters-container')?.classList.toggle('show-filters')
     }
 
     const hideFilters = () => {
-        setIsVisible(false)
-        setTimeout(() => {
-            document
-                .getElementById('filters-container')
-                ?.classList.add('visibility-hidden')
-        }, 300)
+        document.getElementById('filters-container')?.classList.toggle('show-filters')
     }
 
-    async function drop(ev: any) {
-        ev.preventDefault()
-        const data = ev.dataTransfer.getData('text')
-        const draggedElement = document.getElementById(data)
-        const targetColumn = ev.target.closest('.column')
-        const targetCardsContainer = targetColumn.querySelector('.cards')
-        const targetCard = ev.target.closest('[class^="draggable-card"]')
-        if (targetCard) {
-            const targetCardRect = targetCard.getBoundingClientRect()
-            const dropPosition = ev.clientY
-            if (dropPosition < targetCardRect.top + targetCardRect.height / 2) {
-                targetCardsContainer.insertBefore(draggedElement, targetCard)
-            } else {
-                targetCardsContainer.insertBefore(
-                    draggedElement,
-                    targetCard.nextSibling
-                )
-            }
-        } else {
-            targetCardsContainer.insertBefore(
-                draggedElement,
-                targetColumn.querySelector('.empty-div')
-            )
+    const handleDragEnd = (result: any) => {
+        if (!result.destination) {
+            return;
         }
-        const targetColumnID = targetColumn.id
-        let newStatus = ''
-        const taskID = (draggedElement?.childNodes[0] as HTMLElement).id
-        const task = tasks.find((task) => task.id == taskID)
-        switch (targetColumnID) {
-            case 'col-1':
-                newStatus = 'todo'
-                document
-                    .getElementById('col1-msg')
-                    ?.setAttribute('style', 'display: none;')
-                break
-            case 'col-2':
-                newStatus = 'inprogress'
-                document
-                    .getElementById('col2-msg')
-                    ?.setAttribute('style', 'display: none;')
-                break
-            case 'col-3':
-                newStatus = 'done'
-                document
-                    .getElementById('col3-msg')
-                    ?.setAttribute('style', 'display: none;')
-                break
-            default:
-                newStatus = 'todo'
-                document
-                    .getElementById('col1-msg')
-                    ?.setAttribute('style', 'display: none;')
-                break
-        }
-        if (task) {
-            updateTaskStatus(task.id, newStatus)
-            console.log('hhh', task)
-            console.log('hhh', newStatus)
-            task.status = newStatus
-        }
-        await reorderTasks()
-        window.location.reload()
-    }
-
-    function drag(ev: any) {
-        const target = ev.target.closest('[class^="draggable-card"]')
-        ev.dataTransfer.setData('text', target.id)
-        setOldColumn(target.parentElement.parentElement.id)
-    }
-
-    async function reorderTasks() {
-        // const columns = document.querySelectorAll('.column')
-        // const updatedTasks: Task[] = []
-        // columns.forEach((column: Element) => {
-        //     const cardContainers = column.querySelectorAll('.draggable-card')
-        //     cardContainers.forEach((cardContainer: Element) => {
-        //         const taskId = cardContainer.querySelector('.card')?.id
-        //         if (taskId) {
-        //             const task = tasks.find((task) => task.id === taskId)
-        //             if (task) {
-        //                 updatedTasks.push(task)
-        //             }
-        //         }
-        //     })
-        // })
-        // console.log(updatedTasks)
-        // await updateTasksOrder(updatedTasks)
-        // await updateTasksArrayIds()
-    }
+        const sourceIndex = result.source.index;
+        const destinationIndex = result.destination.index;
+        const sourceColumnId = result.source.droppableId;
+        const destinationColumnId = result.destination.droppableId;
+        const draggedTask = filteredTasks[sourceIndex];
+        const updatedFilteredTasks = [...filteredTasks];
+        updatedFilteredTasks.splice(sourceIndex, 1);
+        updatedFilteredTasks.splice(destinationIndex, 0, draggedTask);
+        const taskIndex = tasks.findIndex((task) => task.id === draggedTask.id);
+        const updatedTasks = [...tasks];
+        updatedTasks[taskIndex].status = destinationColumnId;
+        setFilteredTasks(updatedFilteredTasks);
+        setTasks(updatedTasks);
+    };
 
     return (
         <div id="home-body">
@@ -370,187 +237,281 @@ function Home() {
                         handleCreate={createCardPop}
                         handleFilters={showFilters}
                     />
-                    <div
-                        id="home-main-content"
-                        className={
-                            isVisible
-                                ? 'show-filter-container'
-                                : 'hide-filter-container'
-                        }
-                    >
+                    <div id="home-main-content">
                         <Filter
-                            className={isVisible ? '' : 'hide-filters'}
                             hideFilters={hideFilters}
                             handleFiltersUpdate={handleFiltersUpdate}
                         />
-                        <div id="columns-container">
-                            <div
-                                id="col-1"
-                                onDrop={drop}
-                                className="column"
-                                onDragOver={allowDrop}
-                            >
-                                <div className="cards-status">
-                                    <p>Todo</p>
-                                    <div className="image-container">
-                                        <img
-                                            onClick={() => {
-                                                createCardPop('col-1')
-                                                setIsCol1Input(true)
-                                            }}
-                                            src={plusIcn}
-                                            alt="plus icon"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="cards">
-                                    {isLoading ? (
-                                        <>
-                                            <Skeleton active />
-                                            <Skeleton active />
-                                            <Skeleton active />
-                                        </>
-                                    ) : filteredTasks.filter(
-                                          (t) => t.status == 'todo'
-                                      ).length == 0 && !isCol1Input ? (
-                                        <p id="col1-msg">
-                                            No tasks to do right now. Add some
-                                            tasks to get started!
-                                        </p>
-                                    ) : (
-                                        filteredTasks.map(
-                                            (task, index) =>
-                                                task.status === 'todo' && (
-                                                    <div
-                                                        className="draggable-card"
-                                                        id={`card-container-${task.id}`}
-                                                        draggable="true"
-                                                        onDragStart={drag}
-                                                        key={task.id}
-                                                    >
-                                                        <Card task={task} />
-                                                    </div>
-                                                )
-                                        )
+                        <DragDropContext onDragEnd={handleDragEnd}>
+                            <div id="columns-container">
+                                <Droppable
+                                    droppableId="todo"
+                                    direction="vertical"
+                                >
+                                    {(provided) => (
+                                        <div
+                                            id="col-1"
+                                            className="column"
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                        >
+                                            <div className="cards-status">
+                                                <p>Todo</p>
+                                                <div className="image-container">
+                                                    <img
+                                                        onClick={() => {
+                                                            createCardPop(
+                                                                'col-1'
+                                                            )
+                                                            setIsCol1Input(true)
+                                                        }}
+                                                        src={plusIcn}
+                                                        alt="plus icon"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="cards">
+                                                {isLoading ? (
+                                                    <>
+                                                        <Skeleton active />
+                                                        <Skeleton active />
+                                                        <Skeleton active />
+                                                    </>
+                                                ) : filteredTasks.filter(
+                                                      (t) => t.status == 'todo'
+                                                  ).length == 0 &&
+                                                  !isCol1Input ? (
+                                                    <p id="col1-msg">
+                                                        No tasks to do right
+                                                        now. Add some tasks to
+                                                        get started!
+                                                    </p>
+                                                ) : (
+                                                    filteredTasks.map(
+                                                        (task, index) =>
+                                                            task.status ===
+                                                                'todo' && (
+                                                                <Draggable
+                                                                    key={`card-container-${task.id}`}
+                                                                    draggableId={`card-container-${task.id}`}
+                                                                    index={
+                                                                        index
+                                                                    }
+                                                                >
+                                                                    {(
+                                                                        provided
+                                                                    ) => (
+                                                                        <div
+                                                                            ref={
+                                                                                provided.innerRef
+                                                                            }
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}
+                                                                            className="draggable-card"
+                                                                            id={`card-container-${task.id}`}
+                                                                            key={
+                                                                                task.id
+                                                                            }
+                                                                        >
+                                                                            <Card
+                                                                                task={
+                                                                                    task
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                </Draggable>
+                                                            )
+                                                    )
+                                                )}
+                                                <div
+                                                    className="empty-div"
+                                                    style={{ height: '30px' }}
+                                                ></div>
+                                            </div>
+                                        </div>
                                     )}
-                                    <div
-                                        className="empty-div"
-                                        style={{ height: '30px' }}
-                                    ></div>
-                                </div>
-                            </div>
-                            <div
-                                id="col-2"
-                                onDrop={drop}
-                                className="column"
-                                onDragOver={allowDrop}
-                            >
-                                <div className="cards-status">
-                                    <p>In Progress</p>
-                                    <div className="image-container">
-                                        <img
-                                            onClick={() => {
-                                                createCardPop('col-2')
-                                                setIsCol2Input(true)
-                                            }}
-                                            src={plusIcn}
-                                            alt="plus icon"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="cards">
-                                    {isLoading ? (
-                                        <>
-                                            <Skeleton active />
-                                            <Skeleton active />
-                                            <Skeleton active />
-                                        </>
-                                    ) : filteredTasks.filter(
-                                          (t) => t.status == 'inprogress'
-                                      ).length == 0 && !isCol2Input ? (
-                                        <p id="col2-msg">
-                                            No tasks in progress at the moment.
-                                            Keep up the great work!
-                                        </p>
-                                    ) : (
-                                        filteredTasks.map(
-                                            (task, index) =>
-                                                task.status ===
-                                                    'inprogress' && (
-                                                    <div
-                                                        className="draggable-card"
-                                                        id={`card-container-${task.id}`}
-                                                        draggable="true"
-                                                        onDragStart={drag}
-                                                        key={task.id}
-                                                    >
-                                                        <Card task={task} />
-                                                    </div>
-                                                )
-                                        )
+                                </Droppable>
+                                <Droppable
+                                    droppableId="inprogress"
+                                    direction="vertical"
+                                >
+                                    {(provided) => (
+                                        <div
+                                            id="col-2"
+                                            className="column"
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                        >
+                                            <div className="cards-status">
+                                                <p>In Progress</p>
+                                                <div className="image-container">
+                                                    <img
+                                                        onClick={() => {
+                                                            createCardPop(
+                                                                'col-2'
+                                                            )
+                                                            setIsCol2Input(true)
+                                                        }}
+                                                        src={plusIcn}
+                                                        alt="plus icon"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="cards">
+                                                {isLoading ? (
+                                                    <>
+                                                        <Skeleton active />
+                                                        <Skeleton active />
+                                                        <Skeleton active />
+                                                    </>
+                                                ) : filteredTasks.filter(
+                                                      (t) =>
+                                                          t.status ==
+                                                          'inprogress'
+                                                  ).length == 0 &&
+                                                  !isCol2Input ? (
+                                                    <p id="col2-msg">
+                                                        No tasks in progress at
+                                                        the moment. Keep up the
+                                                        great work!
+                                                    </p>
+                                                ) : (
+                                                    filteredTasks.map(
+                                                        (task, index) =>
+                                                            task.status ===
+                                                                'inprogress' && (
+                                                                <Draggable
+                                                                    key={`card-container-${task.id}`}
+                                                                    draggableId={`card-container-${task.id}`}
+                                                                    index={
+                                                                        index
+                                                                    }
+                                                                >
+                                                                    {(
+                                                                        provided
+                                                                    ) => (
+                                                                        <div
+                                                                            ref={
+                                                                                provided.innerRef
+                                                                            }
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}
+                                                                            className="draggable-card"
+                                                                            id={`card-container-${task.id}`}
+                                                                            key={
+                                                                                task.id
+                                                                            }
+                                                                        >
+                                                                            <Card
+                                                                                task={
+                                                                                    task
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                </Draggable>
+                                                            )
+                                                    )
+                                                )}
+                                                <div
+                                                    className="empty-div"
+                                                    style={{ height: '30px' }}
+                                                ></div>
+                                            </div>
+                                        </div>
                                     )}
-                                    <div
-                                        className="empty-div"
-                                        style={{ height: '30px' }}
-                                    ></div>
-                                </div>
-                            </div>
-                            <div
-                                id="col-3"
-                                onDrop={drop}
-                                className="column"
-                                onDragOver={allowDrop}
-                            >
-                                <div className="cards-status">
-                                    <p>Done</p>
-                                    <div className="image-container">
-                                        <img
-                                            onClick={() => {
-                                                createCardPop('col-3')
-                                                setIsCol3Input(true)
-                                            }}
-                                            src={plusIcn}
-                                            alt="plus icon"
-                                        />
-                                    </div>
-                                </div>
-                                <div className="cards">
-                                    {isLoading ? (
-                                        <>
-                                            <Skeleton active />
-                                            <Skeleton active />
-                                            <Skeleton active />
-                                        </>
-                                    ) : filteredTasks.filter(
-                                          (t) => t.status == 'done'
-                                      ).length == 0 && !isCol3Input ? (
-                                        <p id="col3-msg">
-                                            Congratulations! You've completed
-                                            all your tasks.
-                                        </p>
-                                    ) : (
-                                        filteredTasks.map(
-                                            (task, index) =>
-                                                task.status === 'done' && (
-                                                    <div
-                                                        className="draggable-card"
-                                                        id={`card-container-${task.id}`}
-                                                        draggable="true"
-                                                        onDragStart={drag}
-                                                        key={task.id}
-                                                    >
-                                                        <Card task={task} />
-                                                    </div>
-                                                )
-                                        )
+                                </Droppable>
+                                <Droppable
+                                    droppableId="done"
+                                    direction="vertical"
+                                >
+                                    {(provided) => (
+                                        <div
+                                            id="col-3"
+                                            className="column"
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                        >
+                                            <div className="cards-status">
+                                                <p>Done</p>
+                                                <div className="image-container">
+                                                    <img
+                                                        onClick={() => {
+                                                            createCardPop(
+                                                                'col-3'
+                                                            )
+                                                            setIsCol3Input(true)
+                                                        }}
+                                                        src={plusIcn}
+                                                        alt="plus icon"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="cards">
+                                                {isLoading ? (
+                                                    <>
+                                                        <Skeleton active />
+                                                        <Skeleton active />
+                                                        <Skeleton active />
+                                                    </>
+                                                ) : filteredTasks.filter(
+                                                      (t) => t.status == 'done'
+                                                  ).length == 0 &&
+                                                  !isCol3Input ? (
+                                                    <p id="col3-msg">
+                                                        Congratulations! You've
+                                                        completed all your
+                                                        tasks.
+                                                    </p>
+                                                ) : (
+                                                    filteredTasks.map(
+                                                        (task, index) =>
+                                                            task.status ===
+                                                                'done' && (
+                                                                <Draggable
+                                                                    key={`card-container-${task.id}`}
+                                                                    draggableId={`card-container-${task.id}`}
+                                                                    index={
+                                                                        index
+                                                                    }
+                                                                >
+                                                                    {(
+                                                                        provided
+                                                                    ) => (
+                                                                        <div
+                                                                            ref={
+                                                                                provided.innerRef
+                                                                            }
+                                                                            {...provided.draggableProps}
+                                                                            {...provided.dragHandleProps}
+                                                                            className="draggable-card"
+                                                                            id={`card-container-${task.id}`}
+                                                                            key={
+                                                                                task.id
+                                                                            }
+                                                                        >
+                                                                            <Card
+                                                                                task={
+                                                                                    task
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                </Draggable>
+                                                            )
+                                                    )
+                                                )}
+                                                <div
+                                                    className="empty-div"
+                                                    style={{ height: '30px' }}
+                                                ></div>
+                                            </div>
+                                        </div>
                                     )}
-                                    <div
-                                        className="empty-div"
-                                        style={{ height: '30px' }}
-                                    ></div>
-                                </div>
+                                </Droppable>
                             </div>
-                        </div>
+                        </DragDropContext>
                     </div>
                 </div>
             </div>

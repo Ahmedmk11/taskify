@@ -761,16 +761,8 @@
     max-height: 200px !important;
 }
 
-.hide-filters {
-    transform: translateX(0%);
-    -webkit-transform: translateX(0%);
-    -moz-transform: translateX(0%);
-    -ms-transform: translateX(0%);
-    -o-transform: translateX(0%);
-}
-
-.visibility-hidden {
-    visibility: hidden !important;
+.show-filters {
+    
 }
 
 // --------------------------------------------------------------
