@@ -46,17 +46,6 @@ function Search() {
         fetchData()
     }, [])
 
-    useEffect(() => {
-        const hideFiltersContainer = () => {
-            const filtersContainer =
-                document.getElementById('filters-container')
-            if (filtersContainer) {
-                filtersContainer.classList.add('visibility-hidden')
-            }
-        }
-        hideFiltersContainer()
-    }, [user])
-
     const handleFiltersUpdate = (filters: any) => {
         setAppliedFilters(filters)
     }
@@ -77,19 +66,12 @@ function Search() {
     }
 
     const showFilters = () => {
-        setIsVisible(true)
         document
             .getElementById('filters-container')
-            ?.classList.remove('visibility-hidden')
-    }
-
-    const hideFilters = () => {
-        setIsVisible(false)
-        setTimeout(() => {
-            document
-                .getElementById('filters-container')
-                ?.classList.add('visibility-hidden')
-        }, 300)
+            ?.classList.toggle('show-filters')
+        document
+            .getElementById('filters-container')
+            ?.classList.toggle('hide-filters')
     }
 
     return (
@@ -118,15 +100,9 @@ function Search() {
                     />
                     <div
                         id="search-main-content"
-                        className={
-                            isVisible
-                                ? 'show-filter-container-srch'
-                                : 'hide-filter-container-srch'
-                        }
                     >
                         <Filter
-                            className={isVisible ? '' : 'hide-filters'}
-                            hideFilters={hideFilters}
+                            hideFilters={showFilters}
                             handleFiltersUpdate={handleFiltersUpdate}
                         />
                         <div id="result-items">

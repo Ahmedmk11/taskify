@@ -205,12 +205,9 @@ function Home() {
         document
             .getElementById('filters-container')
             ?.classList.toggle('show-filters')
-    }
-
-    const hideFilters = () => {
         document
             .getElementById('filters-container')
-            ?.classList.toggle('show-filters')
+            ?.classList.toggle('hide-filters')
     }
 
     const handleDragEnd = (result: any) => {
@@ -253,12 +250,12 @@ function Home() {
                         handleFilters={showFilters}
                     />
                     <div id="home-main-content">
-                        <Filter
-                            hideFilters={hideFilters}
-                            handleFiltersUpdate={handleFiltersUpdate}
-                        />
                         <DragDropContext onDragEnd={handleDragEnd}>
                             <div id="columns-container">
+                            <Filter
+                            hideFilters={showFilters}
+                            handleFiltersUpdate={handleFiltersUpdate}
+                        />
                                 <div id="col-1" className="column">
                                     <div className="cards-status">
                                         <p>Todo</p>

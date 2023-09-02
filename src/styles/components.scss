@@ -239,10 +239,12 @@
 .card {
     width: 260px;
     height: fit-content;
+    min-height: 227.5px !important;
     max-height: none !important;
     box-sizing: border-box;
     padding-bottom: 24px;
     .card-container {
+        min-height: 227.5px !important;
         height: 100%;
         width: 260px;
         padding: 18px 24px;
@@ -633,7 +635,9 @@
 
 #filters-container {
     user-select: none;
+    min-width: 220px;
     width: 220px;
+    max-width: 0px;
     height: fit-content;
     min-height: 600px;
     box-shadow: 0px 4px 4px 0px var(--color-light-black-25);
@@ -649,6 +653,12 @@
     -moz-border-radius: 6px;
     -ms-border-radius: 6px;
     -o-border-radius: 6px;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
     #filters-header {
         width: 100%;
         border-bottom: 1px solid var(--color-gray);
@@ -762,7 +772,20 @@
     max-height: 200px !important;
 }
 
+.hide-filters {
+    max-width: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    * {
+        white-space: nowrap !important;
+    }
+}
+  
 .show-filters {
+    max-width: 220px !important;
+    * {
+        white-space: nowrap !important;
+    }
 }
 
 // --------------------------------------------------------------
