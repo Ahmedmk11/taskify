@@ -98,9 +98,7 @@ function Search() {
                                   }`
                         } for "${query}"`}
                     />
-                    <div
-                        id="search-main-content"
-                    >
+                    <div id="search-main-content">
                         <Filter
                             hideFilters={showFilters}
                             handleFiltersUpdate={handleFiltersUpdate}

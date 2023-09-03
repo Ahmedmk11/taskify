@@ -34,6 +34,12 @@ function Home() {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
 
+    const [columns, setColumns] = useState<any>({
+        todo: [],
+        inprogress: [],
+        done: [],
+    })
+
     const [isCol1Input, setIsCol1Input] = useState(false)
     const [isCol2Input, setIsCol2Input] = useState(false)
     const [isCol3Input, setIsCol3Input] = useState(false)
@@ -61,15 +67,76 @@ function Home() {
                 setIsLoading(false)
                 setTasks(userData!.taskArray)
                 setFilteredTasks(userData!.taskArray)
+                setColumns({
+                    todo: userData!.taskArray.filter(
+                        (task) => task.status == 'todo'
+                    ),
+                    inprogress: userData!.taskArray.filter(
+                        (task) => task.status == 'inprogress'
+                    ),
+                    done: userData!.taskArray.filter(
+                        (task) => task.status == 'done'
+                    ),
+                })
             }
         })
     }
 
     useEffect(() => {
+        setColumns({
+            todo: filteredTasks.filter((task) => task.status === 'todo'),
+            inprogress: filteredTasks.filter(
+                (task) => task.status === 'inprogress'
+            ),
+            done: filteredTasks.filter((task) => task.status === 'done'),
+        })
+    }, [filteredTasks])
+
+    useEffect(() => {
+        updateFilteredTasks()
+    }, [appliedFilters])
+
+    const observer = new MutationObserver((mutationsList) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                if (
+                    Array.from(mutation.removedNodes).some(
+                        (node) =>
+                            node instanceof HTMLElement &&
+                            node.id === 'create-new-task'
+                    )
+                ) {
+                    setIsCol1Input(false)
+                    setIsCol2Input(false)
+                    setIsCol3Input(false)
+                }
+            }
+        }
+    })
+
+    useEffect(() => {
+        async function fetchData() {
+            await fetchUserData()
+        }
+        fetchData()
+        const config = { childList: true, subtree: true }
+        observer.observe(document.body, config)
+    }, [])
+
+    useEffect(() => {
+        if (location.state?.createCardPop) {
+            createCardPop()
+        }
+    }, [location])
+
+    const handleFiltersUpdate = (filters: any) => {
+        setAppliedFilters(filters)
+    }
+
+    function updateFilteredTasks() {
         try {
-            const cols = tasks.filter((task, index) => {
+            const cols = tasks.filter((task) => {
                 const dueDate = parseDateFromString(task.dueDate)
-                console.log(appliedFilters.priorityFilter)
 
                 let dueDateDay
                 let dueDateMonth
@@ -138,44 +205,7 @@ function Home() {
                 )
             })
             setFilteredTasks(cols)
-        } catch {}
-    }, [appliedFilters])
-
-    const observer = new MutationObserver((mutationsList) => {
-        for (const mutation of mutationsList) {
-            if (mutation.type === 'childList') {
-                if (
-                    Array.from(mutation.removedNodes).some(
-                        (node) =>
-                            node instanceof HTMLElement &&
-                            node.id === 'create-new-task'
-                    )
-                ) {
-                    setIsCol1Input(false)
-                    setIsCol2Input(false)
-                    setIsCol3Input(false)
-                }
-            }
-        }
-    })
-
-    useEffect(() => {
-        async function fetchData() {
-            await fetchUserData()
-        }
-        fetchData()
-        const config = { childList: true, subtree: true }
-        observer.observe(document.body, config)
-    }, [])
-
-    useEffect(() => {
-        if (location.state?.createCardPop) {
-            createCardPop()
-        }
-    }, [location])
-
-    const handleFiltersUpdate = (filters: any) => {
-        setAppliedFilters(filters)
+        } catch (error) {}
     }
 
     function createCardPop(col = 'col-1') {
@@ -210,33 +240,93 @@ function Home() {
             ?.classList.toggle('hide-filters')
     }
 
+    useEffect(() => {
+        console.log('todo column: ', columns.todo)
+        console.log('inprogress column: ', columns.inprogress)
+        console.log('done column: ', columns.done)
+    }, [columns])
+
     const handleDragEnd = (result: any) => {
         if (!result.destination) {
             return
         }
-        const sourceIndex = result.source.index
-        const destinationIndex = result.destination.index
-        const sourceColumnId = result.source.droppableId
-        const destinationColumnId = result.destination.droppableId
-        const draggedTask = filteredTasks[sourceIndex]
-        const updatedFilteredTasks = [...filteredTasks]
-        updatedFilteredTasks.splice(sourceIndex, 1)
 
-        const firstTaskInDestinationColumnIndex =
-            updatedFilteredTasks.findIndex(
-                (task) => task.status === destinationColumnId
-            )
+        const updatedFilteredTasks1 = Array.from(columns.todo)
+        const updatedFilteredTasks2 = Array.from(columns.inprogress)
+        const updatedFilteredTasks3 = Array.from(columns.done)
+        let draggedItem
+        switch (result.source.droppableId) {
+            case 'todo':
+                ;[draggedItem] = updatedFilteredTasks1.splice(
+                    result.source.index,
+                    1
+                )
+                break
 
-        const newDestinationIndex =
-            firstTaskInDestinationColumnIndex + destinationIndex
+            case 'inprogress':
+                ;[draggedItem] = updatedFilteredTasks2.splice(
+                    result.source.index,
+                    1
+                )
+                break
 
-        updatedFilteredTasks.splice(newDestinationIndex, 0, draggedTask)
+            case 'done':
+                ;[draggedItem] = updatedFilteredTasks3.splice(
+                    result.source.index,
+                    1
+                )
+                break
 
-        const taskIndex = tasks.findIndex((task) => task.id === draggedTask.id)
-        const updatedTasks = [...tasks]
-        updatedTasks[taskIndex].status = destinationColumnId
-        setFilteredTasks(updatedFilteredTasks)
-        setTasks(updatedTasks)
+            default:
+                break
+        }
+        switch (result.destination.droppableId) {
+            case 'todo':
+                updatedFilteredTasks1.splice(
+                    result.destination.index,
+                    0,
+                    draggedItem
+                )
+                break
+
+            case 'inprogress':
+                updatedFilteredTasks2.splice(
+                    result.destination.index,
+                    0,
+                    draggedItem
+                )
+                break
+
+            case 'done':
+                updatedFilteredTasks3.splice(
+                    result.destination.index,
+                    0,
+                    draggedItem
+                )
+                break
+
+            default:
+                break
+        }
+
+        type TaskType = {
+            // You can add other properties here as well
+            status: string
+        }
+
+        console.log('dragged itemmmmmm', draggedItem, typeof draggedItem)
+
+        if (draggedItem) {
+            // Cast 'draggedItem' to the correct type
+            const updatedDraggedItem = draggedItem as TaskType
+            updatedDraggedItem.status = result.destination.droppableId
+        }
+
+        setColumns({
+            todo: updatedFilteredTasks1,
+            inprogress: updatedFilteredTasks2,
+            done: updatedFilteredTasks3,
+        })
     }
 
     return (
@@ -252,10 +342,10 @@ function Home() {
                     <div id="home-main-content">
                         <DragDropContext onDragEnd={handleDragEnd}>
                             <div id="columns-container">
-                            <Filter
-                            hideFilters={showFilters}
-                            handleFiltersUpdate={handleFiltersUpdate}
-                        />
+                                <Filter
+                                    hideFilters={showFilters}
+                                    handleFiltersUpdate={handleFiltersUpdate}
+                                />
                                 <div id="col-1" className="column">
                                     <div className="cards-status">
                                         <p>Todo</p>
@@ -286,8 +376,9 @@ function Home() {
                                                         <Skeleton active />
                                                         <Skeleton active />
                                                     </>
-                                                ) : filteredTasks.filter(
-                                                      (t) => t.status == 'todo'
+                                                ) : columns.todo.filter(
+                                                      (t: any) =>
+                                                          t.status == 'todo'
                                                   ).length == 0 &&
                                                   !isCol1Input ? (
                                                     <p id="col1-msg">
@@ -296,47 +387,41 @@ function Home() {
                                                         get started!
                                                     </p>
                                                 ) : (
-                                                    filteredTasks.map(
-                                                        (task, index) =>
-                                                            task.status ===
-                                                                'todo' && (
-                                                                <Draggable
-                                                                    key={`card-container-${task.id}`}
-                                                                    draggableId={`card-container-${task.id}`}
-                                                                    index={
-                                                                        index
-                                                                    }
-                                                                >
-                                                                    {(
-                                                                        provided
-                                                                    ) => (
-                                                                        <div
-                                                                            ref={
-                                                                                provided.innerRef
+                                                    columns.todo.map(
+                                                        (
+                                                            task: any,
+                                                            index: any
+                                                        ) => (
+                                                            <Draggable
+                                                                key={`card-container-${task.id}`}
+                                                                draggableId={`card-container-${task.id}`}
+                                                                index={index}
+                                                            >
+                                                                {(provided) => (
+                                                                    <div
+                                                                        ref={
+                                                                            provided.innerRef
+                                                                        }
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        className="draggable-card"
+                                                                        id={`card-container-${task.id}`}
+                                                                        key={
+                                                                            task.id
+                                                                        }
+                                                                    >
+                                                                        <Card
+                                                                            task={
+                                                                                task
                                                                             }
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
-                                                                            className="draggable-card"
-                                                                            id={`card-container-${task.id}`}
-                                                                            key={
-                                                                                task.id
-                                                                            }
-                                                                        >
-                                                                            <Card
-                                                                                task={
-                                                                                    task
-                                                                                }
-                                                                            />
-                                                                        </div>
-                                                                    )}
-                                                                </Draggable>
-                                                            )
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </Draggable>
+                                                        )
                                                     )
                                                 )}
-                                                <div
-                                                    className="empty-div"
-                                                    style={{ height: '30px' }}
-                                                ></div>
+                                                {provided.placeholder}
                                             </div>
                                         )}
                                     </Droppable>
@@ -372,8 +457,8 @@ function Home() {
                                                         <Skeleton active />
                                                         <Skeleton active />
                                                     </>
-                                                ) : filteredTasks.filter(
-                                                      (t) =>
+                                                ) : columns.inprogress.filter(
+                                                      (t: any) =>
                                                           t.status ==
                                                           'inprogress'
                                                   ).length == 0 &&
@@ -384,47 +469,41 @@ function Home() {
                                                         great work!
                                                     </p>
                                                 ) : (
-                                                    filteredTasks.map(
-                                                        (task, index) =>
-                                                            task.status ===
-                                                                'inprogress' && (
-                                                                <Draggable
-                                                                    key={`card-container-${task.id}`}
-                                                                    draggableId={`card-container-${task.id}`}
-                                                                    index={
-                                                                        index
-                                                                    }
-                                                                >
-                                                                    {(
-                                                                        provided
-                                                                    ) => (
-                                                                        <div
-                                                                            ref={
-                                                                                provided.innerRef
+                                                    columns.inprogress.map(
+                                                        (
+                                                            task: any,
+                                                            index: any
+                                                        ) => (
+                                                            <Draggable
+                                                                key={`card-container-${task.id}`}
+                                                                draggableId={`card-container-${task.id}`}
+                                                                index={index}
+                                                            >
+                                                                {(provided) => (
+                                                                    <div
+                                                                        ref={
+                                                                            provided.innerRef
+                                                                        }
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        className="draggable-card"
+                                                                        id={`card-container-${task.id}`}
+                                                                        key={
+                                                                            task.id
+                                                                        }
+                                                                    >
+                                                                        <Card
+                                                                            task={
+                                                                                task
                                                                             }
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
-                                                                            className="draggable-card"
-                                                                            id={`card-container-${task.id}`}
-                                                                            key={
-                                                                                task.id
-                                                                            }
-                                                                        >
-                                                                            <Card
-                                                                                task={
-                                                                                    task
-                                                                                }
-                                                                            />
-                                                                        </div>
-                                                                    )}
-                                                                </Draggable>
-                                                            )
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </Draggable>
+                                                        )
                                                     )
                                                 )}
-                                                <div
-                                                    className="empty-div"
-                                                    style={{ height: '30px' }}
-                                                ></div>
+                                                {provided.placeholder}
                                             </div>
                                         )}
                                     </Droppable>
@@ -460,8 +539,9 @@ function Home() {
                                                         <Skeleton active />
                                                         <Skeleton active />
                                                     </>
-                                                ) : filteredTasks.filter(
-                                                      (t) => t.status == 'done'
+                                                ) : columns.done.filter(
+                                                      (t: any) =>
+                                                          t.status == 'done'
                                                   ).length == 0 &&
                                                   !isCol3Input ? (
                                                     <p id="col3-msg">
@@ -470,47 +550,41 @@ function Home() {
                                                         tasks.
                                                     </p>
                                                 ) : (
-                                                    filteredTasks.map(
-                                                        (task, index) =>
-                                                            task.status ===
-                                                                'done' && (
-                                                                <Draggable
-                                                                    key={`card-container-${task.id}`}
-                                                                    draggableId={`card-container-${task.id}`}
-                                                                    index={
-                                                                        index
-                                                                    }
-                                                                >
-                                                                    {(
-                                                                        provided
-                                                                    ) => (
-                                                                        <div
-                                                                            ref={
-                                                                                provided.innerRef
+                                                    columns.done.map(
+                                                        (
+                                                            task: any,
+                                                            index: any
+                                                        ) => (
+                                                            <Draggable
+                                                                key={`card-container-${task.id}`}
+                                                                draggableId={`card-container-${task.id}`}
+                                                                index={index}
+                                                            >
+                                                                {(provided) => (
+                                                                    <div
+                                                                        ref={
+                                                                            provided.innerRef
+                                                                        }
+                                                                        {...provided.draggableProps}
+                                                                        {...provided.dragHandleProps}
+                                                                        className="draggable-card"
+                                                                        id={`card-container-${task.id}`}
+                                                                        key={
+                                                                            task.id
+                                                                        }
+                                                                    >
+                                                                        <Card
+                                                                            task={
+                                                                                task
                                                                             }
-                                                                            {...provided.draggableProps}
-                                                                            {...provided.dragHandleProps}
-                                                                            className="draggable-card"
-                                                                            id={`card-container-${task.id}`}
-                                                                            key={
-                                                                                task.id
-                                                                            }
-                                                                        >
-                                                                            <Card
-                                                                                task={
-                                                                                    task
-                                                                                }
-                                                                            />
-                                                                        </div>
-                                                                    )}
-                                                                </Draggable>
-                                                            )
+                                                                        />
+                                                                    </div>
+                                                                )}
+                                                            </Draggable>
+                                                        )
                                                     )
                                                 )}
-                                                <div
-                                                    className="empty-div"
-                                                    style={{ height: '30px' }}
-                                                ></div>
+                                                {provided.placeholder}
                                             </div>
                                         )}
                                     </Droppable>

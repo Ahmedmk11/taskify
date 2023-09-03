@@ -129,7 +129,7 @@ function Filter(props: FiltersProps) {
     }
 
     return (
-        <div id="filters-container" className='hide-filters'>
+        <div id="filters-container" className="hide-filters">
             <div id="filters-header">
                 <p>Filters</p>
             </div>

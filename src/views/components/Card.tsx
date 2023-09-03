@@ -320,7 +320,7 @@ function Card(props: CardProps) {
         )
         newTask.updateCategories(selectedCategories)
         addNewTaskToCurrentUser(newTask)
-        window.location.reload()
+        // window.location.reload()
         Array.prototype.push.apply(userCategories, selectedCategories)
         cancelCard(ev)
     }
@@ -354,7 +354,7 @@ function Card(props: CardProps) {
         if (window.location.href.includes('task')) {
             window.location.href = '/'
         } else {
-            window.location.reload()
+            // window.location.reload()
         }
     }
 
