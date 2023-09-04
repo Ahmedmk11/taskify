@@ -21,6 +21,7 @@ import {
     updateCurrentUserTasksDocument,
     updateTaskStatus,
     updateTasksOrder,
+    updateCurrentUserDocument,
 } from '../../firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { Task } from '../../app/Task'
@@ -33,12 +34,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 function Home() {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
-
-    const [columns, setColumns] = useState<any>({
-        todo: [],
-        inprogress: [],
-        done: [],
-    })
 
     const [isCol1Input, setIsCol1Input] = useState(false)
     const [isCol2Input, setIsCol2Input] = useState(false)
@@ -53,6 +48,19 @@ function Home() {
     })
 
     const [tasks, setTasks] = useState(user ? user.taskArray : [])
+
+    const [columns, setColumns] = useState<any>(
+        filteredTasks
+            ? {
+                  todo: filteredTasks.filter((task) => task.status === 'todo'),
+                  inprogress: filteredTasks.filter(
+                      (task) => task.status === 'inprogress'
+                  ),
+                  done: filteredTasks.filter((task) => task.status === 'done'),
+              }
+            : {}
+    )
+
     const location = useLocation()
 
     async function fetchUserData() {
@@ -67,17 +75,7 @@ function Home() {
                 setIsLoading(false)
                 setTasks(userData!.taskArray)
                 setFilteredTasks(userData!.taskArray)
-                setColumns({
-                    todo: userData!.taskArray.filter(
-                        (task) => task.status == 'todo'
-                    ),
-                    inprogress: userData!.taskArray.filter(
-                        (task) => task.status == 'inprogress'
-                    ),
-                    done: userData!.taskArray.filter(
-                        (task) => task.status == 'done'
-                    ),
-                })
+                setColumns(userData!.columns)
             }
         })
     }
@@ -95,6 +93,16 @@ function Home() {
     useEffect(() => {
         updateFilteredTasks()
     }, [appliedFilters])
+
+    useEffect(() => {
+        setColumns({
+            todo: filteredTasks.filter((task) => task.status === 'todo'),
+            inprogress: filteredTasks.filter(
+                (task) => task.status === 'inprogress'
+            ),
+            done: filteredTasks.filter((task) => task.status === 'done'),
+        })
+    }, [tasks, filteredTasks])
 
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -118,10 +126,54 @@ function Home() {
         async function fetchData() {
             await fetchUserData()
         }
+        async function updateTasksUI() {
+            try {
+                const currentUser = getAuth().currentUser
+                if (currentUser) {
+                    const userUID = currentUser.uid
+                    const userDocRef = doc(db, 'users', userUID)
+
+                    // Use 'onSnapshot' to listen for changes in the Firestore document
+                    onSnapshot(userDocRef, async (docSnapshot) => {
+                        if (docSnapshot.exists()) {
+                            const userData = docSnapshot.data()
+                            if (userData) {
+                                const updatedTasksArray = userData.tasksArray
+
+                                // Update the 'tasks' and 'filteredTasks' state with the updated tasksArray
+                                setTasks(updatedTasksArray)
+                                setFilteredTasks(updatedTasksArray)
+                                setColumns({
+                                    todo: filteredTasks.filter(
+                                        (task) => task.status === 'todo'
+                                    ),
+                                    inprogress: filteredTasks.filter(
+                                        (task) => task.status === 'inprogress'
+                                    ),
+                                    done: filteredTasks.filter(
+                                        (task) => task.status === 'done'
+                                    ),
+                                })
+                            }
+                        }
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         fetchData()
         const config = { childList: true, subtree: true }
         observer.observe(document.body, config)
+        updateTasksUI()
     }, [])
+
+    useEffect(() => {
+        console.log(columns.todo)
+        console.log(columns.inprogress)
+        console.log(columns.done)
+    }, [columns])
 
     useEffect(() => {
         if (location.state?.createCardPop) {
@@ -246,7 +298,7 @@ function Home() {
         console.log('done column: ', columns.done)
     }, [columns])
 
-    const handleDragEnd = (result: any) => {
+    const handleDragEnd = async (result: any) => {
         if (!result.destination) {
             return
         }
@@ -310,16 +362,18 @@ function Home() {
         }
 
         type TaskType = {
-            // You can add other properties here as well
+            id: string
             status: string
         }
 
-        console.log('dragged itemmmmmm', draggedItem, typeof draggedItem)
-
         if (draggedItem) {
-            // Cast 'draggedItem' to the correct type
             const updatedDraggedItem = draggedItem as TaskType
             updatedDraggedItem.status = result.destination.droppableId
+
+            await updateTaskStatus(
+                updatedDraggedItem.id,
+                result.destination.droppableId
+            )
         }
 
         setColumns({
@@ -327,6 +381,16 @@ function Home() {
             inprogress: updatedFilteredTasks2,
             done: updatedFilteredTasks3,
         })
+
+        updateCurrentUserDocument(
+            'columns',
+            {
+                todo: updatedFilteredTasks1,
+                inprogress: updatedFilteredTasks2,
+                done: updatedFilteredTasks3,
+            },
+            true
+        )
     }
 
     return (

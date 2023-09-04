@@ -330,6 +330,7 @@ function ToolBar(props: ToolBarProps) {
                             menu={{ items: notifs }}
                             trigger={['click']}
                             placement="bottomLeft"
+                            className="notifs-drpdwn" // fix this
                         >
                             <a onClick={(e) => e.preventDefault()}>
                                 <Space size="middle">

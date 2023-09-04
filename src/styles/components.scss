@@ -93,7 +93,7 @@
         justify-content: space-between;
         align-items: center;
         margin-right: 24px;
-        * {
+        *::not(bdi) {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -122,6 +122,13 @@
     #profile-avi {
         cursor: pointer;
     }
+}
+
+.notifs-drpdwn {
+    //fix this
+    height: 200px !important;
+    overflow-y: hidden;
+    max-height: 400px !important;
 }
 
 #notif-container {

@@ -77,6 +77,11 @@ export async function writeNewUserToFirestore(
             displayName: nameInput,
             tasksArray: [],
             categories: [],
+            columns: {
+                todo: [],
+                inprogress: [],
+                done: [],
+            },
         }
         setDoc(userDocRef, userData)
     } catch (error) {
@@ -183,7 +188,8 @@ export async function readUserDataFromDb(docID: string): Promise<User | null> {
             docSnap.data().displayName,
             docSnap.data().email,
             docSnap.data().tasksArray,
-            docSnap.data().categories
+            docSnap.data().categories,
+            docSnap.data().columns
         )
     } else {
         console.log('No such document!')
@@ -258,7 +264,7 @@ export async function updateUserEmail(newEmail: string): Promise<void> {
 
 export function updateCurrentUserDocument(
     field: string,
-    newValue: string[] | string,
+    newValue: any,
     overwrite: boolean = false
 ): void {
     const user = getAuth().currentUser

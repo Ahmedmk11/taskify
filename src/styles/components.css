@@ -82,7 +82,7 @@
   align-items: center;
   margin-right: 24px;
 }
-#tool-bar #tool-bar-item * {
+#tool-bar #tool-bar-item *::not(bdi) {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -109,6 +109,12 @@
 }
 #tool-bar #profile-avi {
   cursor: pointer;
+}
+
+.notifs-drpdwn {
+  height: 200px !important;
+  overflow-y: hidden;
+  max-height: 400px !important;
 }
 
 #notif-container {

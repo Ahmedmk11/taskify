@@ -8,7 +8,7 @@ describe('User', () => {
 
     beforeEach(() => {
         task = new Task('0', 'Task 1', 'Description', 'high', '8 Aug 2023')
-        user = new User('Ahmed', 'ahmed@gmail.com', [], [])
+        user = new User('Ahmed', 'ahmed@gmail.com', [], [], {})
         user.taskArray.push(task)
     })
 

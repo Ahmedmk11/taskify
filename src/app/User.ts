@@ -10,17 +10,24 @@ export class User {
     email: string
     taskArray: Task[]
     categories: string[]
+    columns: {}
 
     constructor(
         name: string,
         email: string,
         taskArray: Task[],
-        categories: string[]
+        categories: string[],
+        columns: {}
     ) {
         this.name = name
         this.email = email
         this.taskArray = taskArray
         this.categories = categories
+        this.columns = {
+            todo: [],
+            inprogress: [],
+            done: [],
+        }
     }
 
     addCategory(category: string): void {
