@@ -14,6 +14,7 @@ import {
     reauthenticateWithCredential,
 } from 'firebase/auth'
 import {
+    db,
     deleteUserFromFirebase,
     readUserDataFromDb,
     updateUserEmail,
@@ -22,6 +23,7 @@ import {
 } from '../../firebase'
 import { Button, Form, Input, Modal, Skeleton } from 'antd'
 import ActionBar from '../components/ActionBar'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 function ProfileSettings() {
     const [form] = Form.useForm()
@@ -100,7 +102,6 @@ function ProfileSettings() {
 
         await updateUserName(firstName + ' ' + lastName)
         await updateUserEmail(email)
-        window.location.reload()
     }
 
     const handleFirstNameChange = (e: any) => {

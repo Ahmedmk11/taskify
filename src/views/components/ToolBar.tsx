@@ -14,9 +14,10 @@ import { UserOutlined, LogoutOutlined } from '@ant-design/icons'
 import type { MenuProps } from 'antd'
 import { Dropdown, Space, Avatar, Switch, Divider, Skeleton, Badge } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import { readUserDataFromDb, signOutHandler } from '../../firebase'
+import { db, readUserDataFromDb, signOutHandler } from '../../firebase'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { parseDateFromString } from '../../app/Functions'
+import { doc, onSnapshot } from 'firebase/firestore'
 
 type ToolBarProps = {
     loading?: boolean
@@ -33,6 +34,8 @@ function ToolBar(props: ToolBarProps) {
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(loading)
 
+    const [firstName, setFirstName] = useState('Guest')
+
     const tasks = user?.taskArray ?? []
 
     async function fetchUserData() {
@@ -44,15 +47,43 @@ function ToolBar(props: ToolBarProps) {
                 )
                 setUser(userData!)
                 setIsLoading(false)
+                setFirstName(userData!.name.split(' ')[0])
             }
         })
     }
 
     useEffect(() => {
+        console.log(firstName)
+    }, [firstName])
+
+    useEffect(() => {
         async function fetchData() {
             await fetchUserData()
         }
+        async function updateNameUI() {
+            try {
+                const currentUser = getAuth().currentUser
+                if (currentUser) {
+                    const userUID = currentUser.uid
+                    const userDocRef = doc(db, 'users', userUID)
+                    onSnapshot(userDocRef, async (docSnapshot) => {
+                        if (docSnapshot.exists()) {
+                            const userData = docSnapshot.data()
+                            if (userData) {
+                                const updatedName = userData.displayName
+                                setFirstName(updatedName.split(' ')[0])
+                            }
+                        }
+                    })
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
         fetchData()
+        updateNameUI()
+
         if (themeMode === 'dark') {
             document.body.classList.add('dark')
             document.body.classList.remove('light')
@@ -364,14 +395,14 @@ function ToolBar(props: ToolBarProps) {
                                     <Space wrap size={32} id="profile-avi">
                                         <Avatar
                                             size={32}
-                                            icon={<UserOutlined />}
-                                            shape="square"
+                                            icon={firstName.trim().charAt(0)}
+                                            shape="circle"
                                         />
                                     </Space>
                                 </Space>
                             </a>
                         </Dropdown>
-                        <p>Hello, {user?.name.split(' ')[0]}</p>
+                        <p>Hello, {firstName}</p>
                     </div>
                 </div>
             )}
