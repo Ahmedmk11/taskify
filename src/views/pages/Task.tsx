@@ -17,11 +17,12 @@ import { EditCardContext } from '../components/EditCardProvider'
 import { doc, onSnapshot } from 'firebase/firestore'
 
 function Task() {
-    const { id } = useParams()
+    const id = window.location.href.split('/').pop()
+    console.log(id)
 
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
-    let tasks = user ? user.taskArray : []
+    const [tasks, setTasks] = useState(user ? user.taskArray : [])
     const [task, setTask] = useState(tasks.find((task) => task.id == id))
 
     async function fetchUserData() {
@@ -32,10 +33,22 @@ function Task() {
                     getAuth().currentUser!.uid
                 )
                 setUser(userData!)
+                setTasks(userData!.taskArray)
                 setIsLoading(false)
+                if (tasks.length > 0)
+                    setTask(tasks.find((task) => task.id === id))
             }
         })
     }
+
+    useEffect(() => {
+        console.log('task: ', task)
+        console.log('tasks: ', tasks)
+    }, [task, tasks])
+
+    useEffect(() => {
+        if (tasks.length > 0) setTask(tasks.find((task) => task.id === id))
+    }, [tasks])
 
     useEffect(() => {
         async function fetchData() {
@@ -43,36 +56,6 @@ function Task() {
         }
         fetchData()
     }, [])
-
-    useEffect(() => {
-        try {
-            const userUID = getAuth().currentUser?.uid
-            if (userUID) {
-                const userDocRef = doc(db, 'users', userUID)
-                onSnapshot(userDocRef, (docSnapshot) => {
-                    const data = docSnapshot.data()
-                    if (data) {
-                        setTask(
-                            data.tasksArray.find((task: any) => task.id == id)
-                        )
-                    }
-                })
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }, [])
-
-    useEffect(() => {
-        const hideFiltersContainer = () => {
-            const filtersContainer =
-                document.getElementById('filters-container')
-            if (filtersContainer) {
-                filtersContainer.classList.add('visibility-hidden')
-            }
-        }
-        hideFiltersContainer()
-    }, [user])
 
     return (
         <div id="task-body">

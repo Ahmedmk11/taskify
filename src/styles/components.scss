@@ -9,7 +9,8 @@
     align-items: center;
     min-width: 74px;
     width: 74px;
-    height: 1000px; //change this
+    min-height: 100%;
+    height: 1000px;
     background-color: #fff;
     padding: 24px 0px;
     border-right: 1px solid var(--color-gray);
@@ -124,11 +125,27 @@
     }
 }
 
-.notifs-drpdwn {
-    //fix this
-    height: 200px !important;
-    overflow-y: hidden;
-    max-height: 400px !important;
+.ant-dropdown-menu {
+    max-height: 500px !important;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: #b7b7b7;
+        border-radius: 6px;
+        -webkit-border-radius: 6px;
+        -moz-border-radius: 6px;
+        -ms-border-radius: 6px;
+        -o-border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: #f1f1f1;
+    }
+    -ms-overflow-style: none;
+    scrollbar-width: thin;
 }
 
 #notif-container {
@@ -824,6 +841,12 @@
         font-weight: 400;
         text-align: center;
         color: black;
+
+        a {
+            text-decoration: underline;
+            color: #000;
+            margin-left: 8px;
+        }
     }
     #socials {
         width: 25%;

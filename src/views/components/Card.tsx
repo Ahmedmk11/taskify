@@ -84,7 +84,9 @@ function Card(props: CardProps) {
     const [inputValue, setInputValue] = useState('')
 
     const [isExpanded, setIsExpanded] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
+    const [fetchTimeout, setFetchTimeout] = useState(false)
+
     const [isEdit, setIsEdit] = useState(false)
     const [currentTaskSettings, setCurrentTaskSettings] = useState('')
 
@@ -245,11 +247,29 @@ function Card(props: CardProps) {
     }, [selectedCategories])
 
     useEffect(() => {
+        // Create a timer to set fetchTimeout to true after 50ms
+        const timeoutId = setTimeout(() => {
+            setFetchTimeout(true)
+        }, 50)
+
         async function fetchData() {
             await fetchUserData()
+
+            // If fetch completed within 50ms, cancel the timer and set isLoading to false
+            if (!fetchTimeout) {
+                clearTimeout(timeoutId)
+                setIsLoading(false)
+            }
         }
+
         fetchData()
     }, [])
+
+    useEffect(() => {
+        if (fetchTimeout) {
+            setIsLoading(true)
+        }
+    }, [fetchTimeout])
 
     useEffect(() => {
         if (user) {

@@ -1,7 +1,3 @@
-// --------------------------------------------------------------
-// Tool Bar react component.
-// --------------------------------------------------------------
-
 import React from 'react'
 import {
     GithubOutlined,
@@ -21,7 +17,16 @@ function Footer() {
                             ? ''
                             : '-' + new Date().getFullYear()}
                     </span>{' '}
-                    Taskify. All rights reserved.
+                    Taskify. All rights reserved.{' '}
+                    <a
+                        href="/terms-and-conditions" // Replace with the actual URL of your terms and conditions page
+                        style={{
+                            textDecoration: 'underline',
+                            color: 'black',
+                        }}
+                    >
+                        Terms and Conditions
+                    </a>
                 </p>
             </div>
             <div id="socials">
