@@ -14,17 +14,25 @@ import Filter from '../components/Filter'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { readUserDataFromDb } from '../../firebase'
+import { parseDateFromString } from '../../app/Functions'
+import Footer from '../components/Footer'
 
 function Search() {
     const [isVisible, setIsVisible] = useState(false)
     const [searchParams] = useSearchParams()
     const query = searchParams.get('query')
 
-    const [appliedFilters, setAppliedFilters] = useState(null)
+    const [appliedFilters, setAppliedFilters] = useState({
+        categoryFilter: null as string[] | null,
+        dateFilter: null as Date[] | null,
+        priorityFilter: null as string[] | null,
+    })
 
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(true)
-    const tasks = user ? user.taskArray : []
+
+    const [filteredTasks, setFilteredTasks] = useState<any[]>([])
+    const [tasks, setTasks] = useState(user ? user.taskArray : [])
 
     async function fetchUserData() {
         const auth = getAuth()
@@ -35,6 +43,8 @@ function Search() {
                 )
                 setUser(userData!)
                 setIsLoading(false)
+                setTasks(userData!.taskArray)
+                setFilteredTasks(userData!.taskArray)
             }
         })
     }
@@ -46,19 +56,98 @@ function Search() {
         fetchData()
     }, [])
 
+    useEffect(() => {
+        updateFilteredTasks()
+    }, [appliedFilters])
+
+    function updateFilteredTasks() {
+        try {
+            const cols = tasks.filter((task) => {
+                const dueDate = parseDateFromString(task.dueDate)
+
+                let dueDateDay
+                let dueDateMonth
+                let dueDateYear
+                let startDay
+                let startMonth
+                let startYear
+                let endDay
+                let endMonth
+                let endYear
+
+                if (appliedFilters.dateFilter?.length !== 0) {
+                    const dueDate = parseDateFromString(task.dueDate)
+                    const startDate = appliedFilters.dateFilter![0]
+                    const endDate = appliedFilters.dateFilter![1]
+
+                    dueDateDay = dueDate.getDate()
+                    dueDateMonth = dueDate.getMonth()
+                    dueDateYear = dueDate.getFullYear()
+
+                    startDay = startDate.getDate()
+                    startMonth = startDate.getMonth()
+                    startYear = startDate.getFullYear()
+
+                    endDay = endDate.getDate()
+                    endMonth = endDate.getMonth()
+                    endYear = endDate.getFullYear()
+                }
+
+                const isCategoryFiltered =
+                    appliedFilters.categoryFilter!.length === 0 ||
+                    task.categories.some((category: string) =>
+                        appliedFilters.categoryFilter!.includes(category)
+                    )
+
+                const isDateFiltered =
+                    appliedFilters.dateFilter!.length === 0 ||
+                    !appliedFilters.dateFilter ||
+                    appliedFilters.dateFilter.length === 0 ||
+                    ((dueDateYear! > startYear! ||
+                        (dueDateYear! === startYear! &&
+                            (dueDateMonth! > startMonth! ||
+                                (dueDateMonth! === startMonth! &&
+                                    dueDateDay! >= startDay!)))) &&
+                        (dueDateYear! < endYear! ||
+                            (dueDateYear! === endYear! &&
+                                (dueDateMonth! < endMonth! ||
+                                    (dueDateMonth! === endMonth! &&
+                                        dueDateDay! <= endDay!)))))
+
+                const isPriorityFiltered =
+                    appliedFilters.priorityFilter!.length === 0 ||
+                    appliedFilters.priorityFilter!.includes(
+                        task.priority.charAt(0).toUpperCase() +
+                            task.priority.slice(1)
+                    )
+
+                return (
+                    (!appliedFilters.categoryFilter ||
+                        appliedFilters.categoryFilter.length === 0 ||
+                        isCategoryFiltered) &&
+                    isDateFiltered &&
+                    (!appliedFilters.priorityFilter ||
+                        appliedFilters.priorityFilter.length === 0 ||
+                        isPriorityFiltered)
+                )
+            })
+            setFilteredTasks(cols)
+        } catch (error) {}
+    }
+
     const handleFiltersUpdate = (filters: any) => {
         setAppliedFilters(filters)
     }
 
-    const getSearchResults = (tasks: Task[]) => {
-        return tasks.filter((task) => {
+    const getSearchResults = () => {
+        return filteredTasks.filter((task) => {
             const titleMatch = task.title
                 .toLowerCase()
                 .includes(query!.toLowerCase())
             const descMatch = task.desc
                 .toLowerCase()
                 .includes(query!.toLowerCase())
-            const categoriesMatch = task.categories.some((category) =>
+            const categoriesMatch = task.categories.some((category: string) =>
                 category.toLowerCase().includes(query!.toLowerCase())
             )
             return titleMatch || descMatch || categoriesMatch
@@ -72,6 +161,9 @@ function Search() {
         document
             .getElementById('filters-container')
             ?.classList.toggle('hide-filters')
+        document
+            .getElementById('filters-button-ab')
+            ?.classList.toggle('filters-active')
     }
 
     return (
@@ -83,18 +175,14 @@ function Search() {
                     <ActionBar
                         isHideButton={true}
                         isDisabled={
-                            getSearchResults(tasks).length === 0 ? true : false
+                            getSearchResults().length === 0 ? true : false
                         }
                         handleFilters={showFilters}
                         title={`${
-                            getSearchResults(tasks).length === 0
+                            getSearchResults().length === 0
                                 ? 'No results found'
-                                : `Found ${
-                                      getSearchResults(tasks).length
-                                  } result${
-                                      getSearchResults(tasks).length === 1
-                                          ? ''
-                                          : 's'
+                                : `Found ${getSearchResults().length} result${
+                                      getSearchResults().length === 1 ? '' : 's'
                                   }`
                         } for "${query}"`}
                     />
@@ -104,7 +192,7 @@ function Search() {
                             handleFiltersUpdate={handleFiltersUpdate}
                         />
                         <div id="result-items">
-                            {getSearchResults(tasks)!.map((task) => (
+                            {getSearchResults()!.map((task) => (
                                 <div className="draggable-card">
                                     <Card task={task} />
                                 </div>
@@ -113,6 +201,7 @@ function Search() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </div>
     )
 }

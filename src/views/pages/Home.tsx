@@ -290,6 +290,9 @@ function Home() {
         document
             .getElementById('filters-container')
             ?.classList.toggle('hide-filters')
+        document
+            .getElementById('filters-button-ab')
+            ?.classList.toggle('filters-active')
     }
 
     useEffect(() => {

@@ -72,6 +72,7 @@ function ActionBar(props: ActionBarProps) {
                                 onClick={() => {
                                     handleFilters()
                                 }}
+                                id="filters-button-ab"
                             >
                                 <img src={filterIcn} alt="Icon for filter" />
                             </Button>

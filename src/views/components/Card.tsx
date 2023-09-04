@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from 'uuid'
 const { Option } = Select
 
 import dateIcn from '../../assets/icons/date.svg'
+import editIcn from '../../assets/icons/edit.svg'
 import { Task } from '../../app/Task'
 import { User } from '../../app/User'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -122,6 +123,13 @@ function Card(props: CardProps) {
     )
     const DoneIcon = () => (
         <img style={{ width: 18, height: 18 }} src={doneIcn} />
+    )
+
+    const EditIcon = () => (
+        <img
+            style={{ width: 14, height: 14, marginRight: '8px' }}
+            src={editIcn}
+        />
     )
 
     const showModal = () => {
@@ -463,7 +471,7 @@ function Card(props: CardProps) {
                     }}
                     className="card-settings-cont"
                 >
-                    <EditOutlined style={{ marginRight: '8px' }} />
+                    <EditIcon />
                     Edit
                 </a>
             ),

@@ -5,7 +5,7 @@
     align-items: center;
     min-width: 74px;
     width: 74px;
-    height: 880px;
+    height: 1000px;
     background-color: #fff;
     padding: 24px 0px;
     border-right: 1px solid var(--color-gray);
@@ -222,6 +222,11 @@
     margin-top: 0px;
     margin-bottom: 0px;
     border: none;
+}
+
+.filters-active img {
+    filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg)
+        brightness(101%) contrast(101%);
 }
 
 .card {
@@ -936,12 +941,12 @@
 .modal-item .modal-list .modal-desc {
     width: 600px;
     height: 40px;
-    display: -webkit-box;
     overflow: hidden;
     white-space: wrap;
     text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 /*# sourceMappingURL=components.css.map */
