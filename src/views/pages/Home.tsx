@@ -39,8 +39,6 @@ function Home() {
     const [isCol2Input, setIsCol2Input] = useState(false)
     const [isCol3Input, setIsCol3Input] = useState(false)
 
-    const [filteredTasks, setFilteredTasks] = useState<any[]>([])
-
     const [appliedFilters, setAppliedFilters] = useState({
         categoryFilter: null as string[] | null,
         dateFilter: null as Date[] | null,
@@ -50,15 +48,7 @@ function Home() {
     const [tasks, setTasks] = useState(user ? user.taskArray : [])
 
     const [columns, setColumns] = useState<any>(
-        filteredTasks
-            ? {
-                  todo: filteredTasks.filter((task) => task.status === 'todo'),
-                  inprogress: filteredTasks.filter(
-                      (task) => task.status === 'inprogress'
-                  ),
-                  done: filteredTasks.filter((task) => task.status === 'done'),
-              }
-            : {}
+        {todo: [], inprogress: [], done: []}
     )
 
     const location = useLocation()
@@ -74,35 +64,39 @@ function Home() {
                 setUser(userData!)
                 setIsLoading(false)
                 setTasks(userData!.taskArray)
-                setFilteredTasks(userData!.taskArray)
                 setColumns(userData!.columns)
             }
         })
     }
 
     useEffect(() => {
-        setColumns({
-            todo: filteredTasks.filter((task) => task.status === 'todo'),
-            inprogress: filteredTasks.filter(
-                (task) => task.status === 'inprogress'
-            ),
-            done: filteredTasks.filter((task) => task.status === 'done'),
-        })
-    }, [filteredTasks])
+        const updatedColumns = { ...columns };
+        const processedTaskIds = new Set();
+        tasks.forEach((task) => {
+          if (!processedTaskIds.has(task.id)) {
+            switch (task.status) {
+              case 'todo':
+                updatedColumns.todo.push(task);
+                break;
+              case 'inprogress':
+                updatedColumns.inprogress.push(task);
+                break;
+              case 'done':
+                updatedColumns.done.push(task);
+                break;
+              default:
+                break;
+            }
+            processedTaskIds.add(task.id);
+          }
+        });
+        setColumns(updatedColumns);
+      }, [tasks]);
+      
 
     useEffect(() => {
         updateFilteredTasks()
     }, [appliedFilters])
-
-    useEffect(() => {
-        setColumns({
-            todo: filteredTasks.filter((task) => task.status === 'todo'),
-            inprogress: filteredTasks.filter(
-                (task) => task.status === 'inprogress'
-            ),
-            done: filteredTasks.filter((task) => task.status === 'done'),
-        })
-    }, [tasks, filteredTasks])
 
     const observer = new MutationObserver((mutationsList) => {
         for (const mutation of mutationsList) {
@@ -139,21 +133,7 @@ function Home() {
                             const userData = docSnapshot.data()
                             if (userData) {
                                 const updatedTasksArray = userData.tasksArray
-
-                                // Update the 'tasks' and 'filteredTasks' state with the updated tasksArray
                                 setTasks(updatedTasksArray)
-                                setFilteredTasks(updatedTasksArray)
-                                setColumns({
-                                    todo: filteredTasks.filter(
-                                        (task) => task.status === 'todo'
-                                    ),
-                                    inprogress: filteredTasks.filter(
-                                        (task) => task.status === 'inprogress'
-                                    ),
-                                    done: filteredTasks.filter(
-                                        (task) => task.status === 'done'
-                                    ),
-                                })
                             }
                         }
                     })
@@ -256,7 +236,17 @@ function Home() {
                         isPriorityFiltered)
                 )
             })
-            setFilteredTasks(cols)
+            setColumns({
+                todo: cols.filter(
+                    (task: any) => task.status === 'todo'
+                ),
+                inprogress: cols.filter(
+                    (task: any) => task.status === 'inprogress'
+                ),
+                done: cols.filter(
+                (task: any) => task.status === 'done'
+                ),
+            })
         } catch (error) {}
     }
 

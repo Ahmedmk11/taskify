@@ -23,11 +23,7 @@ export class User {
         this.email = email
         this.taskArray = taskArray
         this.categories = categories
-        this.columns = {
-            todo: [],
-            inprogress: [],
-            done: [],
-        }
+        this.columns = columns
     }
 
     addCategory(category: string): void {
