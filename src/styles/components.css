@@ -189,8 +189,8 @@
   justify-content: center;
   align-items: center;
   gap: 12px;
-  width: 560px;
-  height: 100%;
+  width: 42%;
+  height: fit-content;
   margin-right: 24px;
 }
 #action-bar #action-bar-buttons #action-bar-filter,
@@ -215,6 +215,10 @@
   border-color: var(--color-blue);
   outline: none;
   box-shadow: 0 0 5px 1px rgba(var(--color-blue), 0.4);
+}
+
+#search-antd {
+  width: 200px;
 }
 
 .custom-button-size {

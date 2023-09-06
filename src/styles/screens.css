@@ -1,0 +1,88 @@
+@media only screen and (max-width: 1300px) {
+  .ant-dropdown-menu {
+    max-width: 300px !important;
+  }
+  #nav-bar {
+    display: none;
+  }
+  #columns-container {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  #search-main-content {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+  }
+  #search-main-content #result-items {
+    justify-content: center !important;
+  }
+  #filters-container {
+    max-height: 0px !important;
+    height: 300px !important;
+    width: 75% !important;
+    min-width: 75% !important;
+    z-index: 1000;
+    box-sizing: border-box !important;
+  }
+  #filters-container #filters-header {
+    text-align: start !important;
+    border-bottom: none !important;
+  }
+  #filters-container #filters-header p {
+    text-decoration: underline !important;
+  }
+  #filters-container #filter-buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  #filters-container #filter-buttons div {
+    width: 152px !important;
+  }
+  #filters-container #filter-buttons .filter-button {
+    width: 152px !important;
+  }
+  .hide-filters {
+    max-height: 0 !important;
+    min-height: 0 !important;
+    height: 0px !important;
+    padding: 0 !important;
+  }
+  .show-filters {
+    max-height: 300px !important;
+    min-height: 300px !important;
+    padding: 24px 16px !important;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  #action-bar {
+    width: 90% !important;
+  }
+}
+@media only screen and (max-width: 700px) {
+  #action-bar {
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin: auto;
+    height: fit-content !important;
+    padding-bottom: 24px !important;
+    box-sizing: border-box !important;
+    flex-wrap: wrap !important;
+  }
+  #action-bar h2 {
+    margin-left: 0% !important;
+  }
+  #footer-container {
+    flex-direction: column;
+  }
+  #user-categories {
+    width: 90% !important;
+    margin-bottom: 24px;
+  }
+}
+
+/*# sourceMappingURL=screens.css.map */

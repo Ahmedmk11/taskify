@@ -42,7 +42,7 @@ function ActionBar(props: ActionBarProps) {
                                 wrap
                                 style={
                                     isHideButton
-                                        ? { visibility: 'hidden' }
+                                        ? { display: 'none' }
                                         : { display: 'block' }
                                 }
                             >
@@ -63,7 +63,7 @@ function ActionBar(props: ActionBarProps) {
                                         navigate(`/search?query=${value}`)
                                     }}
                                     allowClear
-                                    style={{ width: 363 }}
+                                    id='search-antd'
                                 />
                             </Space>
                             <Button

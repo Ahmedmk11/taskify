@@ -69,29 +69,29 @@ function Home() {
         })
     }
 
-    useEffect(() => {
-        const updatedColumns = { ...columns };
-        const processedTaskIds = new Set();
-        tasks.forEach((task) => {
-          if (!processedTaskIds.has(task.id)) {
-            switch (task.status) {
-              case 'todo':
-                updatedColumns.todo.push(task);
-                break;
-              case 'inprogress':
-                updatedColumns.inprogress.push(task);
-                break;
-              case 'done':
-                updatedColumns.done.push(task);
-                break;
-              default:
-                break;
-            }
-            processedTaskIds.add(task.id);
-          }
-        });
-        setColumns(updatedColumns);
-      }, [tasks]);
+    // useEffect(() => {
+    //     const updatedColumns = { ...columns };
+    //     const processedTaskIds = new Set();
+    //     tasks.forEach((task) => {
+    //       if (!processedTaskIds.has(task.id)) {
+    //         switch (task.status) {
+    //           case 'todo':
+    //             updatedColumns.todo.push(task);
+    //             break;
+    //           case 'inprogress':
+    //             updatedColumns.inprogress.push(task);
+    //             break;
+    //           case 'done':
+    //             updatedColumns.done.push(task);
+    //             break;
+    //           default:
+    //             break;
+    //         }
+    //         processedTaskIds.add(task.id);
+    //       }
+    //     })
+    //     setColumns(updatedColumns);
+    //   }, [tasks]);
       
 
     useEffect(() => {

@@ -8,29 +8,23 @@
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
-    color-scheme: light dark;
     background-color: var(--color-background);
     color: black;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
     width: 100%;
+    height: fit-content;
+    min-height: 100%;
 }
 
 body {
     margin: 0;
     display: flex;
-    place-items: center;
     min-width: 320px;
-    min-height: fit-content;
+    min-height: 100vh !important;
     width: 100%;
 }
 
 #root {
-    min-height: fit-content;
-    height: 100%;
+    min-height: 100vh !important;
     width: 100%;
     background-color: var(--color-background);
     img {
