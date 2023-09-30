@@ -381,8 +381,6 @@ function Card(props: CardProps) {
         await deleteTaskFromUser(id)
         if (window.location.href.includes('task')) {
             window.location.href = '/'
-        } else {
-            // window.location.reload()
         }
     }
 

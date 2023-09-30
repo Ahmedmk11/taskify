@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 
 import notificationsIcn from '../../assets/icons/notifications.svg'
 import logoIcn from '../../assets/icons/logo.svg'
+import menuIcn from '../../assets/icons/menu.svg'
 import sunIcn from '../../assets/icons/sun.svg'
 import moonIcn from '../../assets/icons/moon.svg'
 import { User } from '../../app/User'
@@ -18,6 +19,7 @@ import { db, readUserDataFromDb, signOutHandler } from '../../firebase'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { parseDateFromString } from '../../app/Functions'
 import { doc, onSnapshot } from 'firebase/firestore'
+import NavBarMenu from './NavBarMenu'
 
 type ToolBarProps = {
     loading?: boolean
@@ -33,6 +35,8 @@ function ToolBar(props: ToolBarProps) {
 
     const [user, setUser] = useState(null as unknown as User)
     const [isLoading, setIsLoading] = useState(loading)
+
+    const [isListening, setIsListening] = useState(false)
 
     const [firstName, setFirstName] = useState('Guest')
 
@@ -185,6 +189,15 @@ function ToolBar(props: ToolBarProps) {
                     )
                 }
             })
+    }
+    
+    const handleNavMenuOpen = () => {
+        document.getElementById('nav-bar-menu')?.classList.toggle('show-hide-menu')
+        document.getElementById('navbar-menu-container')?.classList.toggle('rotate-menu')
+        if (!isListening) {
+            document.getElementById('close-nav-menu')?.addEventListener('click', handleNavMenuOpen)
+            setIsListening(true)
+        }
     }
 
     const notifs: MenuProps['items'] = [
@@ -346,6 +359,9 @@ function ToolBar(props: ToolBarProps) {
     return (
         <div id="tool-bar">
             <div id="tool-bar-header">
+            <div id='navbar-menu-container' style={{ display: 'none' }}>
+                <img src={menuIcn} alt="navbar icon" onClick={handleNavMenuOpen} />
+            </div>
                 <img
                     src={logoIcn}
                     alt="logo"
@@ -419,6 +435,7 @@ function ToolBar(props: ToolBarProps) {
                     <Skeleton.Input block active />
                 </div>
             ) : null}
+            <NavBarMenu />
         </div>
     )
 }

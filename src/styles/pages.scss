@@ -468,7 +468,6 @@
             max-width: none !important;
         }
         .ant-form-item-control-input-content .ant-btn {
-            width: 100% !important;
             max-width: none !important;
         }
         .ant-form-item .css-byeoj0 {
@@ -481,15 +480,20 @@
     }
 }
 
-#register > div:nth-child(8) > div > div {
+#reg-form-button {
+    width: 500px !important;
+    margin-bottom: 14px;
+}
+
+.ant-form-item-control {
     margin-left: 0%;
 }
-#register > div:nth-child(7) > div > div {
-    margin-left: 0%;
-}
-#register > div:nth-child(6) > div > div {
-    margin-left: 0%;
-}
+// #register > div:nth-child(7) > div > div {
+//     margin-left: 0%;
+// }
+// #register > div:nth-child(6) > div > div {
+//     margin-left: 0%;
+// }
 
 // --------------------------------------------------------------
 // Profile Settings SCSS.
@@ -710,7 +714,7 @@
         .calendar-item {
             padding: 16px;
             margin-top: 24px;
-            width: 1000px;
+            width: 80%;
             height: fit-content;
             border-radius: 6px;
             -webkit-border-radius: 6px;
@@ -727,8 +731,10 @@
 
 .ant-picker-calendar-date-content {
     overflow-y: scroll;
+    overflow-x: scroll;
     &::-webkit-scrollbar {
         width: 2px;
+        height: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
@@ -749,6 +755,7 @@
 
 .events {
     padding-left: 20px;
+    min-width: 100px;
 }
 
 .task-list-item.li-default::marker {

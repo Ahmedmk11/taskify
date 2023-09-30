@@ -33,23 +33,11 @@ import {
 import { firebaseConfig } from '../firebase-config-data'
 import { User } from './app/User'
 import { Task } from './app/Task'
-import {
-    AppCheck,
-    initializeAppCheck,
-    ReCaptchaV3Provider,
-} from 'firebase/app-check'
 
 const provider = new GoogleAuthProvider()
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 export const db = getFirestore(app)
-
-initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(
-        '6LfXeb4nAAAAAFxeH46IPLGhwGEq3uw9M2h1IyxE'
-    ),
-    isTokenAutoRefreshEnabled: true,
-})
 
 // export async function registerUser(
 //     emailInput: string,
@@ -507,9 +495,54 @@ export async function deleteTaskFromUser(taskId: string) {
                 (task: Task) => task.id === taskId
             )
 
-            if (taskIndex !== -1) {
+            const tsk = userData.tasksArray[taskIndex]
+            console.log('tsk', taskIndex)
+            console.log('alltsk', userData.tasksArray)
+            const st = tsk.status
+
+            let column = -1
+
+            if (st == 'todo') {
+                column = userData.todo.findIndex(
+                    (task: Task) => task.id === taskId
+                )
+            } else if (st == 'inprogress') {
+                column = userData.inprogress.findIndex(
+                    (task: Task) => task.id === taskId
+                )
+            } else {
+                column = userData.done.findIndex(
+                    (task: Task) => task.id === taskId
+                )
+            }
+
+            if (taskIndex !== -1 && column !== -1) {
                 userData.tasksArray.splice(taskIndex, 1)
-                await updateDoc(userRef, { tasksArray: userData.tasksArray })
+                if (st == 'todo') {
+                    userData.todo.splice(column, 1)
+                    await updateDoc(userRef, {
+                        tasksArray: userData.tasksArray,
+                        columns: {
+                            todo: userData.todo,
+                        },
+                    })
+                } else if (st == 'inprogress') {
+                    userData.inprogress.splice(column, 1)
+                    await updateDoc(userRef, {
+                        tasksArray: userData.tasksArray,
+                        columns: {
+                            inprogress: userData.inprogress,
+                        },
+                    })
+                } else if (st == 'done') {
+                    userData.done.splice(column, 1)
+                    await updateDoc(userRef, {
+                        tasksArray: userData.tasksArray,
+                        columns: {
+                            done: userData.done,
+                        },
+                    })
+                }
                 console.log('Task deleted successfully')
             } else {
                 console.log('Task not found')

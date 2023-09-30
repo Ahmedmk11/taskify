@@ -2,7 +2,6 @@
 // Home page frontend code.
 // --------------------------------------------------------------
 
-'use client'
 import React, { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
@@ -47,9 +46,11 @@ function Home() {
 
     const [tasks, setTasks] = useState(user ? user.taskArray : [])
 
-    const [columns, setColumns] = useState<any>(
-        {todo: [], inprogress: [], done: []}
-    )
+    const [columns, setColumns] = useState<any>({
+        todo: [],
+        inprogress: [],
+        done: [],
+    })
 
     const location = useLocation()
 
@@ -92,7 +93,6 @@ function Home() {
     //     })
     //     setColumns(updatedColumns);
     //   }, [tasks]);
-      
 
     useEffect(() => {
         updateFilteredTasks()
@@ -237,15 +237,11 @@ function Home() {
                 )
             })
             setColumns({
-                todo: cols.filter(
-                    (task: any) => task.status === 'todo'
-                ),
+                todo: cols.filter((task: any) => task.status === 'todo'),
                 inprogress: cols.filter(
                     (task: any) => task.status === 'inprogress'
                 ),
-                done: cols.filter(
-                (task: any) => task.status === 'done'
-                ),
+                done: cols.filter((task: any) => task.status === 'done'),
             })
         } catch (error) {}
     }

@@ -175,15 +175,17 @@ function Register() {
                             <Form.Item
                                 style={{ marginBottom: '5px' }}
                                 {...tailFormItemLayout}
-                                id="reg-button-item"
                             >
-                                <Button type="primary" htmlType="submit">
+                                <Button
+                                    id="reg-form-button"
+                                    type="primary"
+                                    htmlType="submit"
+                                >
                                     Register
                                 </Button>
                                 <div
                                     style={{
                                         marginTop: 16,
-                                        textAlign: 'center',
                                     }}
                                 >
                                     Already have an account?

@@ -50,6 +50,62 @@
   -webkit-filter: invert(38%) sepia(98%) saturate(1357%) hue-rotate(191deg);
 }
 
+#nav-bar-menu {
+  position: absolute;
+  left: -100%;
+  top: 84px;
+  width: 50vw !important;
+  height: 100vh !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 24px 24px;
+  border: 1px solid var(--color-gray);
+  z-index: 6000 !important;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+}
+#nav-bar-menu #close-nav-menu {
+  position: absolute;
+  right: 10%;
+  cursor: pointer;
+}
+#nav-bar-menu #nav-bar-menu-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0%;
+  gap: 16px;
+  width: 100%;
+  margin-top: 24px;
+}
+#nav-bar-menu .nav-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 4px 8px;
+  height: 44px;
+  gap: 10px;
+  cursor: pointer;
+}
+#nav-bar-menu .nav-item img {
+  width: 20px;
+  height: 20px;
+}
+
+.show-hide-menu {
+  transform: translateX(200%);
+  -webkit-transform: translateX(200%);
+  -moz-transform: translateX(200%);
+  -ms-transform: translateX(200%);
+  -o-transform: translateX(200%);
+}
+
 #tool-bar {
   width: 100%;
   min-height: 84px;
@@ -66,9 +122,10 @@
 #tool-bar #tool-bar-header {
   margin-left: 24px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
+  width: 120px;
 }
 #tool-bar #tool-bar-header img {
   cursor: pointer;
@@ -655,6 +712,22 @@
   -moz-transition: all 0.3s ease-out;
   -ms-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+}
+#filters-container::-webkit-scrollbar {
+  width: 6px;
+}
+#filters-container::-webkit-scrollbar-thumb {
+  background-color: #b7b7b7;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+#filters-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
 }
 #filters-container #filters-header {
   width: 100%;
@@ -822,14 +895,14 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 24px;
   margin-right: 25px;
+  padding-bottom: 14px;
 }
 
 .modal-item {
-  width: 800px !important;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -837,7 +910,8 @@
   gap: 10px;
 }
 .modal-item .modal-list {
-  width: 100%;
+  width: 80vw;
+  max-height: 300px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -885,7 +959,7 @@
   text-overflow: ellipsis;
 }
 .modal-item .modal-list .modal-desc {
-  width: 600px;
+  width: 75%;
   height: 40px;
   overflow: hidden;
   white-space: wrap;
