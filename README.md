@@ -9,6 +9,7 @@ Taskify is a task management system designed to help you stay organized and prod
 - Receive notifications for upcoming tasks.
 - Mark tasks as complete and track your progress.
 - Intuitive user interface with a clean, modern design.
+- Dark mode still in development.
 
 ## Usage
 

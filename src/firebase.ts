@@ -1,5 +1,3 @@
-// Issues: email exists, delete, create tasks should be applied to all three arrays not the main one only
-
 // --------------------------------------------------------------
 // Backend for the app. This file contains all the functions
 // --------------------------------------------------------------
@@ -16,11 +14,8 @@ import {
     getDocs,
     arrayUnion,
     updateDoc,
-    onSnapshot,
-    FieldValue,
     arrayRemove,
     deleteDoc,
-    DocumentData,
 } from 'firebase/firestore'
 import {
     getAuth,
@@ -40,19 +35,6 @@ const provider = new GoogleAuthProvider()
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 export const db = getFirestore(app)
-
-// export async function registerUser(
-//     emailInput: string,
-//     passwordInput: string,
-//     nameInput: string
-// ): Promise<void> {
-//     try {
-//         await writeNewUserToFirestore(emailInput, passwordInput, nameInput)
-//         console.log('User registered!')
-//     } catch (error) {
-//         console.error('Error registering user:', error)
-//     }
-// }
 
 export async function writeNewUserToFirestore(
     emailInput: string,
@@ -340,29 +322,64 @@ export function updateTaskCategories(
     }
 }
 
-export function addNewTaskToCurrentUser(task: Task): void {
+export async function addNewTaskToCurrentUser(task: Task): Promise<void> {
     const user = getAuth().currentUser
+
     if (user) {
         const userDocRef = doc(db, 'users', user.uid)
-        const userData = {
-            tasksArray: arrayUnion({
-                id: task.id,
-                title: task.title,
-                desc: task.desc,
-                priority: task.priority,
-                dueDate: task.dueDate,
-                creationDate: task.creationDate,
-                status: task.status,
-                categories: task.categories,
-            }),
+        const userDoc = await getDoc(userDocRef)
+
+        if (userDoc.exists()) {
+            const currentData = userDoc.data()
+            const existingTodo = currentData.columns.todo || []
+            const existingTasksArray = currentData.tasksArray || []
+
+            const updatedTodo = [
+                ...existingTodo,
+                {
+                    id: task.id,
+                    title: task.title,
+                    desc: task.desc,
+                    priority: task.priority,
+                    dueDate: task.dueDate,
+                    creationDate: task.creationDate,
+                    status: task.status,
+                    categories: task.categories,
+                },
+            ]
+
+            // Update columns in the document
+            await updateDoc(userDocRef, {
+                columns: {
+                    todo: updatedTodo,
+                    inprogress: currentData.columns.inprogress || [],
+                    done: currentData.columns.done || [],
+                },
+            })
+
+            // Update tasksArray in the document
+            const updatedTasksArray = [
+                ...existingTasksArray,
+                {
+                    id: task.id,
+                    title: task.title,
+                    desc: task.desc,
+                    priority: task.priority,
+                    dueDate: task.dueDate,
+                    creationDate: task.creationDate,
+                    status: task.status,
+                    categories: task.categories,
+                },
+            ]
+
+            await updateDoc(userDocRef, {
+                tasksArray: updatedTasksArray,
+            })
+
+            console.log('Updated current user in Firestore!')
+        } else {
+            console.error('User document does not exist.')
         }
-        updateDoc(userDocRef, userData)
-            .then(() => {
-                console.log('updated current user in Firestore!')
-            })
-            .catch((error) => {
-                console.log('Error updating current user', error)
-            })
     }
 }
 
@@ -498,22 +515,22 @@ export async function deleteTaskFromUser(taskId: string) {
             )
 
             const tsk = userData.tasksArray[taskIndex]
-            console.log('tsk', taskIndex)
+            console.log('taskIndex', taskIndex)
             console.log('alltsk', userData.tasksArray)
             const st = tsk.status
 
             let column = -1
 
             if (st == 'todo') {
-                column = userData.todo.findIndex(
+                column = userData.columns.todo.findIndex(
                     (task: Task) => task.id === taskId
                 )
             } else if (st == 'inprogress') {
-                column = userData.inprogress.findIndex(
+                column = userData.columns.inprogress.findIndex(
                     (task: Task) => task.id === taskId
                 )
             } else {
-                column = userData.done.findIndex(
+                column = userData.columns.done.findIndex(
                     (task: Task) => task.id === taskId
                 )
             }
@@ -521,27 +538,33 @@ export async function deleteTaskFromUser(taskId: string) {
             if (taskIndex !== -1 && column !== -1) {
                 userData.tasksArray.splice(taskIndex, 1)
                 if (st == 'todo') {
-                    userData.todo.splice(column, 1)
+                    userData.columns.todo.splice(column, 1)
                     await updateDoc(userRef, {
                         tasksArray: userData.tasksArray,
                         columns: {
-                            todo: userData.todo,
+                            todo: userData.columns.todo,
+                            inprogress: userData.columns.inprogress,
+                            done: userData.columns.done,
                         },
                     })
                 } else if (st == 'inprogress') {
-                    userData.inprogress.splice(column, 1)
+                    userData.columns.inprogress.splice(column, 1)
                     await updateDoc(userRef, {
                         tasksArray: userData.tasksArray,
                         columns: {
-                            inprogress: userData.inprogress,
+                            todo: userData.columns.todo,
+                            inprogress: userData.columns.inprogress,
+                            done: userData.columns.done,
                         },
                     })
                 } else if (st == 'done') {
-                    userData.done.splice(column, 1)
+                    userData.columns.done.splice(column, 1)
                     await updateDoc(userRef, {
                         tasksArray: userData.tasksArray,
                         columns: {
-                            done: userData.done,
+                            todo: userData.columns.todo,
+                            inprogress: userData.columns.inprogress,
+                            done: userData.columns.done,
                         },
                     })
                 }

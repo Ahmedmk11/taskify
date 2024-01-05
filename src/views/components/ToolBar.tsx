@@ -25,6 +25,8 @@ type ToolBarProps = {
     loading?: boolean
 }
 
+// change icon color, uncomment onclick, remove disabled
+
 function ToolBar(props: ToolBarProps) {
     const { loading } = props
     const [themeMode, setThemeMode] = useState(
@@ -119,13 +121,13 @@ function ToolBar(props: ToolBarProps) {
 
     const SunIcon = () => (
         <img
-            style={{ marginRight: '8px', width: 16, height: 16 }}
+            style={{ marginRight: '8px', width: 16, height: 16, opacity: 0.5 }}
             src={sunIcn}
         />
     )
     const MoonIcon = () => (
         <img
-            style={{ marginRight: '8px', width: 16, height: 16 }}
+            style={{ marginRight: '8px', width: 16, height: 16, opacity: 0.5 }}
             src={moonIcn}
         />
     )
@@ -190,12 +192,18 @@ function ToolBar(props: ToolBarProps) {
                 }
             })
     }
-    
+
     const handleNavMenuOpen = () => {
-        document.getElementById('nav-bar-menu')?.classList.toggle('show-hide-menu')
-        document.getElementById('navbar-menu-container')?.classList.toggle('rotate-menu')
+        document
+            .getElementById('nav-bar-menu')
+            ?.classList.toggle('show-hide-menu')
+        document
+            .getElementById('navbar-menu-container')
+            ?.classList.toggle('rotate-menu')
         if (!isListening) {
-            document.getElementById('close-nav-menu')?.addEventListener('click', handleNavMenuOpen)
+            document
+                .getElementById('close-nav-menu')
+                ?.addEventListener('click', handleNavMenuOpen)
             setIsListening(true)
         }
     }
@@ -304,17 +312,17 @@ function ToolBar(props: ToolBarProps) {
                         userSelect: 'none',
                     }}
                     onClick={() => {
-                        if (themeMode === 'light') {
-                            document.body.classList.remove('light')
-                            document.body.classList.add('dark')
-                        } else {
-                            document.body.classList.remove('dark')
-                            document.body.classList.add('light')
-                        }
-                        const newThemeMode =
-                            themeMode === 'light' ? 'dark' : 'light'
-                        setThemeMode(newThemeMode)
-                        localStorage.setItem('theme', newThemeMode)
+                        // if (themeMode === 'light') {
+                        //     document.body.classList.remove('light')
+                        //     document.body.classList.add('dark')
+                        // } else {
+                        //     document.body.classList.remove('dark')
+                        //     document.body.classList.add('light')
+                        // }
+                        // const newThemeMode =
+                        //     themeMode === 'light' ? 'dark' : 'light'
+                        // setThemeMode(newThemeMode)
+                        // localStorage.setItem('theme', newThemeMode)
                     }}
                 >
                     {themeMode === 'light' ? (
@@ -331,6 +339,7 @@ function ToolBar(props: ToolBarProps) {
                 </a>
             ),
             key: '1',
+            disabled: true,
         },
         {
             type: 'divider',
@@ -359,9 +368,13 @@ function ToolBar(props: ToolBarProps) {
     return (
         <div id="tool-bar">
             <div id="tool-bar-header">
-            <div id='navbar-menu-container' style={{ display: 'none' }}>
-                <img src={menuIcn} alt="navbar icon" onClick={handleNavMenuOpen} />
-            </div>
+                <div id="navbar-menu-container" style={{ display: 'none' }}>
+                    <img
+                        src={menuIcn}
+                        alt="navbar icon"
+                        onClick={handleNavMenuOpen}
+                    />
+                </div>
                 <img
                     src={logoIcn}
                     alt="logo"

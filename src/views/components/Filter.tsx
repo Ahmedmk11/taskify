@@ -185,7 +185,7 @@ function Filter(props: FiltersProps) {
                         <Space direction="vertical">
                             <RangePicker
                                 id="date-filter-input"
-                                style={{ width: 220 }}
+                                style={{ width: 200 }}
                                 value={
                                     isDueCleared
                                         ? null

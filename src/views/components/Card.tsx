@@ -348,7 +348,9 @@ function Card(props: CardProps) {
         )
         newTask.updateCategories(selectedCategories)
         addNewTaskToCurrentUser(newTask)
-        // window.location.reload()
+        setTimeout(() => {
+            window.location.reload() //change this
+        }, 800)
         Array.prototype.push.apply(userCategories, selectedCategories)
         cancelCard(ev)
     }
@@ -379,6 +381,9 @@ function Card(props: CardProps) {
         }, 300)
         showMessage()
         await deleteTaskFromUser(id)
+        setTimeout(() => {
+            window.location.reload() //change this
+        }, 800)
         if (window.location.href.includes('task')) {
             window.location.href = '/'
         }

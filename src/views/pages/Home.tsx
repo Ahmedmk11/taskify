@@ -2,12 +2,11 @@
 // Home page frontend code.
 // --------------------------------------------------------------
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import NavBar from '../components/NavBar'
 import ToolBar from '../components/ToolBar'
 import ActionBar from '../components/ActionBar'
 import Filter from '../components/Filter'
-import plusIcn from '../../assets/icons/plus.svg'
 import Card from '../components/Card'
 import ReactDOM from 'react-dom'
 import { useLocation } from 'react-router-dom'
@@ -44,7 +43,7 @@ function Home() {
         priorityFilter: null as string[] | null,
     })
 
-    const [tasks, setTasks] = useState(user ? user.taskArray : [])
+    const [tasks, setTasks] = useState<any>([])
 
     const [columns, setColumns] = useState<any>({
         todo: [],
@@ -70,30 +69,6 @@ function Home() {
         })
     }
 
-    // useEffect(() => {
-    //     const updatedColumns = { ...columns };
-    //     const processedTaskIds = new Set();
-    //     tasks.forEach((task) => {
-    //       if (!processedTaskIds.has(task.id)) {
-    //         switch (task.status) {
-    //           case 'todo':
-    //             updatedColumns.todo.push(task);
-    //             break;
-    //           case 'inprogress':
-    //             updatedColumns.inprogress.push(task);
-    //             break;
-    //           case 'done':
-    //             updatedColumns.done.push(task);
-    //             break;
-    //           default:
-    //             break;
-    //         }
-    //         processedTaskIds.add(task.id);
-    //       }
-    //     })
-    //     setColumns(updatedColumns);
-    //   }, [tasks]);
-
     useEffect(() => {
         updateFilteredTasks()
     }, [appliedFilters])
@@ -111,6 +86,16 @@ function Home() {
                     setIsCol1Input(false)
                     setIsCol2Input(false)
                     setIsCol3Input(false)
+                } else if (
+                    Array.from(mutation.addedNodes).some(
+                        (node) =>
+                            node instanceof HTMLElement &&
+                            node.id === 'create-new-task'
+                    )
+                ) {
+                    setIsCol1Input(true)
+                    setIsCol2Input(false)
+                    setIsCol3Input(false)
                 }
             }
         }
@@ -120,40 +105,11 @@ function Home() {
         async function fetchData() {
             await fetchUserData()
         }
-        async function updateTasksUI() {
-            try {
-                const currentUser = getAuth().currentUser
-                if (currentUser) {
-                    const userUID = currentUser.uid
-                    const userDocRef = doc(db, 'users', userUID)
-
-                    // Use 'onSnapshot' to listen for changes in the Firestore document
-                    onSnapshot(userDocRef, async (docSnapshot) => {
-                        if (docSnapshot.exists()) {
-                            const userData = docSnapshot.data()
-                            if (userData) {
-                                const updatedTasksArray = userData.tasksArray
-                                setTasks(updatedTasksArray)
-                            }
-                        }
-                    })
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
 
         fetchData()
         const config = { childList: true, subtree: true }
         observer.observe(document.body, config)
-        updateTasksUI()
     }, [])
-
-    useEffect(() => {
-        console.log(columns.todo)
-        console.log(columns.inprogress)
-        console.log(columns.done)
-    }, [columns])
 
     useEffect(() => {
         if (location.state?.createCardPop) {
@@ -167,7 +123,7 @@ function Home() {
 
     function updateFilteredTasks() {
         try {
-            const cols = tasks.filter((task) => {
+            const cols = tasks.filter((task: any) => {
                 const dueDate = parseDateFromString(task.dueDate)
 
                 let dueDateDay
@@ -282,9 +238,26 @@ function Home() {
     }
 
     useEffect(() => {
-        console.log('todo column: ', columns.todo)
-        console.log('inprogress column: ', columns.inprogress)
-        console.log('done column: ', columns.done)
+        if (columns.todo.length == 0) {
+            let cardsDiv = document.getElementById('col-1')?.closest('.cards')
+            let newDiv = document.createElement('div')
+            newDiv.id = 'col1-msg'
+            newDiv.textContent =
+                'No tasks to do right now. Add some tasks to get started!'
+            cardsDiv?.appendChild(newDiv)
+        }
+
+        if (columns.inprogress.length == 0) {
+            // <p id="col2-msg">
+            //     No tasks in progress at the moment. Keep up the great work!
+            // </p>
+        }
+
+        if (columns.done.length == 0) {
+            // <p id="col3-msg">
+            //      Congratulations! You've completed all your tasks.
+            // </p>
+        }
     }, [columns])
 
     const handleDragEnd = async (result: any) => {
@@ -402,16 +375,6 @@ function Home() {
                                 <div id="col-1" className="column">
                                     <div className="cards-status">
                                         <p>Todo</p>
-                                        <div className="image-container">
-                                            <img
-                                                onClick={() => {
-                                                    createCardPop('col-1')
-                                                    setIsCol1Input(true)
-                                                }}
-                                                src={plusIcn}
-                                                alt="plus icon"
-                                            />
-                                        </div>
                                     </div>
                                     <Droppable
                                         droppableId="todo"
@@ -483,16 +446,6 @@ function Home() {
                                 <div id="col-2" className="column">
                                     <div className="cards-status">
                                         <p>In Progress</p>
-                                        <div className="image-container">
-                                            <img
-                                                onClick={() => {
-                                                    createCardPop('col-2')
-                                                    setIsCol2Input(true)
-                                                }}
-                                                src={plusIcn}
-                                                alt="plus icon"
-                                            />
-                                        </div>
                                     </div>
                                     <Droppable
                                         droppableId="inprogress"
@@ -565,16 +518,6 @@ function Home() {
                                 <div id="col-3" className="column">
                                     <div className="cards-status">
                                         <p>Done</p>
-                                        <div className="image-container">
-                                            <img
-                                                onClick={() => {
-                                                    createCardPop('col-3')
-                                                    setIsCol3Input(true)
-                                                }}
-                                                src={plusIcn}
-                                                alt="plus icon"
-                                            />
-                                        </div>
                                     </div>
                                     <Droppable
                                         droppableId="done"
