@@ -1,3 +1,5 @@
+// Issues: email exists, delete, create tasks should be applied to all three arrays not the main one only
+
 // --------------------------------------------------------------
 // Backend for the app. This file contains all the functions
 // --------------------------------------------------------------
