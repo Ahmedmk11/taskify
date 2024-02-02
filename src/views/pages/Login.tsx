@@ -37,7 +37,6 @@ function LoginPage() {
         <div id="login-body">
             <ToolBar />
             <div id="login-content">
-                <NavBar />
                 <div id="login-main">
                     <div id="login-main-content">
                         <Form
